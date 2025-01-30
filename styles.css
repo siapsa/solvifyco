@@ -1,3 +1,15 @@
+/* Eliminar subrayado de los enlaces */
+a {
+    text-decoration: none;
+    color: inherit; /* Mantiene el color del texto del enlace como el color por defecto */
+}
+
+/* Mantener el estilo al pasar el mouse sobre el enlace */
+a:hover {
+    text-decoration: underline; /* O puedes elegir otro efecto */
+}
+
+
 /* Estilos generales */
 body {
     font-family: 'Helvetica Neue', sans-serif;
