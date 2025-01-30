@@ -3,31 +3,30 @@ a {
     text-decoration: none;
     color: inherit; /* Mantiene el color del texto del enlace como el color por defecto */
 }
-
 /* Estilos generales */
 body {
     font-family: 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9; /* Fondo claro para un look limpio */
-    color: #333; /* Texto oscuro pero suave */
-    font-size: 16px; /* Texto más grande para mayor comodidad */
+    background-color: #e0e0e0; /* Fondo gris claro */
+    color: #2c2c2c; /* Texto gris oscuro */
+    font-size: 16px;
     line-height: 1.5;
 }
 
 /* Encabezado */
 header {
-    background-color: #ffffff;
-    padding: 20px 40px; /* Espaciado más amplio */
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px 40px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5em;
-    color: #333;
-    font-weight: normal; /* Mantener los títulos simples */
+    color: #333333; /* Título gris oscuro */
+    font-weight: normal;
 }
 
 /* Contenedor principal */
@@ -40,7 +39,7 @@ main {
 /* Sección de servicios */
 #servicios h2 {
     font-size: 2em;
-    color: #333;
+    color: #333333; /* Título gris oscuro */
     margin-bottom: 20px;
     font-weight: normal;
 }
@@ -52,37 +51,37 @@ main {
 }
 
 .servicio {
-    background-color: #ffffff;
+    background-color: #ffffff; /* Fondo blanco */
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer; /* Añadido para indicar que es clickeable */
+    cursor: pointer;
 }
 
 .servicio:hover {
-    transform: translateY(-5px); /* Movimiento suave al pasar el ratón */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .servicio h3 {
     margin: 0 0 10px;
     font-size: 1.5em;
-    color: #333;
+    color: #333333; /* Título gris oscuro */
     font-weight: bold;
 }
 
 .servicio p {
     margin: 0;
-    color: #6e6e73;
+    color: #666666; /* Texto gris claro */
 }
 
 /* Pie de página */
 footer {
-    background-color: #ffffff;
+    background-color: #ffffff; /* Fondo blanco */
     padding: 15px 40px;
     text-align: center;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -90,7 +89,7 @@ footer {
 
 footer p {
     margin: 0;
-    color: #6e6e73;
+    color: #666666; /* Texto gris claro */
 }
 
 /* Estilo para el botón de "Volver al Inicio" */
@@ -98,14 +97,14 @@ footer p {
     position: fixed;
     top: 20px;
     left: 20px;
-    background-color: #007bff;
+    background-color: #007bff; /* Azul suave */
     color: white;
     padding: 10px 20px;
     font-size: 1em;
     border-radius: 4px;
     text-decoration: none;
     transition: background-color 0.3s;
-    z-index: 1000; /* Asegura que el botón esté sobre otros elementos */
+    z-index: 1000;
 }
 
 .btn-volver:hover {
@@ -125,18 +124,18 @@ footer p {
 }
 
 .especialista {
-    background-color: #ffffff;
+    background-color: #ffffff; /* Fondo blanco */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer; /* Añadido para indicar que es clickeable */
+    cursor: pointer;
 }
 
 .especialista:hover {
-    transform: translateY(-5px); /* Movimiento suave al pasar el ratón */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .especialista-img {
@@ -148,20 +147,20 @@ footer p {
 
 .especialista h3 {
     font-size: 1.2em;
-    color: #333;
+    color: #333333; /* Título gris oscuro */
     margin: 10px 0;
 }
 
 .contacto {
     font-size: 1em;
-    color: #6e6e73;
+    color: #666666; /* Texto gris claro */
     margin-bottom: 15px;
 }
 
 .btn-contacto {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Verde suave */
     color: #fff;
     font-size: 1em;
     border-radius: 5px;
