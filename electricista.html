@@ -4,9 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electricista - Detalles</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Ajuste en la ruta -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos para asegurar la visibilidad del botón */
+        #btn-borrar-todo {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        #btn-borrar-todo:hover {
+            background-color: darkred;
+        }
+    </style>
 </head>
 <body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cargar los comentarios desde localStorage cuando la página se cargue
+        cargarComentarios();
+
+        // Añadir evento al botón de enviar comentario
+        const botonesEnviar = document.querySelectorAll("button");
+        botonesEnviar.forEach(boton => {
+            boton.addEventListener("click", function() {
+                const comentarioTextarea = boton.previousElementSibling.previousElementSibling;
+                const estrellasSeleccionadas = document.querySelectorAll(".estrella.seleccionada");
+                const nombreUsuario = boton.closest(".especialista").querySelector(".nombre-usuario").value;
+                const nombreEspecialista = boton.closest(".especialista").querySelector("h3").textContent;
+                const contenedorComentarios = boton.closest(".especialista").querySelector(".comentarios-historial");
+
+                if (comentarioTextarea.value.trim() !== "" && nombreUsuario.trim() !== "") {
+                    // Crear un objeto con el comentario y la valoración
+                    const nuevoComentario = {
+                        usuario: nombreUsuario,
+                        comentario: comentarioTextarea.value,
+                        valoracion: estrellasSeleccionadas.length
+                    };
+
+                    // Guardar en localStorage
+                    guardarComentario(nombreEspecialista, nuevoComentario);
+
+                    // Limpiar el formulario
+                    comentarioTextarea.value = "";
+                    estrellasSeleccionadas.forEach(estrella => estrella.classList.remove("seleccionada"));
+                    boton.closest(".especialista").querySelector(".nombre-usuario").value = "";
+
+                    // Recargar los comentarios después de guardar
+                    cargarComentarios();
+                }
+            });
+        });
+
+        // Añadir evento a las estrellas
+        const estrellas = document.querySelectorAll(".estrella");
+        estrellas.forEach(estrella => {
+            estrella.addEventListener("click", function() {
+                const valor = parseInt(estrella.getAttribute("data-valor"));
+                const estrellaAnterior = estrella.previousElementSibling;
+                for (let i = 0; i < 5; i++) {
+                    const estrellaActual = estrella.parentElement.children[i];
+                    if (i < valor) {
+                        estrellaActual.classList.add("seleccionada");
+                    } else {
+                        estrellaActual.classList.remove("seleccionada");
+                    }
+                }
+            });
+        });
+
+        // Evento para borrar todos los comentarios
+        const botonBorrarTodo = document.querySelector("#btn-borrar-todo");
+        botonBorrarTodo.addEventListener("click", function() {
+            borrarComentariosTodo();
+            cargarComentarios(); // Recargar comentarios para reflejar los cambios
+        });
+    });
+
+    // Función para guardar los comentarios en localStorage
+    function guardarComentario(nombreEspecialista, nuevoComentario) {
+        let comentariosGuardados = JSON.parse(localStorage.getItem('comentarios')) || [];
+
+        // Buscar si ya existe un especialista con comentarios guardados
+        let especialista = comentariosGuardados.find(c => c.nombre === nombreEspecialista);
+
+        if (!especialista) {
+            especialista = { nombre: nombreEspecialista, comentarios: [] };
+            comentariosGuardados.push(especialista);
+        }
+
+        // Añadir el nuevo comentario
+        especialista.comentarios.push(nuevoComentario);
+
+        // Guardar de nuevo en localStorage
+        localStorage.setItem('comentarios', JSON.stringify(comentariosGuardados));
+    }
+
+    // Función para cargar los comentarios desde localStorage
+    function cargarComentarios() {
+        const especialistas = document.querySelectorAll(".especialista");
+        let comentariosGuardados = JSON.parse(localStorage.getItem('comentarios')) || [];
+
+        especialistas.forEach(especialistaDiv => {
+            const nombreEspecialista = especialistaDiv.querySelector("h3").textContent;
+            const contenedorComentarios = especialistaDiv.querySelector(".comentarios-historial");
+            contenedorComentarios.innerHTML = "";  // Limpiar el historial de comentarios
+
+            const especialistaComentarios = comentariosGuardados.find(c => c.nombre === nombreEspecialista);
+            if (especialistaComentarios) {
+                especialistaComentarios.comentarios.forEach(comentario => {
+                    const comentarioElemento = document.createElement("div");
+                    comentarioElemento.classList.add("comentario");
+                    comentarioElemento.innerHTML = `
+                        <p><strong>${comentario.usuario}</strong> - Comentario:</p>
+                        <p>${comentario.comentario}</p>
+                        <p>Valoración: ${'&#9733;'.repeat(comentario.valoracion)}</p>
+                    `;
+                    contenedorComentarios.appendChild(comentarioElemento);
+                });
+            }
+        });
+    }
+
+    // Función para borrar todos los comentarios de todos los especialistas
+    function borrarComentariosTodo() {
+        // Eliminar todos los comentarios de localStorage
+        localStorage.removeItem('comentarios');
+    }
+  </script>
+
     <header>
         <a href="index.html" class="btn-volver">Volver al Inicio</a>
         <h1>Electricistas</h1>
@@ -17,30 +152,87 @@
             <p>Un electricista profesional se encarga de la reparación de circuitos eléctricos, instalación de sistemas de iluminación y mantenimiento eléctrico. Ofrecemos servicios rápidos y confiables para garantizar la seguridad de tu hogar o negocio.</p>
         </section>
         <section id="especialistas">
-    <h2>Especialistas</h2>
-    <div class="especialistas-container">
-        <div class="especialista">
-            <img src="chin11.jpg" alt="Juan Pérez" class="especialista-img">
-            <h3>Juan Pérez</h3>
-            <p class="contacto">Tel: 123-456-789</p>
-            <a href="tel:123-456-789" class="btn-contacto">Llamar</a>
-        </div>
-        <div class="especialista">
-            <img src="rulos2.jpg" alt="Ana García" class="especialista-img">
-            <h3>Ana García</h3>
-            <p class="contacto">Tel: 987-654-321</p>
-            <a href="tel:987-654-321" class="btn-contacto">Llamar</a>
-        </div>
-        <div class="especialista">
-            <img src="unnamed-file-159.jpg" alt="Carlos López" class="especialista-img">
-            <h3>Carlos López</h3>
-            <p class="contacto">Tel: 555-123-456</p>
-            <a href="tel:555-123-456" class="btn-contacto">Llamar</a>
-        </div>
-        <!-- Repite el mismo formato para los otros especialistas -->
-    </div>
-</section>
+            <h2>Especialistas</h2>
+            <div class="especialistas-container">
+                <div class="especialista">
+                    <img src="chin11.jpg" alt="Juan Pérez" class="especialista-img">
+                    <h3>Juan Pérez</h3>
+                    <p class="contacto">Tel: 123-456-789</p>
+                    <a href="tel:123-456-789" class="btn-contacto">Llamar</a>
 
+                    <section id="comentarios">
+                      <h2>Deja tu comentario y valoración</h2>
+                      <input type="text" class="nombre-usuario" placeholder="Tu nombre" />
+                      <textarea rows="4" placeholder="Escribe tu comentario..."></textarea>
+
+                      <div class="estrellas">
+                        <span class="estrella" data-valor="1">&#9733;</span>
+                        <span class="estrella" data-valor="2">&#9733;</span>
+                        <span class="estrella" data-valor="3">&#9733;</span>
+                        <span class="estrella" data-valor="4">&#9733;</span>
+                        <span class="estrella" data-valor="5">&#9733;</span>
+                      </div>
+
+                      <button>Enviar comentario</button>
+                      <div class="comentarios-historial"></div>
+                    </section>
+
+                </div>
+
+                <div class="especialista">
+                    <img src="rulos2.jpg" alt="Ana García" class="especialista-img">
+                    <h3>Ana García</h3>
+                    <p class="contacto">Tel: 987-654-321</p>
+                    <a href="tel:987-654-321" class="btn-contacto">Llamar</a>
+
+                    <section id="comentarios">
+                      <h2>Deja tu comentario y valoración</h2>
+                      <input type="text" class="nombre-usuario" placeholder="Tu nombre" />
+                      <textarea rows="4" placeholder="Escribe tu comentario..."></textarea>
+
+                      <div class="estrellas">
+                        <span class="estrella" data-valor="1">&#9733;</span>
+                        <span class="estrella" data-valor="2">&#9733;</span>
+                        <span class="estrella" data-valor="3">&#9733;</span>
+                        <span class="estrella" data-valor="4">&#9733;</span>
+                        <span class="estrella" data-valor="5">&#9733;</span>
+                      </div>
+
+                      <button>Enviar comentario</button>
+                      <div class="comentarios-historial"></div>
+
+                    </section>
+
+                </div>
+
+                <div class="especialista">
+                    <img src="unnamed-file-159.jpg" alt="Carlos López" class="especialista-img">
+                    <h3>Carlos López</h3>
+                    <p class="contacto">Tel: 555-123-456</p>
+                    <a href="tel:555-123-456" class="btn-contacto">Llamar</a>
+
+                    <section id="comentarios">
+                      <h2>Deja tu comentario y valoración</h2>
+                      <input type="text" class="nombre-usuario" placeholder="Tu nombre" />
+                      <textarea rows="4" placeholder="Escribe tu comentario..."></textarea>
+
+                      <div class="estrellas">
+                        <span class="estrella" data-valor="1">&#9733;</span>
+                        <span class="estrella" data-valor="2">&#9733;</span>
+                        <span class="estrella" data-valor="3">&#9733;</span>
+                        <span class="estrella" data-valor="4">&#9733;</span>
+                        <span class="estrella" data-valor="5">&#9733;</span>
+                      </div>
+
+                      <button>Enviar comentario</button>
+                      <div class="comentarios-historial"></div>
+                    </section>
+
+                </div>
+            </div>
+        </section>
+
+        <button id="btn-borrar-todo">Borrar todos los comentarios</button>
     </main>
     <footer>
         <p>&copy; 2023 Mi Plataforma</p>
