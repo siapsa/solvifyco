@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beauty Salon Pro</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #dfe3ea, #bfc6d1);
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .card {
+    width: 380px;
+    padding: 20px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* CALENDARIO */
+  .calendar {
+    margin-top: 20px;
+  }
+
+  .bloque {
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .libre {
+    background: #d4f8d4;
+  }
+
+  .ocupado {
+    background: #ffd6d6;
+  }
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <h2>💅 Beauty Salon</h2>
+
+    <input id="nombre" placeholder="Nombre">
+
+    <select id="servicio">
+      <option value="">Servicio</option>
+      <option>💅 Uñas</option>
+      <option>💇 Cabello</option>
+      <option>👁️ Cejas</option>
+      <option>✨ Pestañas</option>
+    </select>
+
+    <input id="fecha" type="date" onchange="actualizarTodo()">
+    <select id="hora"></select>
+
+    <button onclick="agendar()">Agendar</button>
+
+    <!-- CALENDARIO -->
+    <div class="calendar">
+      <h3>Agenda del día</h3>
+      <div id="agenda"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let citas = JSON.parse(localStorage.getItem("citas")) || [];
+
+const horasBase = [
+  "09:00","10:00","11:00","12:00",
+  "13:00","14:00","15:00","16:00","17:00"
+];
+
+function guardar() {
+  localStorage.setItem("citas", JSON.stringify(citas));
+}
+
+function actualizarTodo() {
+  actualizarHoras();
+  renderAgenda();
+}
+
+function actualizarHoras() {
+  const fecha = document.getElementById("fecha").value;
+  const select = document.getElementById("hora");
+
+  select.innerHTML = "";
+
+  const ocupadas = citas
+    .filter(c => c.fecha === fecha)
+    .map(c => c.hora);
+
+  horasBase.forEach(h => {
+    const option = document.createElement("option");
+    option.value = h;
+    option.textContent = h;
+
+    if (ocupadas.includes(h)) {
+      option.disabled = true;
+      option.textContent += " (ocupado)";
+    }
+
+    select.appendChild(option);
+  });
+}
+
+function renderAgenda() {
+  const fecha = document.getElementById("fecha").value;
+  const agenda = document.getElementById("agenda");
+
+  agenda.innerHTML = "";
+
+  horasBase.forEach(h => {
+    const cita = citas.find(c => c.fecha === fecha && c.hora === h);
+
+    const div = document.createElement("div");
+    div.className = "bloque " + (cita ? "ocupado" : "libre");
+
+    if (cita) {
+      div.innerHTML = `
+        <strong>${h}</strong> - ${cita.nombre} (${cita.servicio})
+      `;
+    } else {
+      div.innerHTML = `<strong>${h}</strong> - Disponible`;
+    }
+
+    agenda.appendChild(div);
+  });
+}
+
+function agendar() {
+  const nombre = document.getElementById("nombre").value;
+  const servicio = document.getElementById("servicio").value;
+  const fecha = document.getElementById("fecha").value;
+  const hora = document.getElementById("hora").value;
+
+  if (!nombre || !servicio || !fecha || !hora) {
+    alert("Completa todos los campos");
+    return;
+  }
+
+  const existe = citas.find(c => c.fecha === fecha && c.hora === hora);
+  if (existe) {
+    alert("Esa hora ya está ocupada");
+    return;
+  }
+
+  citas.push({ nombre, servicio, fecha, hora });
+  guardar();
+
+  renderAgenda();
+  actualizarHoras();
+
+  document.getElementById("nombre").value = "";
+}
+
+actualizarTodo();
+</script>
+
+</body>
+</html>
