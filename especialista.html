@@ -5,7 +5,6 @@
   <title>Solvify - Roberto Jimenez</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-
     :root {
       --primary: #7b3cff;
       --primary-soft: #f3ecff;
@@ -17,6 +16,7 @@
       --border: #e2e2ee;
       --radius: 10px;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -51,7 +51,7 @@
       font-size: 14px;
     }
 
-     .nav-links {
+    .nav-links {
       display: flex;
       gap: 1rem;
       font-size: 0.95rem;
@@ -144,8 +144,8 @@
     }
 
     .btn-primary {
-      background: #2563eb;
-      color: #ffffff;
+      background: var(--primary);
+      color: #fff;
     }
 
     .btn-secondary {
@@ -205,27 +205,186 @@
       }
     }
 
-     .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border-radius: 999px;
-      padding: 0.45rem 1.1rem;
-      border: none;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.45);
+      align-items: center;
+      justify-content: center;
     }
+
+    .modal-content {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 16px;
+    }
+
+    .modal-content label {
+      font-size: 14px;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .modal-content textarea {
+      height: 80px;
+      resize: none;
+    }
+
+ /* Contenedor horizontal */
+.uber-rating {
+  display: flex;
+  flex-direction: row; /* horizontal */
+  gap: 6px;            /* separación pequeña */
+  align-items: center;
+  justify-content: flex-start;
+  margin: 10px 0;
+}
+
+/* Estrellas estilo Uber */
+.uber-star {
+  font-size: 28px;     /* más pequeño */
+  cursor: pointer;
+  color: #d1d5db;      /* gris suave */
+  transition: transform 0.15s ease, color 0.2s ease;
+}
+
+.uber-star:hover {
+  transform: scale(1.15);
+  color: #fbbf24;      /* amarillo Uber */
+}
+
+.uber-star.selected {
+  color: #f59e0b;      /* amarillo Uber más fuerte */
+}
+
+/* Texto debajo */
+.uber-rating-text {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* ======== SECCIÓN DE COMENTARIOS ======== */
+
+.comentario {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.comentario .card-content {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 10px 28px rgba(40, 20, 90, 0.12);
+  border: 1px solid var(--border-soft);
+}
+
+.comentario h1 {
+  font-size: 1.8rem;
+  margin-bottom: 18px;
+  color: var(--text-main);
+}
+
+/* FORMULARIO */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.comment-label {
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.comment-input,
+.comment-textarea {
+  width: 50%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #fff;
+  color: var(--text-main);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.comment-input:focus,
+.comment-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+  outline: none;
+}
+
+.comment-textarea {
+  height: 140px;
+  resize: vertical;
+}
+
+/* BOTONES */
+.comentario .buttons {
+  margin-top: 10px;
+}
+
+.comentario .btn-primary {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+/* TEXTO INFORMATIVO */
+.comentario .more-info {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .comentario .card-content {
+    padding: 20px;
+  }
+
+  .comentario h1 {
+    font-size: 1.5rem;
+  }
+}
+
   </style>
 </head>
 <body>
+
   <header>
     <nav class="nav-links">
-    <a href="#" class="logo" onclick="window.location.href='ecomer.html'">Regresar</a>
+      <a href="#" class="logo" onclick="window.location.href='ecomer.html'">Regresar</a>
     </nav>
 
     <div class="nav-right">
-      
-
       <button class="btn-primary">Contáctenos</button>
     </div>
   </header>
@@ -235,7 +394,6 @@
       Todos los productos / <span>Roberto Jimenez</span>
     </div>
 
-
     <section class="card">
       <div class="card-illustration">
         Ilustración del técnico / servicio
@@ -243,14 +401,20 @@
 
       <div class="card-content">
         <h1>Roberto Jimenez</h1>
-        <div class="rating">
-          ★★★★★ <span>(5 reseñas)</span>
-        </div>
+<div class="uber-rating">
+  <span class="uber-star" data-value="1">★</span>
+  <span class="uber-star" data-value="2">★</span>
+  <span class="uber-star" data-value="3">★</span>
+  <span class="uber-star" data-value="4">★</span>
+  <span class="uber-star" data-value="5">★</span>
+</div>
+
+<div class="uber-rating-text" id="uberRatingText">Selecciona una calificación</div>
         <div class="price">100,00 B/.</div>
 
         <div class="buttons">
-          <button class="btn btn-secondary">Cotizar</button>
-          <button class="btn btn-primary">Contratar</button>
+          <button id="btnCotizar" class="btn btn-primary">Cotizar</button>
+          
         </div>
 
         <p class="more-info">
@@ -263,15 +427,243 @@
             +507 62804587
           </div>
           <div>
-            <span class="contact-label">Contacto</span><br />
-            Aldhair Atencio
+            <span class="contact-label">Correo</span><br />
+            aldhair.atencio@gmail.com
           </div>
-          <div>
-            <a href="#" class="contact-link">Contáctenos</a>
-          </div>
+          
         </div>
+
+        <!-- Correo del técnico oculto para usar en JS -->
+        <div id="correoTecnico" style="display:none;">aldhair.atencio@gmail.com</div>
+      </div>
+    </section>
+
+  <section class="comentario">
+  <div class="card-content">
+    <h1>Reseñas</h1>
+
+    <div class="comment-form">
+      <label for="nombreComentario" class="comment-label">Tu nombre</label>
+      <input type="text" id="nombreComentario" class="comment-input" placeholder="Escribe tu nombre" required>
+
+      <label for="textoComentario" class="comment-label">Tu comentario</label>
+      <textarea id="textoComentario" class="comment-textarea" placeholder="Escribe tu comentario aquí..." required></textarea>
+    </div>
+
+    <div class="buttons">
+      <button id="btncomentar" class="btn btn-primary">Comentar</button>
+    </div>
+
+    <p class="more-info">
+      Puedes dejar tu opinión o comentario sobre el servicio.
+    </p>
+  </div>
+</section>
+
+        <!-- Correo del técnico oculto para usar en JS -->
+        <div id="correoTecnico" style="display:none;">aldhair.atencio@gmail.com</div>
       </div>
     </section>
   </main>
+
+  <!-- Modal de Cotización -->
+  <div id="cotizarModal" class="modal">
+    <div class="modal-content">
+      <h2>Solicitud de Cotización</h2>
+
+      <form id="cotizarForm">
+        <label>Nombre del cliente</label>
+        <input type="text" name="nombre" required>
+
+        <label>Descripción del servicio</label>
+        <textarea name="descripcion" required></textarea>
+
+        <label>Dirección</label>
+        <input type="text" name="direccion" required>
+
+        <label>Teléfono</label>
+        <input type="tel" name="telefono" required>
+
+        <label>Correo electrónico</label>
+        <input type="email" name="correo" required>
+
+        <button type="submit" class="btn-primary">Enviar cotización</button>
+        <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+  const modal = document.getElementById("cotizarModal");
+  const btnCotizar = document.getElementById("btnCotizar");
+
+  function openModal() {
+    modal.style.display = "flex";
+  }
+
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  // Abrir modal SOLO cuando se hace clic en Cotizar
+  btnCotizar.addEventListener("click", openModal);
+
+  // Enviar formulario con mailto
+  document.getElementById("cotizarForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const datos = {
+      nombre: this.nombre.value,
+      descripcion: this.descripcion.value,
+      direccion: this.direccion.value,
+      telefono: this.telefono.value,
+      correo: this.correo.value
+    };
+
+    // Tomar correo del técnico desde el elemento oculto
+    const correoTecnicoElem = document.getElementById("correoTecnico");
+    const correoTecnico = correoTecnicoElem ? correoTecnicoElem.textContent.trim() : "";
+
+    if (!correoTecnico) {
+      alert("No se encontró el correo del técnico en la página.");
+      return;
+    }
+
+    // Construir mensaje
+    const mensaje =
+      "Nueva solicitud de cotización:%0D%0A" +
+      "Nombre del cliente: " + datos.nombre + "%0D%0A" +
+      "Descripción del servicio: " + datos.descripcion + "%0D%0A" +
+      "Dirección: " + datos.direccion + "%0D%0A" +
+      "Teléfono: " + datos.telefono + "%0D%0A" +
+      "Correo del cliente: " + datos.correo;
+
+    // Crear enlace mailto
+    const mailtoLink = `mailto:${correoTecnico}?subject=Cotización de servicio&body=${mensaje}`;
+
+    // Abrir cliente de correo
+    window.location.href = mailtoLink;
+
+    closeModal();
+  });
+
+let uberRating = localStorage.getItem("uberRating") || 0;
+
+const uberStars = document.querySelectorAll(".uber-star");
+const uberRatingText = document.getElementById("uberRatingText");
+
+const mensajes = {
+  1: "Muy malo",
+  2: "Malo",
+  3: "Regular",
+  4: "Bueno",
+  5: "Excelente"
+};
+
+// ⭐ Si ya había rating guardado, mostrarlo
+if (uberRating > 0) {
+  for (let i = 0; i < uberRating; i++) {
+    uberStars[i].classList.add("selected");
+  }
+  uberRatingText.textContent = mensajes[uberRating];
+}
+
+uberStars.forEach(star => {
+  star.addEventListener("click", function() {
+    uberRating = this.getAttribute("data-value");
+
+    // Guardar en localStorage
+    localStorage.setItem("uberRating", uberRating);
+
+    // Quitar selección previa
+    uberStars.forEach(s => s.classList.remove("selected"));
+
+    // Marcar nuevas estrellas
+    for (let i = 0; i < uberRating; i++) {
+      uberStars[i].classList.add("selected");
+    }
+
+    // Texto estilo Uber
+    uberRatingText.textContent = mensajes[uberRating];
+  });
+});;
+
+// === ELEMENTOS ===
+const btnComentar = document.getElementById("btncomentar");
+const nombreInput = document.getElementById("nombreComentario");
+const comentarioInput = document.getElementById("textoComentario");
+
+// Crear contenedor para historial si no existe
+let historial = document.getElementById("historialComentarios");
+if (!historial) {
+  historial = document.createElement("div");
+  historial.id = "historialComentarios";
+  historial.style.marginTop = "25px";
+  document.querySelector(".comentario .card-content").appendChild(historial);
+}
+
+// === CARGAR HISTORIAL GUARDADO ===
+let comentariosGuardados = JSON.parse(localStorage.getItem("comentarios")) || [];
+renderComentarios();
+
+// === EVENTO DEL BOTÓN ===
+btnComentar.addEventListener("click", () => {
+  const nombre = nombreInput.value.trim();
+  const texto = comentarioInput.value.trim();
+
+  if (nombre === "" || texto === "") {
+    alert("Por favor completa ambos campos antes de comentar.");
+    return;
+  }
+
+  // Crear objeto comentario
+  const nuevoComentario = {
+    nombre: nombre,
+    texto: texto,
+    fecha: new Date().toLocaleString()
+  };
+
+  // Guardar en array
+  comentariosGuardados.push(nuevoComentario);
+
+  // Guardar en localStorage
+  localStorage.setItem("comentarios", JSON.stringify(comentariosGuardados));
+
+  // Mostrar en pantalla
+  renderComentarios();
+
+  // Limpiar campos
+  nombreInput.value = "";
+  comentarioInput.value = "";
+});
+
+// === FUNCIÓN PARA MOSTRAR COMENTARIOS ===
+function renderComentarios() {
+  historial.innerHTML = ""; // limpiar
+
+  comentariosGuardados.forEach(com => {
+    const item = document.createElement("div");
+    item.classList.add("comentario-item");
+    item.style.padding = "12px 16px";
+    item.style.border = "1px solid var(--border-soft)";
+    item.style.borderRadius = "10px";
+    item.style.marginBottom = "12px";
+    item.style.background = "#fff";
+    item.style.boxShadow = "0 4px 10px rgba(40,20,90,0.08)";
+
+    item.innerHTML = `
+      <strong style="font-size:1rem; color:var(--text-main);">${com.nombre}</strong>
+      <p style="margin-top:6px; color:var(--text-muted); line-height:1.4;">
+        ${com.texto}
+      </p>
+      <div style="font-size:0.8rem; color:#999; margin-top:4px;">
+        ${com.fecha}
+      </div>
+    `;
+
+    historial.appendChild(item);
+  });
+}
+</script>
 </body>
 </html>
