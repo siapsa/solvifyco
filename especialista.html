@@ -588,8 +588,7 @@ uberStars.forEach(star => {
   });
 });;
 
-// === ELEMENTOS ===
-const btnComentar = document.getElementById("btncomentar");
+// === ELEMENTOS ===const btnComentar = document.getElementById("btncomentar");
 const nombreInput = document.getElementById("nombreComentario");
 const comentarioInput = document.getElementById("textoComentario");
 
@@ -602,46 +601,50 @@ if (!historial) {
   document.querySelector(".comentario .card-content").appendChild(historial);
 }
 
-// === CARGAR HISTORIAL GUARDADO ===
-let comentariosGuardados = JSON.parse(localStorage.getItem("comentarios")) || [];
-renderComentarios();
+// === Cargar comentarios desde backend ===
+async function cargarComentarios() {
+  try {
+    const res = await fetch("http://localhost:3000/comentarios");
+    const comentarios = await res.json();
+    renderComentarios(comentarios);
+  } catch (error) {
+    console.error("Error cargando comentarios:", error);
+  }
+}
 
-// === EVENTO DEL BOTÓN ===
-btnComentar.addEventListener("click", () => {
+cargarComentarios();
+
+// === Enviar comentario al backend ===
+btnComentar.addEventListener("click", async () => {
   const nombre = nombreInput.value.trim();
   const texto = comentarioInput.value.trim();
 
-  if (nombre === "" || texto === "") {
-    alert("Por favor completa ambos campos antes de comentar.");
+  if (!nombre || !texto) {
+    alert("Completa ambos campos antes de comentar.");
     return;
   }
 
-  // Crear objeto comentario
-  const nuevoComentario = {
-    nombre: nombre,
-    texto: texto,
-    fecha: new Date().toLocaleString()
-  };
+  try {
+    await fetch("http://localhost:3000/comentarios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, texto })
+    });
 
-  // Guardar en array
-  comentariosGuardados.push(nuevoComentario);
+    nombreInput.value = "";
+    comentarioInput.value = "";
 
-  // Guardar en localStorage
-  localStorage.setItem("comentarios", JSON.stringify(comentariosGuardados));
-
-  // Mostrar en pantalla
-  renderComentarios();
-
-  // Limpiar campos
-  nombreInput.value = "";
-  comentarioInput.value = "";
+    cargarComentarios(); // recargar historial
+  } catch (error) {
+    console.error("Error enviando comentario:", error);
+  }
 });
 
-// === FUNCIÓN PARA MOSTRAR COMENTARIOS ===
-function renderComentarios() {
-  historial.innerHTML = ""; // limpiar
+// === Mostrar comentarios ===
+function renderComentarios(lista) {
+  historial.innerHTML = "";
 
-  comentariosGuardados.forEach(com => {
+  lista.forEach(com => {
     const item = document.createElement("div");
     item.classList.add("comentario-item");
     item.style.padding = "12px 16px";
