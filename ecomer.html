@@ -378,6 +378,22 @@
     <button class="chip" data-zone="cocle">Coclé</button>
   </div>
 </section>
+<br></br>
+
+<section class="services">
+  <h3>Servicios</h3>
+
+  <div class="categories" id="serviceFilters">
+    <button class="chip active" data-service="all">Todos</button>
+    <button class="chip" data-service="electricista">Electricista</button>
+    <button class="chip" data-service="ebanista">Ebanista</button>
+    <button class="chip" data-service="albanil">Albañil</button>
+    <button class="chip" data-service="abogado">Abogado</button>
+    <button class="chip" data-service="mantenimiento">Mantenimiento</button>
+  </div>
+</section>
+
+
 </aside>
 
     <!-- MAIN -->
@@ -386,8 +402,8 @@
       <div class="cards">
 
         <!-- CARD 1 -->
-        <article class="card" data-price="100" data-zone="panama">
-          <div class="card-img card-img--electricista">
+        <article class="card" data-price="100" data-zone="panama" data-service="electricista">
+          <div class="card-img">
             <span>Electricista certificado</span>
           </div>
           <div class="card-title">Roberto Jiménez</div>
@@ -399,9 +415,9 @@
         </article>
 
         <!-- CARD 2 -->
-        <article class="card" data-price="250" data-zone="panama">
+        <article class="card" data-price="250" data-zone="panama" data-service="mantenimiento">
           <div class="card-img">
-            <span>Imagen del servicio</span>
+            <span>Mantenimiento Certificado</span>
           </div>
           <div class="card-title">Raimundo Atencio</div>
           <div class="card-price">250,00 B/.</div>
@@ -412,9 +428,9 @@
         </article>
 
         <!-- CARD 3 -->
-        <article class="card" data-price="500" data-zone="cocle">
+        <article class="card" data-price="500" data-zone="cocle" data-service="ebanista">
           <div class="card-img">
-            <span>Imagen del servicio</span>
+            <span>Ebanista Certificado</span>
           </div>
           <div class="card-title">Rigoberto Rodríguez</div>
           <div class="card-price">500,00 B/.</div>
@@ -425,9 +441,9 @@
         </article>
 
         <!-- CARD 4 -->
-        <article class="card" data-price="400" data-zone="colon">
+        <article class="card" data-price="400" data-zone="colon" data-service="albanil">
           <div class="card-img">
-            <span>Imagen del servicio</span>
+            <span>Albañil Certificado</span>
           </div>
           <div class="card-title">Rigoberto Rodríguez</div>
           <div class="card-price">400,00 B/.</div>
@@ -443,13 +459,17 @@
 
   <!-- ✅ SCRIPT MEJORADO -->
   
+
 <script>
   const range = document.getElementById('priceRange');
   const priceValue = document.getElementById('priceValue');
   const cards = document.querySelectorAll('.card');
+
   const zones = document.querySelectorAll('#zoneFilters .chip');
+  const services = document.querySelectorAll('#serviceFilters .chip');
 
   let zonaSeleccionada = "all";
+  let servicioSeleccionado = "all";
 
   function filtrar() {
     const maxPrecio = parseInt(range.value);
@@ -457,11 +477,13 @@
     cards.forEach(card => {
       const precio = parseInt(card.getAttribute('data-price'));
       const zona = card.getAttribute('data-zone');
+      const servicio = card.getAttribute('data-service');
 
       const cumplePrecio = precio <= maxPrecio;
       const cumpleZona = zonaSeleccionada === "all" || zona === zonaSeleccionada;
+      const cumpleServicio = servicioSeleccionado === "all" || servicio === servicioSeleccionado;
 
-      if (cumplePrecio && cumpleZona) {
+      if (cumplePrecio && cumpleZona && cumpleServicio) {
         card.style.display = "flex";
       } else {
         card.style.display = "none";
@@ -469,29 +491,36 @@
     });
   }
 
-  // Evento rango de precio
+  // SLIDER PRECIO
   range.addEventListener('input', () => {
     priceValue.textContent = range.value + ',00 B/.';
     filtrar();
   });
 
-  // Evento selección de zonas
+  // ZONAS
   zones.forEach(zone => {
     zone.addEventListener('click', () => {
-
-      // UI activo
       zones.forEach(z => z.classList.remove('active'));
       zone.classList.add('active');
 
-      // Guardar zona seleccionada
       zonaSeleccionada = zone.getAttribute('data-zone');
-
-      // Filtrar
       filtrar();
     });
   });
 
-  // Inicial
+  // SERVICIOS ✅ NUEVO
+  services.forEach(service => {
+    service.addEventListener('click', () => {
+      services.forEach(s => s.classList.remove('active'));
+      service.classList.add('active');
+
+      servicioSeleccionado = service.getAttribute('data-service');
+
+      filtrar();
+    });
+  });
+
+  // INICIAL
   filtrar();
 </script>
 
