@@ -546,8 +546,7 @@
 
     closeModal();
   });
-
-let uberRating = localStorage.getItem("uberRating") || 0;
+let uberRating = 0;
 
 const uberStars = document.querySelectorAll(".uber-star");
 const uberRatingText = document.getElementById("uberRatingText");
@@ -560,20 +559,44 @@ const mensajes = {
   5: "Excelente"
 };
 
-// ⭐ Si ya había rating guardado, mostrarlo
-if (uberRating > 0) {
-  for (let i = 0; i < uberRating; i++) {
-    uberStars[i].classList.add("selected");
+// === Cargar rating desde backend ===
+async function cargarRating() {
+  try {
+    const res = await fetch("http://localhost:3000/rating");
+    const data = await res.json();
+
+    uberRating = data.valor;
+
+    if (uberRating > 0) {
+      for (let i = 0; i < uberRating; i++) {
+        uberStars[i].classList.add("selected");
+      }
+      uberRatingText.textContent = mensajes[uberRating];
+    }
+  } catch (error) {
+    console.error("Error cargando rating:", error);
   }
-  uberRatingText.textContent = mensajes[uberRating];
 }
 
+cargarRating();
+
+// === Guardar rating en backend ===
+async function guardarRating(valor) {
+  try {
+    await fetch("http://localhost:3000/rating", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ valor })
+    });
+  } catch (error) {
+    console.error("Error guardando rating:", error);
+  }
+}
+
+// === Evento de estrellas ===
 uberStars.forEach(star => {
   star.addEventListener("click", function() {
-    uberRating = this.getAttribute("data-value");
-
-    // Guardar en localStorage
-    localStorage.setItem("uberRating", uberRating);
+    uberRating = parseInt(this.getAttribute("data-value"));
 
     // Quitar selección previa
     uberStars.forEach(s => s.classList.remove("selected"));
@@ -585,10 +608,14 @@ uberStars.forEach(star => {
 
     // Texto estilo Uber
     uberRatingText.textContent = mensajes[uberRating];
-  });
-});;
 
-// === ELEMENTOS ===const btnComentar = document.getElementById("btncomentar");
+    // Guardar en backend
+    guardarRating(uberRating);
+  });
+});
+
+// === ELEMENTOS ===
+const btnComentar = document.getElementById("btncomentar");
 const nombreInput = document.getElementById("nombreComentario");
 const comentarioInput = document.getElementById("textoComentario");
 
