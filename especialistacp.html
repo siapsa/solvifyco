@@ -394,7 +394,8 @@
 
   <main class="container">
     <div class="breadcrumb">
-      Todos los productos / <span>Roberto Jimenez</span>
+      Todos los productos / 
+      <span id="breadcrumbNombre">Cargando...</span>
     </div>
 
     <section class="card">
@@ -403,7 +404,7 @@
       </div>
 
       <div class="card-content">
-        <h1>Roberto Jimenez</h1>
+        <h1 id="nombreTecnico">Cargando...</h1>
 <div id="ratingSection">
 <div class="uber-rating">
   <span class="uber-star" data-value="1">★</span>
@@ -418,7 +419,7 @@
 </div>
 
 </div>
-        <div class="price">100,00 B/.</div>
+        <div class="price" id="precioTecnico">0,00 B/.</div>
 
         <div class="buttons">
           <button id="btnCotizar" class="btn btn-primary">Cotizar</button>
@@ -432,18 +433,17 @@
         <div class="contact-block">
           <div>
             <span class="contact-label">Teléfono</span><br />
-            +507 6900000
+            <span id="telefonoTecnico"></span>
           </div>
           <div>
             <span class="contact-label">Correo</span><br />
-            roberto.jimenez@gmail.com
+            <span id="correoVisible"></span>
           </div>
           
         </div>
 
         <!-- Correo del técnico oculto para usar en JS -->
-        <div id="correoTecnico" style="display:none;">roberto.jimenez@gmail.com</div>
-      </div>
+        <div id="correoTecnico" style="display:none;"></div>
     </section>
 <div
   id="planBasico"
@@ -571,6 +571,32 @@ async function cargarTecnico() {
     );
 
     const tecnico = await res.json();
+    document.getElementById(
+  "breadcrumbNombre"
+).textContent = tecnico.nombre;
+
+document.getElementById(
+  "nombreTecnico"
+).textContent = tecnico.nombre;
+
+document.getElementById(
+  "precioTecnico"
+).textContent = tecnico.precio + ",00 B/.";
+
+document.getElementById(
+  "telefonoTecnico"
+).textContent = tecnico.telefono;
+
+document.getElementById(
+  "correoVisible"
+).textContent = tecnico.correo;
+
+document.getElementById(
+  "correoTecnico"
+).textContent = tecnico.correo;
+
+document.title =
+  "Solvify - " + tecnico.nombre;
 
     if (tecnico.premium) {
 
