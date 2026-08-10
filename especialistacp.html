@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Solvify - Roberto Jimenez</title>
+  <title>Solvify</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -404,6 +404,7 @@
 
       <div class="card-content">
         <h1>Roberto Jimenez</h1>
+<div id="ratingSection">
 <div class="uber-rating">
   <span class="uber-star" data-value="1">★</span>
   <span class="uber-star" data-value="2">★</span>
@@ -412,7 +413,11 @@
   <span class="uber-star" data-value="5">★</span>
 </div>
 
-<div class="uber-rating-text" id="uberRatingText">Selecciona una calificación</div>
+<div class="uber-rating-text" id="uberRatingText">
+  Selecciona una calificación
+</div>
+
+</div>
         <div class="price">100,00 B/.</div>
 
         <div class="buttons">
@@ -440,8 +445,24 @@
         <div id="correoTecnico" style="display:none;">roberto.jimenez@gmail.com</div>
       </div>
     </section>
+<div
+  id="planBasico"
+  style="
+    display:none;
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    padding:15px;
+    border-radius:10px;
+    margin-top:20px;
+    color:#9a3412;
+  ">
+  Este especialista tiene un plan básico.
 
-  <section class="comentario">
+  Las reseñas y las calificaciones son exclusivas para especialistas Premium.
+</div>
+  <section
+  class="comentario"
+  id="comentariosSection">
   <div class="card-content">
     <h1>Reseñas</h1>
 
@@ -536,6 +557,61 @@ Correo: ${datos.correo}
 
   closeModal();
 });
+
+  const params = new URLSearchParams(window.location.search);
+
+const tecnicoId = params.get("id");
+
+async function cargarTecnico() {
+
+  try {
+
+    const res = await fetch(
+      `https://solvifyco-backend.onrender.com/tecnicos/${tecnicoId}`
+    );
+
+    const tecnico = await res.json();
+
+    if (tecnico.premium) {
+
+      document.getElementById(
+        "ratingSection"
+      ).style.display = "block";
+
+      document.getElementById(
+        "comentariosSection"
+      ).style.display = "block";
+
+      document.getElementById(
+        "planBasico"
+      ).style.display = "none";
+
+    } else {
+
+      document.getElementById(
+        "ratingSection"
+      ).style.display = "none";
+
+      document.getElementById(
+        "comentariosSection"
+      ).style.display = "none";
+
+      document.getElementById(
+        "planBasico"
+      ).style.display = "block";
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Error cargando técnico:",
+      error
+    );
+
+  }
+
+}
 
 let uberRating = 0;
 
@@ -725,7 +801,8 @@ function renderComentarios(lista) {
     historial.appendChild(item);
   });
 }
-
+cargarTecnico();
+cargarRating();
 cargarComentarios();
 </script>
 </body>
