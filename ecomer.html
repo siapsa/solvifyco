@@ -414,9 +414,7 @@ async function cargarTecnicos() {
 
   try {
 
-    const res = await fetch(
-      "https://solvifyco-backend.onrender.com/tecnicos"
-    );
+    const res = await fetch("https://solvifyco-backend.onrender.com/tecnicos");
 
     const tecnicos = await res.json();
 
@@ -453,9 +451,11 @@ async function cargarTecnicos() {
               📍 ${tecnico.ciudad}
             </span>
 
+           <button
+            class="btn-outline"
             especialistacp.html?id=${tecnico.id}
-              Ver detalles
-            </button>
+            Ver detalles
+          </button>
 
           </div>
 
@@ -476,8 +476,6 @@ async function cargarTecnicos() {
 
   const range = document.getElementById('priceRange');
   const priceValue = document.getElementById('priceValue');
-  let cards = [];
-
   const zones = document.querySelectorAll('#zoneFilters .chip');
   const services = document.querySelectorAll('#serviceFilters .chip');
 
