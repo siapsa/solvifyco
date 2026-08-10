@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "nombre": "Roberto Jiménez",
+    "servicio": "electricista",
+    "descripcion": "Electricista certificado",
+    "precio": 100,
+    "zona": "panama",
+    "ciudad": "Ciudad de Panamá",
+    "telefono": "+507 6900000",
+    "correo": "roberto.jimenez@gmail.com",
+    "imagen": "",
+    "premium": true
+  },
+  {
+    "id": 2,
+    "nombre": "Raimundo Atencio",
+    "servicio": "mantenimiento",
+    "descripcion": "Mantenimiento Certificado",
+    "precio": 250,
+    "zona": "panama",
+    "ciudad": "Ciudad de Panamá",
+    "telefono": "+507 6500000",
+    "correo": "raimundo.atencio@gmail.com",
+    "imagen": "",
+    "premium": false
+  },
+  {
+    "id": 3,
+    "nombre": "Rigoberto Rodríguez",
+    "servicio": "ebanista",
+    "descripcion": "Ebanista Certificado",
+    "precio": 500,
+    "zona": "cocle",
+    "ciudad": "Coclé",
+    "telefono": "+507 6600000",
+    "correo": "rigoberto.rodriguez@gmail.com",
+    "imagen": "",
+    "premium": false
+  },
+  {
+    "id": 4,
+    "nombre": "Rigoberto Rodríguez",
+    "servicio": "albanil",
+    "descripcion": "Albañil Certificado",
+    "precio": 400,
+    "zona": "colon",
+    "ciudad": "Colón",
+    "telefono": "+507 6700000",
+    "correo": "rigoberto.rodriguez@gmail.com",
+    "imagen": "",
+    "premium": false
+  }
+]
