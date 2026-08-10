@@ -447,11 +447,13 @@ async function cargarTecnicos() {
 
           <div class="card-footer">
 
-            <span>
-              📍 ${tecnico.ciudad}
-            </span>
-            <button class="btn-outline" onclick="window.location.href='especialistacp.html'">Ver detalles</button>
+            <span>📍 ${tecnico.ciudad}</span>
 
+            <a
+              class="btn-outline"
+              href="especialistacp.html?id=${tecnico.id}">
+              Ver detalles
+          </a>
           </div>
 
         </article>
