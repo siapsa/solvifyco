@@ -552,7 +552,7 @@ const mensajes = {
 
 async function cargarRating() {
   try {
-    const res = await fetch("http://localhost:3000/rating");
+    const res = await fetch("https://solvifyco-backend.onrender.com/rating");
 
     if (!res.ok) {
       throw new Error("Error obteniendo rating");
@@ -580,7 +580,7 @@ async function cargarRating() {
 async function guardarRating(valor) {
   try {
 
-    const res = await fetch("http://localhost:3000/rating", {
+    const res = await fetch("https://solvifyco-backend.onrender.com/rating", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -641,7 +641,7 @@ async function cargarComentarios() {
 
   try {
 
-    const res = await fetch("http://localhost:3000/comentarios");
+    const res = await fetch("https://solvifyco-backend.onrender.com/comentarios");
 
     if (!res.ok) {
       throw new Error("Error obteniendo comentarios");
@@ -668,7 +668,7 @@ btnComentar.addEventListener("click", async () => {
 
   try {
 
-    const res = await fetch("http://localhost:3000/comentarios", {
+    const res = await fetch("https://solvifyco-backend.onrender.com/comentarios", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
