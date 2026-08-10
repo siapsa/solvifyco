@@ -399,71 +399,84 @@
     <!-- MAIN -->
     <section class="main">
 
-      <div class="cards">
+      <div class="cards" id="cardsContainer"></div>
 
-        <!-- CARD 1 -->
-        <article class="card" data-price="100" data-zone="panama" data-service="electricista">
-          <div class="card-img">
-            <span>Electricista certificado</span>
-          </div>
-          <div class="card-title">Roberto Jiménez</div>
-          <div class="card-price">100,00 B/.</div>
-          <div class="card-footer">
-            <span>📍 Ciudad de Panamá</span>
-            <button class="btn-outline" onclick="window.location.href='especialistacp.html'">Ver detalles</button>
-          </div>
-        </article>
-
-        <!-- CARD 2 -->
-        <article class="card" data-price="250" data-zone="panama" data-service="mantenimiento">
-          <div class="card-img">
-            <span>Mantenimiento Certificado</span>
-          </div>
-          <div class="card-title">Raimundo Atencio</div>
-          <div class="card-price">250,00 B/.</div>
-          <div class="card-footer">
-            <span>📍 Ciudad de Panamá</span>
-            <button class="btn-outline"onclick="window.location.href='especialistasp.html'">Ver detalles</button>
-          </div>
-        </article>
-
-        <!-- CARD 3 -->
-        <article class="card" data-price="500" data-zone="cocle" data-service="ebanista">
-          <div class="card-img">
-            <span>Ebanista Certificado</span>
-          </div>
-          <div class="card-title">Rigoberto Rodríguez</div>
-          <div class="card-price">500,00 B/.</div>
-          <div class="card-footer">
-            <span>📍 Ciudad de Cocle</span>
-            <button class="btn-outline"onclick="window.location.href='especialistasp.html'">Ver detalles</button>
-          </div>
-        </article>
-
-        <!-- CARD 4 -->
-        <article class="card" data-price="400" data-zone="colon" data-service="albanil">
-          <div class="card-img">
-            <span>Albañil Certificado</span>
-          </div>
-          <div class="card-title">Rigoberto Rodríguez</div>
-          <div class="card-price">400,00 B/.</div>
-          <div class="card-footer">
-            <span>📍 Ciudad de Colón</span>
-            <button class="btn-outline"onclick="window.location.href='especialistasp.html'">Ver detalles</button>
-          </div>
-        </article>
-
-      </div>
     </section>
   </main>
 
   <!-- ✅ SCRIPT MEJORADO -->
-  
 
 <script>
+
+let cards = [];
+
+async function cargarTecnicos() {
+
+  try {
+
+    const res = await fetch(
+      "https://solvifyco-backend.onrender.com/tecnicos"
+    );
+
+    const tecnicos = await res.json();
+
+    const container =
+      document.getElementById("cardsContainer");
+
+    container.innerHTML = "";
+
+    tecnicos.forEach(tecnico => {
+
+      container.innerHTML += `
+        <article
+          class="card"
+          data-price="${tecnico.precio}"
+          data-zone="${tecnico.zona}"
+          data-service="${tecnico.servicio}">
+
+          <div class="card-img">
+            <span>${tecnico.descripcion}</span>
+          </div>
+
+          <div class="card-title">
+            ${tecnico.nombre}
+            ${tecnico.premium ? "⭐ Premium" : ""}
+          </div>
+
+          <div class="card-price">
+            ${tecnico.precio} B/.
+          </div>
+
+          <div class="card-footer">
+
+            <span>
+              📍 ${tecnico.ciudad}
+            </span>
+
+            especialistacp.html?id=${tecnico.id}
+              Ver detalles
+            </button>
+
+          </div>
+
+        </article>
+      `;
+    });
+
+    cards = document.querySelectorAll(".card");
+
+    filtrar();
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+}
+
   const range = document.getElementById('priceRange');
   const priceValue = document.getElementById('priceValue');
-  const cards = document.querySelectorAll('.card');
+  let cards = [];
 
   const zones = document.querySelectorAll('#zoneFilters .chip');
   const services = document.querySelectorAll('#serviceFilters .chip');
@@ -521,7 +534,7 @@
   });
 
   // INICIAL
-  filtrar();
+  cargarTecnicos();
 </script>
 
 
