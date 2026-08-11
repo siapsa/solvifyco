@@ -1,98 +1,385 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
 const cors = require("cors");
+const { Pool } = require("pg");
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-// =====================
-// ARCHIVOS JSON
-// =====================
+// =========================================================
+// CONEXIÓN POSTGRESQL
+// =========================================================
 
-const comentariosFile = path.join(__dirname, "comentarios.json");
-const ratingFile = path.join(__dirname, "rating.json");
-const tecnicosFile = path.join(__dirname, "tecnicos.json");
-
-// =====================
-// RUTA PRINCIPAL
-// =====================
-
-app.get("/", (req, res) => {
-  res.json({
-    mensaje: "Backend Solvify funcionando correctamente"
-  });
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-// =====================
+// =========================================================
+// DATOS INICIALES DE TÉCNICOS
+// Solo se utilizan si la tabla está vacía.
+// =========================================================
+
+const tecnicosIniciales = [
+  {
+    id: 1,
+    nombre: "Roberto Jiménez",
+    servicio: "electricista",
+    descripcion: "Electricista certificado",
+    precio: 100,
+    zona: "panama",
+    ciudad: "Ciudad de Panamá",
+    telefono: "+507 62804587",
+    correo: "roberto.jimenez@gmail.com",
+    imagen: "",
+    premium: true
+  },
+  {
+    id: 2,
+    nombre: "Raimundo Atencio",
+    servicio: "mantenimiento",
+    descripcion: "Mantenimiento Certificado",
+    precio: 250,
+    zona: "panama",
+    ciudad: "Ciudad de Panamá",
+    telefono: "+507 62804587",
+    correo: "raimundo.atencio@gmail.com",
+    imagen: "",
+    premium: true
+  },
+  {
+    id: 3,
+    nombre: "Rigoberto Rodríguez",
+    servicio: "ebanista",
+    descripcion: "Ebanista Certificado",
+    precio: 500,
+    zona: "cocle",
+    ciudad: "Coclé",
+    telefono: "+507 6600000",
+    correo: "rigoberto.rodriguez@gmail.com",
+    imagen: "",
+    premium: false
+  },
+  {
+    id: 4,
+    nombre: "Rigoberto Rodríguez",
+    servicio: "albanil",
+    descripcion: "Albañil Certificado",
+    precio: 400,
+    zona: "colon",
+    ciudad: "Colón",
+    telefono: "+507 6700000",
+    correo: "rigoberto.rodriguez@gmail.com",
+    imagen: "",
+    premium: false
+  }
+];
+
+// =========================================================
+// INICIALIZAR BASE DE DATOS
+// =========================================================
+
+async function inicializarBaseDatos() {
+
+  try {
+
+    console.log("Inicializando base de datos...");
+
+    // =====================================================
+    // TABLA TÉCNICOS
+    // =====================================================
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS tecnicos (
+        id SERIAL PRIMARY KEY,
+        nombre TEXT NOT NULL,
+        servicio TEXT NOT NULL,
+        descripcion TEXT,
+        precio NUMERIC,
+        zona TEXT,
+        ciudad TEXT,
+        telefono TEXT,
+        correo TEXT,
+        imagen TEXT,
+        premium BOOLEAN DEFAULT FALSE
+      )
+    `);
+
+    // =====================================================
+    // TABLA COMENTARIOS
+    // =====================================================
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS comentarios (
+        id SERIAL PRIMARY KEY,
+        tecnico_id INTEGER NOT NULL,
+        nombre TEXT,
+        texto TEXT,
+        fecha TEXT,
+        CONSTRAINT fk_comentario_tecnico
+          FOREIGN KEY (tecnico_id)
+          REFERENCES tecnicos(id)
+          ON DELETE CASCADE
+      )
+    `);
+
+    // =====================================================
+    // TABLA RATINGS
+    // =====================================================
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS ratings (
+        id SERIAL PRIMARY KEY,
+        tecnico_id INTEGER NOT NULL,
+        valor INTEGER,
+        fecha TEXT,
+        CONSTRAINT fk_rating_tecnico
+          FOREIGN KEY (tecnico_id)
+          REFERENCES tecnicos(id)
+          ON DELETE CASCADE
+      )
+    `);
+
+    console.log("Tablas verificadas correctamente.");
+
+    // =====================================================
+    // MIGRACIÓN INICIAL
+    // Solo si no existen técnicos.
+    // =====================================================
+
+    const resultado =
+      await pool.query(
+        "SELECT COUNT(*) FROM tecnicos"
+      );
+
+    const cantidad =
+      parseInt(resultado.rows[0].count);
+
+    if (cantidad === 0) {
+
+      console.log(
+        "No existen técnicos. Cargando datos iniciales..."
+      );
+
+      for (const tecnico of tecnicosIniciales) {
+
+        await pool.query(
+          `
+          INSERT INTO tecnicos
+          (
+            id,
+            nombre,
+            servicio,
+            descripcion,
+            precio,
+            zona,
+            ciudad,
+            telefono,
+            correo,
+            imagen,
+            premium
+          )
+          VALUES
+          ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+          `,
+          [
+            tecnico.id,
+            tecnico.nombre,
+            tecnico.servicio,
+            tecnico.descripcion,
+            tecnico.precio,
+            tecnico.zona,
+            tecnico.ciudad,
+            tecnico.telefono,
+            tecnico.correo,
+            tecnico.imagen,
+            tecnico.premium
+          ]
+        );
+
+      }
+
+      // Ajustar el contador del SERIAL
+      await pool.query(`
+        SELECT setval(
+          pg_get_serial_sequence('tecnicos', 'id'),
+          COALESCE((SELECT MAX(id) FROM tecnicos), 1)
+        )
+      `);
+
+      console.log(
+        "Técnicos iniciales migrados correctamente."
+      );
+
+    } else {
+
+      console.log(
+        `Base de datos ya contiene ${cantidad} técnicos.`
+      );
+
+    }
+
+    console.log(
+      "Base de datos Solvify lista."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "ERROR inicializando PostgreSQL:",
+      error
+    );
+
+  }
+
+}
+
+inicializarBaseDatos();
+
+// =========================================================
+// RUTA PRINCIPAL
+// =========================================================
+
+app.get("/", (req, res) => {
+
+  res.json({
+    mensaje: "Backend Solvify funcionando correctamente",
+    baseDatos: "PostgreSQL"
+  });
+
+});
+
+// =========================================================
 // COMENTARIOS
-// =====================
+// =========================================================
 
 // Obtener TODOS los comentarios
-app.get("/comentarios", (req, res) => {
+
+app.get("/comentarios", async (req, res) => {
+
   try {
-    const data = fs.readFileSync(comentariosFile, "utf8");
-    res.json(JSON.parse(data));
+
+    const resultado = await pool.query(`
+      SELECT
+        id,
+        tecnico_id AS "tecnicoId",
+        nombre,
+        texto,
+        fecha
+      FROM comentarios
+      ORDER BY id ASC
+    `);
+
+    res.json(resultado.rows);
+
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
       error: "Error al leer comentarios"
     });
+
   }
+
 });
 
-// Obtener comentarios de un técnico específico
-app.get("/comentarios/:tecnicoId", (req, res) => {
+// Obtener comentarios de un técnico
+
+app.get("/comentarios/:tecnicoId", async (req, res) => {
+
   try {
-    const tecnicoId = parseInt(req.params.tecnicoId);
 
-    const data = fs.readFileSync(comentariosFile, "utf8");
-    const comentarios = JSON.parse(data);
+    const tecnicoId =
+      parseInt(req.params.tecnicoId);
 
-    const comentariosTecnico = comentarios.filter(
-      comentario => comentario.tecnicoId === tecnicoId
-    );
+    const resultado =
+      await pool.query(
+        `
+        SELECT
+          id,
+          tecnico_id AS "tecnicoId",
+          nombre,
+          texto,
+          fecha
+        FROM comentarios
+        WHERE tecnico_id = $1
+        ORDER BY id ASC
+        `,
+        [tecnicoId]
+      );
 
-    res.json(comentariosTecnico);
+    res.json(resultado.rows);
 
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
-      error: "Error al obtener comentarios del técnico"
+      error:
+        "Error al obtener comentarios del técnico"
     });
+
   }
+
 });
 
 // Guardar comentario
-app.post("/comentarios", (req, res) => {
+
+app.post("/comentarios", async (req, res) => {
+
   try {
 
-    const data = fs.readFileSync(comentariosFile, "utf8");
-    const comentarios = JSON.parse(data);
+    const tecnicoId =
+      parseInt(req.body.tecnicoId);
 
-    const nuevoComentario = {
-      tecnicoId: parseInt(req.body.tecnicoId),
-      nombre: req.body.nombre,
-      texto: req.body.texto,
-      fecha: new Date().toLocaleString()
-    };
+    const nombre =
+      req.body.nombre;
 
-    comentarios.push(nuevoComentario);
+    const texto =
+      req.body.texto;
 
-    fs.writeFileSync(
-      comentariosFile,
-      JSON.stringify(comentarios, null, 2)
+    const fecha =
+      new Date().toLocaleString();
+
+    const resultado =
+      await pool.query(
+        `
+        INSERT INTO comentarios
+        (
+          tecnico_id,
+          nombre,
+          texto,
+          fecha
+        )
+        VALUES
+        ($1,$2,$3,$4)
+        RETURNING
+          id,
+          tecnico_id AS "tecnicoId",
+          nombre,
+          texto,
+          fecha
+        `,
+        [
+          tecnicoId,
+          nombre,
+          texto,
+          fecha
+        ]
+      );
+
+    console.log(
+      "Comentario guardado:",
+      resultado.rows[0]
     );
-
-    console.log("Comentario guardado:", nuevoComentario);
 
     res.json({
       mensaje: "Comentario guardado",
-      comentario: nuevoComentario
+      comentario: resultado.rows[0]
     });
 
   } catch (error) {
@@ -102,20 +389,33 @@ app.post("/comentarios", (req, res) => {
     res.status(500).json({
       error: "Error al guardar comentario"
     });
+
   }
+
 });
 
-// =====================
+// =========================================================
 // RATING
-// =====================
+// =========================================================
 
 // Obtener TODOS los ratings
-app.get("/rating", (req, res) => {
+
+app.get("/rating", async (req, res) => {
+
   try {
 
-    const data = fs.readFileSync(ratingFile, "utf8");
+    const resultado =
+      await pool.query(`
+        SELECT
+          id,
+          tecnico_id AS "tecnicoId",
+          valor,
+          fecha
+        FROM ratings
+        ORDER BY id ASC
+      `);
 
-    res.json(JSON.parse(data));
+    res.json(resultado.rows);
 
   } catch (error) {
 
@@ -124,59 +424,97 @@ app.get("/rating", (req, res) => {
     res.status(500).json({
       error: "Error al leer rating"
     });
+
   }
+
 });
 
-// Obtener ratings de un técnico específico
-app.get("/rating/:tecnicoId", (req, res) => {
+// Obtener ratings de un técnico
+
+app.get("/rating/:tecnicoId", async (req, res) => {
+
   try {
 
-    const tecnicoId = parseInt(req.params.tecnicoId);
+    const tecnicoId =
+      parseInt(req.params.tecnicoId);
 
-    const data = fs.readFileSync(ratingFile, "utf8");
-    const ratings = JSON.parse(data);
+    const resultado =
+      await pool.query(
+        `
+        SELECT
+          id,
+          tecnico_id AS "tecnicoId",
+          valor,
+          fecha
+        FROM ratings
+        WHERE tecnico_id = $1
+        ORDER BY id ASC
+        `,
+        [tecnicoId]
+      );
 
-    const ratingsTecnico = ratings.filter(
-      rating => rating.tecnicoId === tecnicoId
-    );
-
-    res.json(ratingsTecnico);
+    res.json(resultado.rows);
 
   } catch (error) {
 
     console.error(error);
 
     res.status(500).json({
-      error: "Error al obtener ratings del técnico"
+      error:
+        "Error al obtener ratings del técnico"
     });
+
   }
+
 });
 
 // Guardar rating
-app.post("/rating", (req, res) => {
+
+app.post("/rating", async (req, res) => {
+
   try {
 
-    const data = fs.readFileSync(ratingFile, "utf8");
-    const ratings = JSON.parse(data);
+    const tecnicoId =
+      parseInt(req.body.tecnicoId);
 
-    const nuevoRating = {
-      tecnicoId: parseInt(req.body.tecnicoId),
-      valor: parseInt(req.body.valor),
-      fecha: new Date().toLocaleString()
-    };
+    const valor =
+      parseInt(req.body.valor);
 
-    ratings.push(nuevoRating);
+    const fecha =
+      new Date().toLocaleString();
 
-    fs.writeFileSync(
-      ratingFile,
-      JSON.stringify(ratings, null, 2)
+    const resultado =
+      await pool.query(
+        `
+        INSERT INTO ratings
+        (
+          tecnico_id,
+          valor,
+          fecha
+        )
+        VALUES
+        ($1,$2,$3)
+        RETURNING
+          id,
+          tecnico_id AS "tecnicoId",
+          valor,
+          fecha
+        `,
+        [
+          tecnicoId,
+          valor,
+          fecha
+        ]
+      );
+
+    console.log(
+      "Rating guardado:",
+      resultado.rows[0]
     );
-
-    console.log("Rating guardado:", nuevoRating);
 
     res.json({
       mensaje: "Rating guardado",
-      rating: nuevoRating
+      rating: resultado.rows[0]
     });
 
   } catch (error) {
@@ -186,21 +524,40 @@ app.post("/rating", (req, res) => {
     res.status(500).json({
       error: "Error al guardar rating"
     });
+
   }
+
 });
 
-// =====================
+// =========================================================
 // TÉCNICOS
-// =====================
+// =========================================================
 
-// Obtener todos los técnicos
-app.get("/tecnicos", (req, res) => {
+// Obtener TODOS los técnicos
+
+app.get("/tecnicos", async (req, res) => {
 
   try {
 
-    const data = fs.readFileSync(tecnicosFile, "utf8");
+    const resultado =
+      await pool.query(`
+        SELECT
+          id,
+          nombre,
+          servicio,
+          descripcion,
+          precio,
+          zona,
+          ciudad,
+          telefono,
+          correo,
+          imagen,
+          premium
+        FROM tecnicos
+        ORDER BY id ASC
+      `);
 
-    res.json(JSON.parse(data));
+    res.json(resultado.rows);
 
   } catch (error) {
 
@@ -209,156 +566,156 @@ app.get("/tecnicos", (req, res) => {
     res.status(500).json({
       error: "Error al leer técnicos"
     });
+
   }
 
 });
 
 // Obtener técnico por ID
-app.get("/tecnicos/:id", (req, res) => {
+
+app.get("/tecnicos/:id", async (req, res) => {
 
   try {
 
-    const data = fs.readFileSync(tecnicosFile, "utf8");
-    const tecnicos = JSON.parse(data);
+    const id =
+      parseInt(req.params.id);
 
-    const tecnico = tecnicos.find(
-      t => t.id == req.params.id
-    );
-
-    if (!tecnico) {
-
-      return res.status(404).json({
-        error: "Técnico no encontrado"
-      });
-
-    }
-
-    res.json(tecnico);
-
-  } catch (error) {
-
-    console.error(error);
-
-    res.status(500).json({
-      error: "Error al obtener técnico"
-    });
-  }
-
-});
-
-// =========================================================
-// ELIMINAR TÉCNICO
-// =========================================================
-
-app.delete("/tecnicos/:id", (req, res) => {
-
-  try {
-
-    const tecnicoId = parseInt(req.params.id);
-
-    const data = fs.readFileSync(
-      tecnicosFile,
-      "utf8"
-    );
-
-    const tecnicos = JSON.parse(data);
-
-    const tecnicoExiste = tecnicos.some(
-      tecnico => tecnico.id === tecnicoId
-    );
-
-    if (!tecnicoExiste) {
-
-      return res.status(404).json({
-        error: "Técnico no encontrado"
-      });
-
-    }
-
-    const tecnicosActualizados =
-      tecnicos.filter(
-        tecnico => tecnico.id !== tecnicoId
+    const resultado =
+      await pool.query(
+        `
+        SELECT
+          id,
+          nombre,
+          servicio,
+          descripcion,
+          precio,
+          zona,
+          ciudad,
+          telefono,
+          correo,
+          imagen,
+          premium
+        FROM tecnicos
+        WHERE id = $1
+        `,
+        [id]
       );
 
-    fs.writeFileSync(
-      tecnicosFile,
-      JSON.stringify(
-        tecnicosActualizados,
-        null,
-        2
-      )
-    );
+    if (resultado.rows.length === 0) {
 
-    console.log(
-      `Técnico ${tecnicoId} eliminado correctamente`
-    );
+      return res.status(404).json({
+        error: "Técnico no encontrado"
+      });
 
-    res.json({
-      mensaje: "Técnico eliminado correctamente",
-      id: tecnicoId
-    });
+    }
+
+    res.json(
+      resultado.rows[0]
+    );
 
   } catch (error) {
 
     console.error(error);
 
     res.status(500).json({
-      error: "Error al eliminar técnico"
+      error:
+        "Error al obtener técnico"
     });
 
   }
 
 });
 
-// =====================
+// =========================================================
 // REGISTRAR NUEVO TÉCNICO
-// =====================
+// =========================================================
 
-app.post("/tecnicos", (req, res) => {
+app.post("/tecnicos", async (req, res) => {
 
   try {
 
-    const data = fs.readFileSync(tecnicosFile, "utf8");
-    const tecnicos = JSON.parse(data);
+    const {
+      nombre,
+      servicio,
+      descripcion,
+      precio,
+      zona,
+      ciudad,
+      telefono,
+      correo,
+      imagen,
+      premium
+    } = req.body;
 
-    // Obtener nuevo ID
-    const nuevoId =
-      tecnicos.length > 0
-        ? Math.max(...tecnicos.map(t => Number(t.id))) + 1
-        : 1;
+    // Validaciones básicas
 
-    const nuevoTecnico = {
+    if (
+      !nombre ||
+      !servicio ||
+      !descripcion ||
+      !precio ||
+      !zona ||
+      !ciudad ||
+      !telefono ||
+      !correo
+    ) {
 
-      id: nuevoId,
+      return res.status(400).json({
+        error:
+          "Faltan datos obligatorios"
+      });
 
-      nombre: req.body.nombre,
+    }
 
-      servicio: req.body.servicio,
+    const resultado =
+      await pool.query(
+        `
+        INSERT INTO tecnicos
+        (
+          nombre,
+          servicio,
+          descripcion,
+          precio,
+          zona,
+          ciudad,
+          telefono,
+          correo,
+          imagen,
+          premium
+        )
+        VALUES
+        (
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,$10
+        )
+        RETURNING
+          id,
+          nombre,
+          servicio,
+          descripcion,
+          precio,
+          zona,
+          ciudad,
+          telefono,
+          correo,
+          imagen,
+          premium
+        `,
+        [
+          nombre,
+          servicio,
+          descripcion,
+          precio,
+          zona,
+          ciudad,
+          telefono,
+          correo,
+          imagen || "",
+          premium === true
+        ]
+      );
 
-      descripcion: req.body.descripcion,
-
-      precio: Number(req.body.precio),
-
-      zona: req.body.zona,
-
-      ciudad: req.body.ciudad,
-
-      telefono: req.body.telefono,
-
-      correo: req.body.correo,
-
-      imagen: "",
-
-      premium: req.body.plan === "premium"
-
-    };
-
-    tecnicos.push(nuevoTecnico);
-
-    fs.writeFileSync(
-      tecnicosFile,
-      JSON.stringify(tecnicos, null, 2)
-    );
+    const nuevoTecnico =
+      resultado.rows[0];
 
     console.log(
       "Nuevo técnico registrado:",
@@ -366,33 +723,93 @@ app.post("/tecnicos", (req, res) => {
     );
 
     res.status(201).json({
-
-      mensaje: "Técnico registrado correctamente",
-
-      tecnico: nuevoTecnico
-
+      mensaje:
+        "Técnico registrado correctamente",
+      tecnico:
+        nuevoTecnico
     });
 
   } catch (error) {
 
-    console.error(
-      "Error registrando técnico:",
-      error
-    );
+    console.error(error);
 
     res.status(500).json({
-      error: "Error al registrar técnico"
+      error:
+        "Error al registrar técnico"
     });
 
   }
 
 });
-// =====================
-// INICIAR SERVIDOR
-// =====================
 
-const PORT = process.env.PORT || 3000;
+// =========================================================
+// ELIMINAR TÉCNICO
+// También elimina automáticamente sus comentarios
+// y ratings por ON DELETE CASCADE.
+// =========================================================
+
+app.delete("/tecnicos/:id", async (req, res) => {
+
+  try {
+
+    const id =
+      parseInt(req.params.id);
+
+    const resultado =
+      await pool.query(
+        `
+        DELETE FROM tecnicos
+        WHERE id = $1
+        RETURNING *
+        `,
+        [id]
+      );
+
+    if (resultado.rows.length === 0) {
+
+      return res.status(404).json({
+        error:
+          "Técnico no encontrado"
+      });
+
+    }
+
+    console.log(
+      "Técnico eliminado:",
+      resultado.rows[0]
+    );
+
+    res.json({
+      mensaje:
+        "Técnico eliminado correctamente",
+      tecnico:
+        resultado.rows[0]
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error:
+        "Error al eliminar técnico"
+    });
+
+  }
+
+});
+
+// =========================================================
+// INICIAR SERVIDOR
+// =========================================================
+
+const PORT =
+  process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Servidor backend corriendo en puerto ${PORT}`);
+
+  console.log(
+    `Servidor backend corriendo en puerto ${PORT}`
+  );
+
 });
