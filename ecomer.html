@@ -716,6 +716,39 @@
 
 <script>
 
+// =========================================================
+// MODAL REGISTRO DE ESPECIALISTA
+// =========================================================
+
+const btnContactenos = document.getElementById("btnContactenos");
+const registroModal = document.getElementById("registroModal");
+const cerrarRegistroModal = document.getElementById("cerrarRegistroModal");
+const cancelarRegistro = document.getElementById("cancelarRegistro");
+
+// Abrir modal
+btnContactenos.addEventListener("click", () => {
+  registroModal.style.display = "flex";
+});
+
+// Cerrar modal con X
+cerrarRegistroModal.addEventListener("click", () => {
+  registroModal.style.display = "none";
+});
+
+// Cerrar modal con Cancelar
+cancelarRegistro.addEventListener("click", () => {
+  registroModal.style.display = "none";
+});
+
+// Cerrar haciendo clic fuera del modal
+registroModal.addEventListener("click", (event) => {
+
+  if (event.target === registroModal) {
+    registroModal.style.display = "none";
+  }
+
+});  
+
 let cards = [];
 
 async function cargarTecnicos() {
