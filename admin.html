@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="es">
@@ -9,10 +8,11 @@
 
   <title>Solvify - Panel</title>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1"
+
+>
 
   <style>
 
@@ -212,17 +212,6 @@
 
     }
 
-    .footer {
-width: 100%;
-text-align: center;
-padding: 1.5rem 1rem;
-margin-top: 2rem;
-border-top: 1px solid var(--border);
-color: var(--muted);
-font-size: 0.8rem;
-background: #fff;
-} 
-
 
     .btn-outline:hover {
 
@@ -411,6 +400,9 @@ background: #fff;
 
       align-items:
         flex-start;
+
+      gap:
+        0.5rem;
 
     }
 
@@ -760,6 +752,39 @@ background: #fff;
     }
 
 
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer {
+
+      width:
+        100%;
+
+      text-align:
+        center;
+
+      padding:
+        1.5rem 1rem;
+
+      margin-top:
+        2rem;
+
+      border-top:
+        1px solid var(--border);
+
+      color:
+        var(--muted);
+
+      font-size:
+        0.8rem;
+
+      background:
+        #fff;
+
+    }
+
+
     @media (max-width: 600px) {
 
       .navbar {
@@ -797,9 +822,7 @@ background: #fff;
 
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      NAVBAR
@@ -809,19 +832,21 @@ background: #fff;
 
   <div class="logo">
 
-    Solvify
+```
+Solvify
+```
 
   </div>
 
-
   <span>
 
-    Panel de gestión
+```
+Panel de gestión
+```
 
   </span>
 
 </header>
-
 
 <!-- =====================================================
      CONTENIDO
@@ -829,75 +854,77 @@ background: #fff;
 
 <main class="page">
 
-
   <div class="header-panel">
 
-    <div>
+```
+<div>
 
-      <h1>
+  <h1>
 
-        Especialistas
+    Especialistas
 
-      </h1>
-
-
-      <p>
-
-        Gestiona los especialistas registrados en Solvify.
-
-      </p>
-
-    </div>
+  </h1>
 
 
-    <button
-      class="btn btn-primary"
-      onclick="cargarTecnicos()">
+  <p>
 
-      Actualizar
+    Gestiona los especialistas registrados en Solvify.
 
-    </button>
+  </p>
+
+</div>
+
+
+<button
+  class="btn btn-primary"
+  onclick="cargarTecnicos()">
+
+  Actualizar
+
+</button>
+```
 
   </div>
-
 
   <!-- BUSCADOR -->
 
-  <input
+<input
 
-    type="text"
+```
+type="text"
 
-    id="buscador"
+id="buscador"
 
-    class="search"
+class="search"
 
-    placeholder="Buscar por nombre, servicio o ciudad...">
-
+placeholder="Buscar por nombre, servicio o ciudad...">
+```
 
   <div
 
-    id="contador"
+```
+id="contador"
 
-    class="contador">
+class="contador">
 
-    Cargando especialistas...
+Cargando especialistas...
+```
 
   </div>
-
 
   <!-- TÉCNICOS -->
 
   <section
 
-    id="tecnicosContainer"
+```
+id="tecnicosContainer"
 
-    class="tecnicos">
+class="tecnicos">
+```
 
   </section>
 
-
 </main>
-
 
 <!-- =====================================================
      MODAL
@@ -905,75 +932,73 @@ background: #fff;
 
 <div
 
-  id="modalTecnico"
+id="modalTecnico"
 
-  class="modal">
-
+class="modal">
 
   <div class="modal-content">
 
+```
+<div class="modal-header">
 
-    <div class="modal-header">
+  <h2>
 
-      <h2>
+    Información del especialista
 
-        Información del especialista
-
-      </h2>
-
-
-      <button
-
-        class="cerrar"
-
-        onclick="cerrarModal()">
-
-        ×
-
-      </button>
-
-    </div>
+  </h2>
 
 
-    <div
+  <button
 
-      id="informacionTecnico">
+    class="cerrar"
 
-    </div>
+    onclick="cerrarModal()">
 
+    ×
 
-    <div class="modal-actions">
+  </button>
 
-
-      <button
-
-        class="btn btn-outline"
-
-        onclick="copiarDatos()">
-
-        📋 Copiar datos
-
-      </button>
+</div>
 
 
-      <button
+<div
 
-        class="btn btn-primary"
+  id="informacionTecnico">
 
-        onclick="enviarWhatsApp()">
-
-        💬 WhatsApp
-
-      </button>
+</div>
 
 
-    </div>
+<div class="modal-actions">
 
+
+  <button
+
+    class="btn btn-outline"
+
+    onclick="copiarDatos()">
+
+    📋 Copiar datos
+
+  </button>
+
+
+  <button
+
+    class="btn btn-primary"
+
+    onclick="enviarWhatsApp()">
+
+    💬 WhatsApp
+
+  </button>
+
+
+</div>
+```
 
   </div>
 
 </div>
-
 
 <script>
 
@@ -989,22 +1014,23 @@ const API =
 let tecnicos =
   [];
 
+let solicitudesPremium =
+  [];
+
 let tecnicoSeleccionado =
   null;
 
 
 // =========================================================
-// CARGAR TÉCNICOS
+// CARGAR TÉCNICOS + SOLICITUDES PREMIUM
 // =========================================================
 
 async function cargarTecnicos() {
-
 
   const container =
     document.getElementById(
       "tecnicosContainer"
     );
-
 
   const contador =
     document.getElementById(
@@ -1025,14 +1051,17 @@ async function cargarTecnicos() {
 
   try {
 
+    // =====================================================
+    // CARGAR TÉCNICOS
+    // =====================================================
 
-    const res =
+    const resTecnicos =
       await fetch(
         `${API}/tecnicos`
       );
 
 
-    if (!res.ok) {
+    if (!resTecnicos.ok) {
 
       throw new Error(
         "No se pudieron obtener los técnicos."
@@ -1042,7 +1071,66 @@ async function cargarTecnicos() {
 
 
     tecnicos =
-      await res.json();
+      await resTecnicos.json();
+
+
+    // =====================================================
+    // CARGAR SOLICITUDES PREMIUM
+    // =====================================================
+
+    const resSolicitudes =
+      await fetch(
+        `${API}/solicitudes-premium`
+      );
+
+
+    if (!resSolicitudes.ok) {
+
+      throw new Error(
+        "No se pudieron obtener las solicitudes Premium."
+      );
+
+    }
+
+
+    solicitudesPremium =
+      await resSolicitudes.json();
+
+
+    // =====================================================
+    // RELACIONAR SOLICITUD CON TÉCNICO
+    // =====================================================
+
+    tecnicos =
+      tecnicos.map(
+        tecnico => {
+
+          const solicitud =
+            solicitudesPremium.find(
+              s =>
+                s.tecnicoId === tecnico.id &&
+                s.estado === "pendiente"
+            );
+
+
+          return {
+
+            ...tecnico,
+
+            premiumSolicitud:
+              solicitud
+                ? true
+                : false,
+
+            solicitudPremiumId:
+              solicitud
+                ? solicitud.id
+                : null
+
+          };
+
+        }
+      );
 
 
     mostrarTecnicos(
@@ -1051,7 +1139,6 @@ async function cargarTecnicos() {
 
 
   } catch (error) {
-
 
     console.error(
       error
@@ -1083,7 +1170,6 @@ async function cargarTecnicos() {
 
 function mostrarTecnicos(lista) {
 
-
   const container =
     document.getElementById(
       "tecnicosContainer"
@@ -1101,24 +1187,19 @@ function mostrarTecnicos(lista) {
     `${lista.length} especialista${
 
       lista.length !== 1
-
         ? "s"
-
         : ""
 
     } registrado${
 
       lista.length !== 1
-
         ? "s"
-
         : ""
 
     }`;
 
 
   if (lista.length === 0) {
-
 
     container.innerHTML = `
 
@@ -1163,7 +1244,6 @@ function mostrarTecnicos(lista) {
 
       if (tecnico.premium) {
 
-
         estado = `
 
           <span class="premium">
@@ -1179,7 +1259,6 @@ function mostrarTecnicos(lista) {
         tecnico.premiumSolicitud
       ) {
 
-
         estado = `
 
           <span class="pendiente">
@@ -1192,7 +1271,6 @@ function mostrarTecnicos(lista) {
 
 
       } else {
-
 
         estado = `
 
@@ -1217,9 +1295,9 @@ function mostrarTecnicos(lista) {
 
       if (
         !tecnico.premium &&
-        tecnico.premiumSolicitud
+        tecnico.premiumSolicitud &&
+        tecnico.solicitudPremiumId
       ) {
-
 
         botonPremium = `
 
@@ -1227,7 +1305,7 @@ function mostrarTecnicos(lista) {
 
             class="btn-premium"
 
-            onclick="aprobarPremium(${tecnico.id})">
+            onclick="aprobarPremium(${tecnico.solicitudPremiumId})">
 
             ⭐ Aprobar Premium
 
@@ -1246,16 +1324,13 @@ function mostrarTecnicos(lista) {
 
         <div class="tecnico-header">
 
-
           <div class="tecnico-nombre">
 
             ${tecnico.nombre}
 
           </div>
 
-
           ${estado}
-
 
         </div>
 
@@ -1312,7 +1387,6 @@ function mostrarTecnicos(lista) {
 
         <div class="acciones">
 
-
           <button
 
             class="btn btn-outline"
@@ -1337,7 +1411,6 @@ function mostrarTecnicos(lista) {
 
           </button>
 
-
         </div>
 
       `;
@@ -1357,29 +1430,41 @@ function mostrarTecnicos(lista) {
 // APROBAR PREMIUM
 // =========================================================
 
-async function aprobarPremium(id) {
+async function aprobarPremium(
+  solicitudId
+) {
 
 
-  const tecnico =
-    tecnicos.find(
-      t => t.id === id
+  const solicitud =
+    solicitudesPremium.find(
+      s =>
+        s.id === solicitudId
     );
 
 
-  if (!tecnico) return;
+  if (!solicitud) {
+
+    alert(
+      "No se encontró la solicitud Premium."
+    );
+
+    return;
+
+  }
 
 
   const confirmar =
     confirm(
 
-      `¿Confirmar Premium para ${tecnico.nombre}?\n\n` +
+      `¿Confirmar Premium para ${solicitud.nombre}?\n\n` +
 
       "El especialista pasará al plan Premium de 5,00 B/. mensuales."
 
     );
 
 
-  if (!confirmar) return;
+  if (!confirmar)
+    return;
 
 
   try {
@@ -1388,27 +1473,19 @@ async function aprobarPremium(id) {
     const res =
       await fetch(
 
-        `${API}/tecnicos/${id}/premium`,
+        `${API}/solicitudes-premium/${solicitudId}/aprobar`,
 
         {
 
           method:
-            "PATCH",
+            "PUT",
 
           headers: {
 
             "Content-Type":
               "application/json"
 
-          },
-
-          body:
-            JSON.stringify({
-
-              premium:
-                true
-
-            })
+          }
 
         }
 
@@ -1420,7 +1497,6 @@ async function aprobarPremium(id) {
 
 
     if (!res.ok) {
-
 
       throw new Error(
 
@@ -1439,6 +1515,10 @@ async function aprobarPremium(id) {
 
     );
 
+
+    // ===================================================
+    // RECARGAR TODO
+    // ===================================================
 
     await cargarTecnicos();
 
@@ -1477,7 +1557,8 @@ async function eliminarTecnico(id) {
     );
 
 
-  if (!tecnico) return;
+  if (!tecnico)
+    return;
 
 
   const confirmar =
@@ -1485,12 +1566,13 @@ async function eliminarTecnico(id) {
 
       `¿Seguro que deseas eliminar a ${tecnico.nombre}?\n\n` +
 
-      "Esta acción también eliminará sus comentarios y ratings."
+      "Esta acción también eliminará sus comentarios, ratings y solicitudes Premium."
 
     );
 
 
-  if (!confirmar) return;
+  if (!confirmar)
+    return;
 
 
   try {
@@ -1960,8 +2042,11 @@ document
 cargarTecnicos();
 
 </script>
+
 <footer class="footer">
-  © 2026 SIAP S.A. Todos los derechos reservados.
+
+© 2026 SIAP S.A. Todos los derechos reservados.
+
 </footer>
 
 </body>
