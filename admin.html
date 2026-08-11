@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Solvify - Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+
+    :root {
+      --primary: #7b3cff;
+      --primary-soft: #f3ecff;
+      --bg: #f7f7fb;
+      --text: #222;
+      --muted: #777;
+      --border: #e2e2ee;
+      --card: #fff;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .navbar span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* CONTENEDOR */
+
+    .page {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .header-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .header-panel h1 {
+      font-size: 1.5rem;
+    }
+
+    .header-panel p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #6425df;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-soft);
+    }
+
+    /* BUSCADOR */
+
+    .search {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      padding: 0.6rem 1rem;
+
+      width: 100%;
+      margin-bottom: 1.5rem;
+
+      outline: none;
+      font-size: 0.9rem;
+    }
+
+    .search:focus {
+      border-color: var(--primary);
+    }
+
+    /* CONTADOR */
+
+    .contador {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    /* GRID */
+
+    .tecnicos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    /* CARD */
+
+    .tecnico-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      padding: 1rem;
+
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .tecnico-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .tecnico-nombre {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .basico {
+      font-size: 0.7rem;
+      color: #9a3412;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      padding: 3px 7px;
+      border-radius: 999px;
+    }
+
+    .tecnico-servicio {
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .dato {
+      font-size: 0.82rem;
+      color: #555;
+    }
+
+    .dato strong {
+      color: #333;
+    }
+
+    .descripcion {
+      background: #f8f8fb;
+      padding: 0.6rem;
+      border-radius: 7px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .acciones {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .acciones button {
+      flex: 1;
+    }
+
+    /* MODAL */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      z-index: 9999;
+
+      background: rgba(0, 0, 0, 0.45);
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+
+      width: 100%;
+      max-width: 500px;
+
+      max-height: 90vh;
+      overflow-y: auto;
+
+      border-radius: var(--radius);
+
+      border: 1px solid var(--border);
+
+      padding: 1.5rem;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 1.2rem;
+    }
+
+    .modal-header h2 {
+      font-size: 1.2rem;
+    }
+
+    .cerrar {
+      border: none;
+      background: transparent;
+
+      font-size: 1.5rem;
+
+      cursor: pointer;
+
+      color: #777;
+    }
+
+    .info-line {
+      padding: 0.65rem 0;
+
+      border-bottom: 1px solid var(--border);
+
+      font-size: 0.85rem;
+    }
+
+    .info-line strong {
+      display: block;
+
+      font-size: 0.75rem;
+
+      color: var(--muted);
+
+      margin-bottom: 3px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.6rem;
+
+      margin-top: 1.2rem;
+    }
+
+    .modal-actions button {
+      flex: 1;
+    }
+
+    /* MENSAJE */
+
+    .mensaje {
+      text-align: center;
+
+      color: var(--muted);
+
+      padding: 3rem 1rem;
+    }
+
+    @media (max-width: 600px) {
+
+      .navbar {
+        padding: 0.75rem 1rem;
+      }
+
+      .header-panel {
+        align-items: flex-start;
+        gap: 1rem;
+        flex-direction: column;
+      }
+
+      .tecnicos {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <header class="navbar">
+
+```
+<div class="logo">
+  Solvify
+</div>
+
+<span>
+  Panel de gestión
+</span>
+```
+
+  </header>
+
+  <!-- CONTENIDO -->
+
+  <main class="page">
+
+```
+<div class="header-panel">
+
+  <div>
+
+    <h1>
+      Especialistas Básicos
+    </h1>
+
+    <p>
+      Consulta rápidamente los datos de los especialistas gestionados por Solvify.
+    </p>
+
+  </div>
+
+  <button
+    class="btn btn-primary"
+    onclick="cargarTecnicos()">
+    Actualizar
+  </button>
+
+</div>
+
+
+<!-- BUSCADOR -->
+
+<input
+  type="text"
+  id="buscador"
+  class="search"
+  placeholder="Buscar por nombre o servicio...">
+
+
+<div
+  id="contador"
+  class="contador">
+  Cargando especialistas...
+</div>
+
+
+<!-- TÉCNICOS -->
+
+<section
+  id="tecnicosContainer"
+  class="tecnicos">
+
+</section>
+```
+
+  </main>
+
+  <!-- MODAL -->
+
+  <div
+    id="modalTecnico"
+    class="modal">
+
+```
+<div class="modal-content">
+
+  <div class="modal-header">
+
+    <h2>
+      Información del especialista
+    </h2>
+
+    <button
+      class="cerrar"
+      onclick="cerrarModal()">
+      ×
+    </button>
+
+  </div>
+
+
+  <div id="informacionTecnico"></div>
+
+
+  <div class="modal-actions">
+
+    <button
+      class="btn btn-outline"
+      onclick="copiarDatos()">
+      📋 Copiar datos
+    </button>
+
+    <button
+      class="btn btn-primary"
+      onclick="enviarWhatsApp()">
+      💬 WhatsApp
+    </button>
+
+  </div>
+
+</div>
+```
+
+  </div>
+
+<script>
+
+const API =
+  "https://solvifyco-backend.onrender.com";
+
+let tecnicosBasicos = [];
+
+let tecnicoSeleccionado = null;
+
+
+/* =========================================================
+   CARGAR TÉCNICOS
+========================================================= */
+
+async function cargarTecnicos() {
+
+  const container =
+    document.getElementById("tecnicosContainer");
+
+  const contador =
+    document.getElementById("contador");
+
+
+  container.innerHTML =
+    `<div class="mensaje">Cargando especialistas...</div>`;
+
+
+  try {
+
+    const res =
+      await fetch(`${API}/tecnicos`);
+
+
+    if (!res.ok) {
+
+      throw new Error(
+        "No se pudieron obtener los técnicos."
+      );
+
+    }
+
+
+    const tecnicos =
+      await res.json();
+
+
+    // SOLO BÁSICOS
+
+    tecnicosBasicos =
+      tecnicos.filter(
+        tecnico => tecnico.premium === false
+      );
+
+
+    mostrarTecnicos(
+      tecnicosBasicos
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      `<div class="mensaje">
+        No se pudieron cargar los especialistas.
+      </div>`;
+
+    contador.textContent =
+      "Error cargando datos.";
+
+  }
+
+}
+
+
+/* =========================================================
+   MOSTRAR TÉCNICOS
+========================================================= */
+
+function mostrarTecnicos(lista) {
+
+  const container =
+    document.getElementById(
+      "tecnicosContainer"
+    );
+
+  const contador =
+    document.getElementById(
+      "contador"
+    );
+
+
+  contador.textContent =
+    `${lista.length} especialista${lista.length !== 1 ? "s" : ""} Básico${lista.length !== 1 ? "s" : ""}`;
+
+
+  if (lista.length === 0) {
+
+    container.innerHTML =
+      `<div class="mensaje">
+        No hay especialistas Básicos registrados.
+      </div>`;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  lista.forEach(tecnico => {
+
+    const card =
+      document.createElement("article");
+
+    card.className =
+      "tecnico-card";
+
+
+    card.innerHTML = `
+
+      <div class="tecnico-header">
+
+        <div class="tecnico-nombre">
+          ${tecnico.nombre}
+        </div>
+
+        <span class="basico">
+          Básico
+        </span>
+
+      </div>
+
+
+      <div class="tecnico-servicio">
+        👨‍🔧 ${tecnico.servicio}
+      </div>
+
+
+      <div class="dato">
+        <strong>Precio:</strong>
+        ${tecnico.precio} B/.
+      </div>
+
+
+      <div class="dato">
+        <strong>Ubicación:</strong>
+        ${tecnico.ciudad}
+      </div>
+
+
+      <div class="dato">
+        <strong>Teléfono:</strong>
+        ${tecnico.telefono}
+      </div>
+
+
+      <div class="dato">
+        <strong>Correo:</strong>
+        ${tecnico.correo}
+      </div>
+
+
+      <div class="descripcion">
+        ${tecnico.descripcion || "Sin descripción"}
+      </div>
+
+
+      <div class="acciones">
+
+        <button
+          class="btn btn-outline"
+          onclick="verTecnico(${tecnico.id})">
+          Ver información
+        </button>
+
+      </div>
+
+    `;
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   VER INFORMACIÓN
+========================================================= */
+
+function verTecnico(id) {
+
+  tecnicoSeleccionado =
+    tecnicosBasicos.find(
+      tecnico => tecnico.id === id
+    );
+
+
+  if (!tecnicoSeleccionado) return;
+
+
+  const info =
+    document.getElementById(
+      "informacionTecnico"
+    );
+
+
+  info.innerHTML = `
+
+    <div class="info-line">
+      <strong>Nombre</strong>
+      ${tecnicoSeleccionado.nombre}
+    </div>
+
+    <div class="info-line">
+      <strong>Servicio</strong>
+      ${tecnicoSeleccionado.servicio}
+    </div>
+
+    <div class="info-line">
+      <strong>Descripción</strong>
+      ${tecnicoSeleccionado.descripcion || "Sin descripción"}
+    </div>
+
+    <div class="info-line">
+      <strong>Precio</strong>
+      ${tecnicoSeleccionado.precio} B/.
+    </div>
+
+    <div class="info-line">
+      <strong>Zona</strong>
+      ${tecnicoSeleccionado.zona}
+    </div>
+
+    <div class="info-line">
+      <strong>Ciudad</strong>
+      ${tecnicoSeleccionado.ciudad}
+    </div>
+
+    <div class="info-line">
+      <strong>Teléfono</strong>
+      ${tecnicoSeleccionado.telefono}
+    </div>
+
+    <div class="info-line">
+      <strong>Correo</strong>
+      ${tecnicoSeleccionado.correo}
+    </div>
+
+    <div class="info-line">
+      <strong>ID</strong>
+      ${tecnicoSeleccionado.id}
+    </div>
+
+  `;
+
+
+  document.getElementById(
+    "modalTecnico"
+  ).style.display = "flex";
+
+}
+
+
+/* =========================================================
+   CERRAR MODAL
+========================================================= */
+
+function cerrarModal() {
+
+  document.getElementById(
+    "modalTecnico"
+  ).style.display = "none";
+
+}
+
+
+/* =========================================================
+   COPIAR DATOS
+========================================================= */
+
+function copiarDatos() {
+
+  if (!tecnicoSeleccionado) return;
+
+
+  const t =
+    tecnicoSeleccionado;
+
+
+  const texto = `
+
+Especialista seleccionado
+
+Nombre: ${t.nombre}
+Servicio: ${t.servicio}
+Descripción: ${t.descripcion || "Sin descripción"}
+Precio: ${t.precio} B/.
+Zona: ${t.zona}
+Ciudad: ${t.ciudad}
+Teléfono: ${t.telefono}
+Correo: ${t.correo}
+Plan: Básico
+ID: ${t.id}
+
+  `.trim();
+
+
+  navigator.clipboard.writeText(
+    texto
+  );
+
+
+  alert(
+    "Datos copiados correctamente."
+  );
+
+}
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+function enviarWhatsApp() {
+
+  if (!tecnicoSeleccionado) return;
+
+
+  const t =
+    tecnicoSeleccionado;
+
+
+  const texto = `
+
+Solicitud de información - Solvify
+
+Especialista seleccionado:
+${t.nombre}
+
+Servicio:
+${t.servicio}
+
+Descripción:
+${t.descripcion || "Sin descripción"}
+
+Precio:
+${t.precio} B/.
+
+Zona:
+${t.zona}
+
+Ciudad:
+${t.ciudad}
+
+Teléfono:
+${t.telefono}
+
+Correo:
+${t.correo}
+
+Plan:
+Básico
+
+ID del especialista:
+${t.id}
+
+  `.trim();
+
+
+  const mensaje =
+    encodeURIComponent(texto);
+
+
+  const numeroSolvify =
+    "50762804587";
+
+
+  window.open(
+    `https://wa.me/${numeroSolvify}?text=${mensaje}`,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================================
+   BUSCADOR
+========================================================= */
+
+document
+  .getElementById("buscador")
+  .addEventListener(
+    "input",
+    function () {
+
+      const texto =
+        this.value
+          .toLowerCase()
+          .trim();
+
+
+      const filtrados =
+        tecnicosBasicos.filter(
+          tecnico =>
+
+            tecnico.nombre
+              .toLowerCase()
+              .includes(texto)
+
+            ||
+
+            tecnico.servicio
+              .toLowerCase()
+              .includes(texto)
+
+            ||
+
+            tecnico.ciudad
+              .toLowerCase()
+              .includes(texto)
+        );
+
+
+      mostrarTecnicos(
+        filtrados
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   CERRAR MODAL AL HACER CLICK AFUERA
+========================================================= */
+
+document
+  .getElementById("modalTecnico")
+  .addEventListener(
+    "click",
+    function (event) {
+
+      if (
+        event.target === this
+      ) {
+
+        cerrarModal();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
+
+cargarTecnicos();
+
+</script>
+
+</body>
+</html>
