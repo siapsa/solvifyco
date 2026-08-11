@@ -28,7 +28,94 @@
       background: var(--bg);
       color: var(--text);
     }
+.registro-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.45);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 
+.registro-modal-content {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.registro-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.registro-modal-header h2 {
+  margin-bottom: 0.3rem;
+}
+
+.registro-modal-header p {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.registro-modal-content h3 {
+  font-size: 0.95rem;
+  margin: 1.2rem 0 0.7rem;
+}
+
+.registro-modal-content label {
+  display: block;
+  font-size: 0.85rem;
+  margin: 0.7rem 0 0.3rem;
+}
+
+.registro-modal-content input,
+.registro-modal-content textarea,
+.registro-modal-content select {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.registro-modal-content textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.planes-registro {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.planes-registro label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.planes-registro input {
+  width: auto;
+}
+
+.registro-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
     /* NAVBAR */
     .navbar {
       background: #fff;
@@ -412,6 +499,218 @@
 
     </section>
   </main>
+<!-- =========================================================
+     MODAL - REGISTRO DE ESPECIALISTA
+========================================================= -->
+
+<div id="registroModal" class="registro-modal">
+
+  <div class="registro-modal-content">
+
+```
+<div class="registro-modal-header">
+  <div>
+    <h2>Regístrate como especialista</h2>
+    <p>Ofrece tus servicios a través de Solvify.</p>
+  </div>
+
+  <button
+    type="button"
+    id="cerrarRegistroModal"
+    class="icon-btn">
+    ×
+  </button>
+</div>
+
+
+<form id="registroTecnicoForm">
+
+  <h3>Datos personales</h3>
+
+  <label for="registroNombre">Nombre completo</label>
+  <input
+    type="text"
+    id="registroNombre"
+    name="nombre"
+    placeholder="Ej. Roberto Jiménez"
+    required>
+
+
+  <label for="registroTelefono">Teléfono</label>
+  <input
+    type="tel"
+    id="registroTelefono"
+    name="telefono"
+    placeholder="+507 6000-0000"
+    required>
+
+
+  <label for="registroCorreo">Correo electrónico</label>
+  <input
+    type="email"
+    id="registroCorreo"
+    name="correo"
+    placeholder="correo@ejemplo.com"
+    required>
+
+
+  <h3>Información del servicio</h3>
+
+  <label for="registroServicio">Servicio</label>
+
+  <select
+    id="registroServicio"
+    name="servicio"
+    class="select-inline"
+    required>
+
+    <option value="">Selecciona un servicio</option>
+    <option value="electricista">Electricista</option>
+    <option value="ebanista">Ebanista</option>
+    <option value="albanil">Albañil</option>
+    <option value="abogado">Abogado</option>
+    <option value="mantenimiento">Mantenimiento</option>
+
+  </select>
+
+
+  <label for="registroDescripcion">Descripción</label>
+
+  <textarea
+    id="registroDescripcion"
+    name="descripcion"
+    placeholder="Describe brevemente tus servicios"
+    required></textarea>
+
+
+  <label for="registroPrecio">Precio del servicio</label>
+
+  <select
+    id="registroPrecio"
+    name="precio"
+    class="select-inline"
+    required>
+
+    <option value="">Selecciona un precio</option>
+
+    <option value="100">100,00 B/.</option>
+    <option value="125">125,00 B/.</option>
+    <option value="150">150,00 B/.</option>
+    <option value="175">175,00 B/.</option>
+    <option value="200">200,00 B/.</option>
+    <option value="225">225,00 B/.</option>
+    <option value="250">250,00 B/.</option>
+    <option value="275">275,00 B/.</option>
+    <option value="300">300,00 B/.</option>
+    <option value="325">325,00 B/.</option>
+    <option value="350">350,00 B/.</option>
+    <option value="375">375,00 B/.</option>
+    <option value="400">400,00 B/.</option>
+    <option value="425">425,00 B/.</option>
+    <option value="450">450,00 B/.</option>
+    <option value="475">475,00 B/.</option>
+    <option value="500">500,00 B/.</option>
+
+  </select>
+
+
+  <label for="registroZona">Zona</label>
+
+  <select
+    id="registroZona"
+    name="zona"
+    class="select-inline"
+    required>
+
+    <option value="">Selecciona una zona</option>
+
+    <option value="panama">
+      Ciudad de Panamá
+    </option>
+
+    <option value="oeste">
+      Panamá Oeste
+    </option>
+
+    <option value="colon">
+      Colón
+    </option>
+
+    <option value="chiriqui">
+      Chiriquí
+    </option>
+
+    <option value="veraguas">
+      Veraguas
+    </option>
+
+    <option value="cocle">
+      Coclé
+    </option>
+
+  </select>
+
+
+  <label for="registroCiudad">Ciudad</label>
+
+  <input
+    type="text"
+    id="registroCiudad"
+    name="ciudad"
+    placeholder="Ej. Ciudad de Panamá"
+    required>
+
+
+  <h3>Plan</h3>
+
+  <div class="planes-registro">
+
+    <label>
+      <input
+        type="radio"
+        name="plan"
+        value="basico"
+        checked>
+
+      Básico — Gratis
+    </label>
+
+
+    <label>
+      <input
+        type="radio"
+        name="plan"
+        value="premium">
+
+      Premium — 5,00 B/. mensual
+    </label>
+
+  </div>
+
+
+  <div class="registro-modal-buttons">
+
+    <button
+      type="button"
+      id="cancelarRegistro"
+      class="btn-outline">
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      class="btn-primary">
+      Registrarme
+    </button>
+
+  </div>
+
+</form>
+```
+
+  </div>
+
+</div>
 
   <!-- ✅ SCRIPT MEJORADO -->
 
