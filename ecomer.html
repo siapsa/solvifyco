@@ -472,12 +472,52 @@ background: #fff;
       font-size: 0.8rem;
       cursor: pointer;
     }
+
+    @media (max-width: 700px) {
+
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    gap: 0.7rem;
+  }
+
+  .nav-left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+  }
+
+  .nav-links {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: inline-block;
+  }
+
+  .nav-search {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .nav-right {
+    width: 100%;
+  }
+
+  .nav-right .btn-primary {
+    width: 100%;
+  }
+
+}
   </style>
 </head>
 <body>
   <!-- NAVBAR -->
   <header class="navbar">
-    <div class="nav-left">
+  <div class="nav-left">
 
   <nav class="nav-links">
     <a href="#" class="active" onclick="window.location.href='index.html'">
@@ -487,26 +527,22 @@ background: #fff;
 
   <div class="nav-search">
     <span>🔍</span>
-
     <input
       type="text"
       id="searchInput"
-      placeholder="¿Qué servicio buscas?"
+      placeholder="¿Qué servicio estás buscando?"
       autocomplete="off"
     >
-
   </div>
 
 </div>
 
 <div class="nav-right">
-
   <button
     id="btnContactenos"
     class="btn-primary">
     Registra tu Servicio
   </button>
-
 </div>
   </header>
 
