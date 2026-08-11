@@ -472,6 +472,56 @@ background: #fff;
       font-size: 0.8rem;
       cursor: pointer;
     }
+   /* =========================================
+   FILTROS COLAPSABLES EN CELULAR
+========================================= */
+
+.toggle-filters {
+  display: none;
+}
+
+@media (max-width: 700px) {
+
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .toggle-filters {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    padding: 0.7rem 1rem;
+
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.filters-open {
+    display: block;
+  }
+
+  #filterArrow {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+  }
+
+} 
 
   </style>
 </head>
