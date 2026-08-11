@@ -722,7 +722,7 @@ background: #fff;
 
 </div>
 
-  <!-- ✅ SCRIPT MEJORADO -->
+<!-- ✅ SCRIPT COMPLETO -->
 
 <script>
 
@@ -730,235 +730,621 @@ background: #fff;
 // MODAL REGISTRO DE ESPECIALISTA
 // =========================================================
 
-const btnContactenos = document.getElementById("btnContactenos");
-const registroModal = document.getElementById("registroModal");
-const cerrarRegistroModal = document.getElementById("cerrarRegistroModal");
-const cancelarRegistro = document.getElementById("cancelarRegistro");
+const btnContactenos =
+  document.getElementById("btnContactenos");
 
-// Abrir modal
+const registroModal =
+  document.getElementById("registroModal");
+
+const cerrarRegistroModal =
+  document.getElementById("cerrarRegistroModal");
+
+const cancelarRegistro =
+  document.getElementById("cancelarRegistro");
+
+
+// =========================================================
+// ABRIR MODAL
+// =========================================================
+
 btnContactenos.addEventListener("click", () => {
+
   registroModal.style.display = "flex";
+
 });
 
-// Cerrar modal con X
+
+// =========================================================
+// CERRAR MODAL CON X
+// =========================================================
+
 cerrarRegistroModal.addEventListener("click", () => {
+
   registroModal.style.display = "none";
+
 });
 
-// Cerrar modal con Cancelar
+
+// =========================================================
+// CERRAR MODAL CON CANCELAR
+// =========================================================
+
 cancelarRegistro.addEventListener("click", () => {
+
   registroModal.style.display = "none";
+
 });
 
-// Cerrar haciendo clic fuera del modal
+
+// =========================================================
+// CERRAR AL HACER CLICK FUERA
+// =========================================================
+
 registroModal.addEventListener("click", (event) => {
 
   if (event.target === registroModal) {
+
     registroModal.style.display = "none";
+
   }
 
-});  
+});
+
+
+// =========================================================
+// VARIABLES
+// =========================================================
 
 let cards = [];
+
+let zonaSeleccionada = "all";
+
+let servicioSeleccionado = "all";
+
+
+// =========================================================
+// CARGAR TÉCNICOS
+// =========================================================
 
 async function cargarTecnicos() {
 
   try {
 
-    const res = await fetch("https://solvifyco-backend.onrender.com/tecnicos");
+    const res = await fetch(
+      "https://solvifyco-backend.onrender.com/tecnicos"
+    );
 
-    const tecnicos = await res.json();
+
+    if (!res.ok) {
+
+      throw new Error(
+        "No se pudieron cargar los técnicos."
+      );
+
+    }
+
+
+    const tecnicos =
+      await res.json();
+
 
     const container =
-      document.getElementById("cardsContainer");
+      document.getElementById(
+        "cardsContainer"
+      );
 
-function obtenerImagenServicio(servicio) {
 
-  const imagenes = {
-    electricista: "imagenes/electricista.jpg",
-    mantenimiento: "imagenes/mantenimiento.jpg",
-    ebanista: "imagenes/ebanista.jpg",
-    albanil: "imagenes/albanil.jpg",
-    abogado: "imagenes/abogado.jpg"
-  };
+    // =====================================================
+    // IMÁGENES SEGÚN SERVICIO
+    // =====================================================
 
-  return imagenes[servicio] || "imagenes/default.jpg";
-}
+    function obtenerImagenServicio(servicio) {
+
+      const imagenes = {
+
+        electricista:
+          "imagenes/electricista.jpg",
+
+        mantenimiento:
+          "imagenes/mantenimiento.jpg",
+
+        ebanista:
+          "imagenes/ebanista.jpg",
+
+        albanil:
+          "imagenes/albanil.jpg",
+
+        abogado:
+          "imagenes/abogado.jpg"
+
+      };
+
+
+      return (
+        imagenes[servicio] ||
+        "imagenes/default.jpg"
+      );
+
+    }
+
+
+    // =====================================================
+    // LIMPIAR CONTENEDOR
+    // =====================================================
 
     container.innerHTML = "";
 
+
+    // =====================================================
+    // CREAR TARJETAS
+    // =====================================================
+
     tecnicos.forEach(tecnico => {
 
-      const imagenServicio = obtenerImagenServicio(tecnico.servicio);
+
+      const imagenServicio =
+        obtenerImagenServicio(
+          tecnico.servicio
+        );
+
 
       container.innerHTML += `
-        <article
-          class="card"
-        data-price="${tecnico.precio}"
-        data-zone="${tecnico.zona}"
-        data-service="${tecnico.servicio}">
 
-        <div
-      class="card-img"
-      style="background-image: url('${imagenServicio}')">
-      <span>${tecnico.descripcion}</span>
-    </div>
+        <article
+
+          class="card"
+
+          data-price="${tecnico.precio}"
+
+          data-zone="${tecnico.zona}"
+
+          data-service="${tecnico.servicio}">
+
+
+          <div
+
+            class="card-img"
+
+            style="
+              background-image:
+              url('${imagenServicio}')
+            ">
+
+            <span>
+              ${tecnico.descripcion}
+            </span>
+
+          </div>
+
 
           <div class="card-title">
+
             ${tecnico.nombre}
-            ${tecnico.premium ? "⭐ Premium" : ""}
+
+            ${
+              tecnico.premium
+                ? " ⭐ Premium"
+                : ""
+            }
+
           </div>
 
+
           <div class="card-price">
+
             ${tecnico.precio} B/.
+
           </div>
+
 
           <div class="card-footer">
 
-            <span>📍 ${tecnico.ciudad}</span>
+
+            <span>
+
+              📍 ${tecnico.ciudad}
+
+            </span>
+
 
             <a
+
               class="btn-outline"
+
               href="especialistacp.html?id=${tecnico.id}">
+
               Ver detalles
-          </a>
+
+            </a>
+
+
           </div>
 
+
         </article>
+
       `;
+
     });
 
-    cards = document.querySelectorAll(".card");
+
+    // =====================================================
+    // ACTUALIZAR CARDS
+    // =====================================================
+
+    cards =
+      document.querySelectorAll(
+        ".card"
+      );
+
 
     filtrar();
+
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Error cargando técnicos:",
+      error
+    );
 
   }
+
 }
 
-  const range = document.getElementById('priceRange');
-  const priceValue = document.getElementById('priceValue');
-  const zones = document.querySelectorAll('#zoneFilters .chip');
-  const services = document.querySelectorAll('#serviceFilters .chip');
 
-  let zonaSeleccionada = "all";
-  let servicioSeleccionado = "all";
+// =========================================================
+// ELEMENTOS DE FILTROS
+// =========================================================
 
-  function filtrar() {
-    const maxPrecio = parseInt(range.value);
+const range =
+  document.getElementById(
+    "priceRange"
+  );
 
-    cards.forEach(card => {
-      const precio = parseInt(card.getAttribute('data-price'));
-      const zona = card.getAttribute('data-zone');
-      const servicio = card.getAttribute('data-service');
+const priceValue =
+  document.getElementById(
+    "priceValue"
+  );
 
-      const cumplePrecio = precio <= maxPrecio;
-      const cumpleZona = zonaSeleccionada === "all" || zona === zonaSeleccionada;
-      const cumpleServicio = servicioSeleccionado === "all" || servicio === servicioSeleccionado;
+const zones =
+  document.querySelectorAll(
+    "#zoneFilters .chip"
+  );
 
-      if (cumplePrecio && cumpleZona && cumpleServicio) {
-        card.style.display = "flex";
-      } else {
-        card.style.display = "none";
-      }
-    });
-  }
+const services =
+  document.querySelectorAll(
+    "#serviceFilters .chip"
+  );
 
-  // SLIDER PRECIO
-  range.addEventListener('input', () => {
-    priceValue.textContent = range.value + ',00 B/.';
+
+// =========================================================
+// FILTRAR
+// =========================================================
+
+function filtrar() {
+
+  const maxPrecio =
+    parseInt(range.value);
+
+
+  cards.forEach(card => {
+
+
+    const precio =
+      parseInt(
+        card.getAttribute(
+          "data-price"
+        )
+      );
+
+
+    const zona =
+      card.getAttribute(
+        "data-zone"
+      );
+
+
+    const servicio =
+      card.getAttribute(
+        "data-service"
+      );
+
+
+    const cumplePrecio =
+      precio <= maxPrecio;
+
+
+    const cumpleZona =
+      zonaSeleccionada === "all" ||
+      zona === zonaSeleccionada;
+
+
+    const cumpleServicio =
+      servicioSeleccionado === "all" ||
+      servicio === servicioSeleccionado;
+
+
+    if (
+      cumplePrecio &&
+      cumpleZona &&
+      cumpleServicio
+    ) {
+
+      card.style.display =
+        "flex";
+
+    } else {
+
+      card.style.display =
+        "none";
+
+    }
+
+  });
+
+}
+
+
+// =========================================================
+// SLIDER PRECIO
+// =========================================================
+
+range.addEventListener(
+  "input",
+  () => {
+
+    priceValue.textContent =
+      range.value + ",00 B/.";
+
     filtrar();
-  });
 
-  // ZONAS
-  zones.forEach(zone => {
-    zone.addEventListener('click', () => {
-      zones.forEach(z => z.classList.remove('active'));
-      zone.classList.add('active');
+  }
+);
 
-      zonaSeleccionada = zone.getAttribute('data-zone');
+
+// =========================================================
+// FILTRO ZONAS
+// =========================================================
+
+zones.forEach(zone => {
+
+  zone.addEventListener(
+    "click",
+    () => {
+
+
+      zones.forEach(z =>
+        z.classList.remove(
+          "active"
+        )
+      );
+
+
+      zone.classList.add(
+        "active"
+      );
+
+
+      zonaSeleccionada =
+        zone.getAttribute(
+          "data-zone"
+        );
+
+
       filtrar();
-    });
-  });
 
-  // SERVICIOS ✅ NUEVO
-  services.forEach(service => {
-    service.addEventListener('click', () => {
-      services.forEach(s => s.classList.remove('active'));
-      service.classList.add('active');
+    }
+  );
 
-      servicioSeleccionado = service.getAttribute('data-service');
+});
+
+
+// =========================================================
+// FILTRO SERVICIOS
+// =========================================================
+
+services.forEach(service => {
+
+  service.addEventListener(
+    "click",
+    () => {
+
+
+      services.forEach(s =>
+        s.classList.remove(
+          "active"
+        )
+      );
+
+
+      service.classList.add(
+        "active"
+      );
+
+
+      servicioSeleccionado =
+        service.getAttribute(
+          "data-service"
+        );
+
 
       filtrar();
-    });
-  });
 
-   // =========================================================
-  // REGISTRAR NUEVO ESPECIALISTA
-  // =========================================================
+    }
+  );
 
-  const registroForm =
-    document.getElementById("registroTecnicoForm");
+});
 
-  registroForm.addEventListener("submit", async function (e) {
+
+// =========================================================
+// REGISTRAR NUEVO ESPECIALISTA
+// =========================================================
+
+const registroForm =
+  document.getElementById(
+    "registroTecnicoForm"
+  );
+
+
+registroForm.addEventListener(
+  "submit",
+  async function (e) {
+
 
     e.preventDefault();
 
+
+    // =====================================================
+    // OBTENER PLAN
+    // =====================================================
+
+    const planSeleccionado =
+      document.querySelector(
+        'input[name="plan"]:checked'
+      ).value;
+
+
+    // =====================================================
+    // DETERMINAR SOLICITUD PREMIUM
+    // =====================================================
+
+    const solicitaPremium =
+      planSeleccionado === "premium";
+
+
+    // =====================================================
+    // DATOS DEL TÉCNICO
+    // =====================================================
+
     const datos = {
 
+
       nombre:
-        document.getElementById("registroNombre").value.trim(),
+        document
+          .getElementById(
+            "registroNombre"
+          )
+          .value
+          .trim(),
+
 
       telefono:
-        document.getElementById("registroTelefono").value.trim(),
+        document
+          .getElementById(
+            "registroTelefono"
+          )
+          .value
+          .trim(),
+
 
       correo:
-        document.getElementById("registroCorreo").value.trim(),
+        document
+          .getElementById(
+            "registroCorreo"
+          )
+          .value
+          .trim(),
+
 
       servicio:
-        document.getElementById("registroServicio").value,
+        document
+          .getElementById(
+            "registroServicio"
+          )
+          .value,
+
 
       descripcion:
-        document.getElementById("registroDescripcion").value.trim(),
+        document
+          .getElementById(
+            "registroDescripcion"
+          )
+          .value
+          .trim(),
+
 
       precio:
-        document.getElementById("registroPrecio").value,
+        document
+          .getElementById(
+            "registroPrecio"
+          )
+          .value,
+
 
       zona:
-        document.getElementById("registroZona").value,
+        document
+          .getElementById(
+            "registroZona"
+          )
+          .value,
+
 
       ciudad:
-        document.getElementById("registroCiudad").value.trim(),
+        document
+          .getElementById(
+            "registroCiudad"
+          )
+          .value
+          .trim(),
 
-      plan:
-        document.querySelector(
-          'input[name="plan"]:checked'
-        ).value
+
+      // ---------------------------------------------------
+      // IMPORTANTE
+      // ---------------------------------------------------
+
+      // Nunca se activa automáticamente.
+      premium: false,
+
+
+      // Indica que solicitó Premium.
+      premiumSolicitud:
+        solicitaPremium,
+
+
+      // No utilizamos imagen enviada.
+      imagen: ""
 
     };
 
 
+    // =====================================================
+    // ENVIAR AL BACKEND
+    // =====================================================
+
     try {
 
-      const res = await fetch(
-        "https://solvifyco-backend.onrender.com/tecnicos",
-        {
-          method: "POST",
 
-          headers: {
-            "Content-Type": "application/json"
-          },
+      const res =
+        await fetch(
+          "https://solvifyco-backend.onrender.com/tecnicos",
+          {
 
-          body: JSON.stringify(datos)
-        }
-      );
+            method: "POST",
+
+            headers: {
+
+              "Content-Type":
+                "application/json"
+
+            },
+
+            body:
+              JSON.stringify(
+                datos
+              )
+
+          }
+        );
 
 
-      const resultado = await res.json();
+      const resultado =
+        await res.json();
 
+
+      // ===================================================
+      // ERROR
+      // ===================================================
 
       if (!res.ok) {
 
@@ -970,46 +1356,98 @@ function obtenerImagenServicio(servicio) {
       }
 
 
+      // ===================================================
+      // REGISTRO CORRECTO
+      // ===================================================
+
       console.log(
         "Especialista registrado:",
         resultado.tecnico
       );
 
 
-      alert(
-        "¡Registro completado correctamente!"
-      );
+      // ===================================================
+      // MENSAJE
+      // ===================================================
+
+      if (solicitaPremium) {
 
 
-      // Cerrar modal
-      registroModal.style.display = "none";
+        alert(
+
+          "¡Registro completado correctamente!\\n\\n" +
+
+          "Hemos recibido tu solicitud para el plan Premium de 5,00 B/. mensuales.\\n\\n" +
+
+          "El equipo de Solvify revisará tu solicitud y se pondrá en contacto contigo para completar la activación."
+
+        );
 
 
-      // Limpiar formulario
+      } else {
+
+
+        alert(
+
+          "¡Registro completado correctamente!\\n\\n" +
+
+          "Tu perfil ya fue registrado en Solvify."
+
+        );
+
+      }
+
+
+      // ===================================================
+      // CERRAR MODAL
+      // ===================================================
+
+      registroModal.style.display =
+        "none";
+
+
+      // ===================================================
+      // LIMPIAR FORMULARIO
+      // ===================================================
+
       registroForm.reset();
 
 
-      // Recargar las tarjetas
+      // ===================================================
+      // RECARGAR TARJETAS
+      // ===================================================
+
       cargarTecnicos();
 
 
     } catch (error) {
+
 
       console.error(
         "Error registrando especialista:",
         error
       );
 
+
       alert(
-        "No se pudo registrar el especialista."
+
+        "No se pudo registrar el especialista.\\n\\n" +
+
+        "Intenta nuevamente."
+
       );
 
     }
 
-  });
+  }
+);
 
-  // INICIAL
-  cargarTecnicos();
+// =========================================================
+// INICIAL
+// =========================================================
+
+cargarTecnicos();
+
 </script>
 
 <footer class="footer">
