@@ -1,0 +1,328 @@
+/* =========================================================
+   SOLVIFY - PANEL DE COTIZACIONES
+========================================================= */
+
+:root {
+  --primary: #7b3cff;
+  --primary-soft: #f3ecff;
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --success: #16a34a;
+  --warning: #ea580c;
+  --danger: #dc2626;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.header-info {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
+.container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.page-title {
+  margin-bottom: 6px;
+  font-size: 28px;
+}
+
+.page-subtitle {
+  color: var(--muted);
+  margin-bottom: 25px;
+}
+
+/* =========================================================
+   TARJETAS
+========================================================= */
+
+.cotizaciones {
+  display: grid;
+  gap: 18px;
+}
+
+.cotizacion-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+}
+
+.cotizacion-card:hover {
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+/* =========================================================
+   ENCABEZADO DE COTIZACIÓN
+========================================================= */
+
+.cotizacion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.cotizacion-id {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.cotizacion-title {
+  font-size: 19px;
+  font-weight: 650;
+}
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+.estado {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.estado-pendiente {
+  background: #fff7ed;
+  color: var(--warning);
+}
+
+.estado-contactado {
+  background: #ecfdf5;
+  color: var(--success);
+}
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.info-item {
+  background: #f9fafb;
+  border-radius: 9px;
+  padding: 12px;
+}
+
+.info-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 14px;
+  color: var(--text);
+  word-break: break-word;
+}
+
+/* =========================================================
+   SERVICIO
+========================================================= */
+
+.servicio-box {
+  background: var(--primary-soft);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 18px;
+}
+
+.servicio-box h3 {
+  font-size: 14px;
+  margin-bottom: 7px;
+  color: var(--primary);
+}
+
+.servicio-box p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   TÉCNICO
+========================================================= */
+
+.tecnico-box {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 5px;
+}
+
+.tecnico-box h3 {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.tecnico-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 25px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.tecnico-info strong {
+  color: var(--text);
+}
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 9px 18px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-whatsapp {
+  background: #25d366;
+  color: white;
+}
+
+.btn-whatsapp:hover {
+  background: #1ebe5d;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #6630d9;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+/* =========================================================
+   SIN COTIZACIONES
+========================================================= */
+
+.sin-cotizaciones {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 50px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.sin-cotizaciones h2 {
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .header {
+    padding: 14px 18px;
+  }
+
+  .container {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .page-title {
+    font-size: 23px;
+  }
+
+  .cotizacion-header {
+    flex-direction: column;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .tecnico-info {
+    flex-direction: column;
+    gap: 7px;
+  }
+}
