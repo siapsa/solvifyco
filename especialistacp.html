@@ -589,31 +589,31 @@ document.getElementById("cotizarForm").addEventListener("submit", function (e) {
   /* ===========================
      MENSAJE PARA SOLVIFY
   =========================== */
+  
+const mensaje = encodeURIComponent(
+`Hola Solvify 👋
 
-  const mensaje = encodeURIComponent(
-`🔔 NUEVA SOLICITUD DE SERVICIO - SOLVIFY
+Quiero solicitar una cotización y que me ayuden a contactar con el siguiente especialista:
 
-👨‍🔧 ESPECIALISTA SELECCIONADO
+👨‍🔧 Especialista
 Nombre: ${tecnicoActual.nombre}
-Especialidad: ${tecnicoActual.especialidad || "No especificada"}
-Teléfono: ${tecnicoActual.telefono}
-Correo: ${tecnicoActual.correo}
-Plan: Básico (Premium: false)
+Servicio: ${
+  tecnicoActual.servicio
+    ? tecnicoActual.servicio.charAt(0).toUpperCase() + tecnicoActual.servicio.slice(1)
+    : "No especificado"
+}
 
-👤 DATOS DEL CLIENTE
+📋 Mi solicitud
+${datos.descripcion}
+
+👤 Mis datos
 Nombre: ${datos.nombre}
 Teléfono: ${datos.telefono}
 Correo: ${datos.correo}
 Dirección: ${datos.direccion}
 
-📋 SERVICIO SOLICITADO
-${datos.descripcion}
-
---------------------------------
-Solvify debe gestionar el contacto
-entre el cliente y el especialista.
---------------------------------`
-  );
+Agradezco su ayuda para gestionar el contacto con el especialista.`
+);
 
 
   /* ===========================
