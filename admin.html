@@ -280,6 +280,43 @@ content="width=device-width, initial-scale=1"
     }
 
 
+    .btn-rechazar {
+
+      background:
+        white;
+
+      color:
+        #dc2626;
+
+      border:
+        1px solid #dc2626;
+
+      border-radius:
+        999px;
+
+      padding:
+        0.45rem 0.9rem;
+
+      cursor:
+        pointer;
+
+      font-size:
+        0.8rem;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .btn-rechazar:hover {
+
+      background:
+        #fef2f2;
+
+    }
+
+
     /* =====================================================
        BUSCADOR
     ===================================================== */
@@ -335,6 +372,83 @@ content="width=device-width, initial-scale=1"
 
       margin-bottom:
         1rem;
+
+    }
+
+
+    /* =====================================================
+       SECCIONES
+    ===================================================== */
+
+    .seccion {
+
+      margin-bottom:
+        2.5rem;
+
+    }
+
+
+    .seccion-header {
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      margin-bottom:
+        1rem;
+
+    }
+
+
+    .seccion-header h2 {
+
+      font-size:
+        1.15rem;
+
+    }
+
+
+    .seccion-header p {
+
+      color:
+        var(--muted);
+
+      font-size:
+        0.8rem;
+
+      margin-top:
+        3px;
+
+    }
+
+
+    .badge-contador {
+
+      background:
+        #fff7ed;
+
+      color:
+        #c2410c;
+
+      border:
+        1px solid #fdba74;
+
+      border-radius:
+        999px;
+
+      padding:
+        4px 10px;
+
+      font-size:
+        0.75rem;
+
+      font-weight:
+        600;
 
     }
 
@@ -575,6 +689,164 @@ content="width=device-width, initial-scale=1"
 
 
     /* =====================================================
+       SOLICITUD PREMIUM
+    ===================================================== */
+
+    .solicitud-card {
+
+      background:
+        white;
+
+      border:
+        1px solid #fcd34d;
+
+      border-left:
+        5px solid #f59e0b;
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        1rem;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        0.7rem;
+
+    }
+
+
+    .solicitud-header {
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      gap:
+        0.5rem;
+
+    }
+
+
+    .solicitud-titulo {
+
+      font-size:
+        1rem;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .solicitud-estado {
+
+      font-size:
+        0.7rem;
+
+      color:
+        #92400e;
+
+      background:
+        #fffbeb;
+
+      border:
+        1px solid #fcd34d;
+
+      padding:
+        3px 8px;
+
+      border-radius:
+        999px;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .solicitud-info {
+
+      font-size:
+        0.82rem;
+
+      color:
+        #555;
+
+      line-height:
+        1.5;
+
+    }
+
+
+    .solicitud-info strong {
+
+      color:
+        #333;
+
+    }
+
+
+    .solicitud-acciones {
+
+      display:
+        flex;
+
+      gap:
+        0.5rem;
+
+      margin-top:
+        0.3rem;
+
+    }
+
+
+    .solicitud-acciones button {
+
+      flex:
+        1;
+
+    }
+
+
+    /* =====================================================
+       MENSAJE
+    ===================================================== */
+
+    .mensaje {
+
+      text-align:
+        center;
+
+      color:
+        var(--muted);
+
+      padding:
+        2rem 1rem;
+
+      background:
+        white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+    }
+
+
+    /* =====================================================
        MODAL
     ===================================================== */
 
@@ -735,24 +1007,6 @@ content="width=device-width, initial-scale=1"
 
 
     /* =====================================================
-       MENSAJE
-    ===================================================== */
-
-    .mensaje {
-
-      text-align:
-        center;
-
-      color:
-        var(--muted);
-
-      padding:
-        3rem 1rem;
-
-    }
-
-
-    /* =====================================================
        FOOTER
     ===================================================== */
 
@@ -785,6 +1039,10 @@ content="width=device-width, initial-scale=1"
     }
 
 
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
     @media (max-width: 600px) {
 
       .navbar {
@@ -813,6 +1071,14 @@ content="width=device-width, initial-scale=1"
 
         grid-template-columns:
           1fr;
+
+      }
+
+
+      .solicitud-acciones {
+
+        flex-direction:
+          column;
 
       }
 
@@ -854,6 +1120,10 @@ Panel de gestión
 
 <main class="page">
 
+  <!-- ===================================================
+       ENCABEZADO
+  ==================================================== -->
+
   <div class="header-panel">
 
 ```
@@ -861,14 +1131,14 @@ Panel de gestión
 
   <h1>
 
-    Especialistas
+    Panel de administración
 
   </h1>
 
 
   <p>
 
-    Gestiona los especialistas registrados en Solvify.
+    Gestiona especialistas y solicitudes Premium.
 
   </p>
 
@@ -877,49 +1147,122 @@ Panel de gestión
 
 <button
   class="btn btn-primary"
-  onclick="cargarTecnicos()">
+  onclick="actualizarPanel()">
 
-  Actualizar
+  🔄 Actualizar
 
 </button>
 ```
 
   </div>
 
-  <!-- BUSCADOR -->
+  <!-- ===================================================
+       SOLICITUDES PREMIUM
+  ==================================================== -->
 
-<input
-
-```
-type="text"
-
-id="buscador"
-
-class="search"
-
-placeholder="Buscar por nombre, servicio o ciudad...">
-```
-
-  <div
+  <section class="seccion">
 
 ```
-id="contador"
+<div class="seccion-header">
 
-class="contador">
+  <div>
 
-Cargando especialistas...
-```
+    <h2>
+
+      ⭐ Solicitudes Premium
+
+    </h2>
+
+
+    <p>
+
+      Especialistas que solicitaron activar el plan Premium.
+
+    </p>
 
   </div>
 
-  <!-- TÉCNICOS -->
 
-  <section
+  <span
+    id="contadorSolicitudes"
+    class="badge-contador">
+
+    0 pendientes
+
+  </span>
+
+</div>
+
+
+<div
+  id="solicitudesContainer"
+  class="tecnicos">
+
+</div>
+```
+
+  </section>
+
+  <!-- ===================================================
+       ESPECIALISTAS
+  ==================================================== -->
+
+  <section class="seccion">
 
 ```
-id="tecnicosContainer"
+<div class="seccion-header">
 
-class="tecnicos">
+  <div>
+
+    <h2>
+
+      👨‍🔧 Especialistas
+
+    </h2>
+
+
+    <p>
+
+      Gestiona los especialistas registrados en Solvify.
+
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- BUSCADOR -->
+
+<input
+
+  type="text"
+
+  id="buscador"
+
+  class="search"
+
+  placeholder="Buscar por nombre, servicio o ciudad...">
+
+
+<div
+
+  id="contador"
+
+  class="contador">
+
+  Cargando especialistas...
+
+</div>
+
+
+<section
+
+  id="tecnicosContainer"
+
+  class="tecnicos">
+
+</section>
 ```
 
   </section>
@@ -1014,7 +1357,7 @@ const API =
 let tecnicos =
   [];
 
-let solicitudesPremium =
+let solicitudes =
   [];
 
 let tecnicoSeleccionado =
@@ -1022,15 +1365,34 @@ let tecnicoSeleccionado =
 
 
 // =========================================================
-// CARGAR TÉCNICOS + SOLICITUDES PREMIUM
+// ACTUALIZAR TODO EL PANEL
+// =========================================================
+
+async function actualizarPanel() {
+
+  await Promise.all([
+
+    cargarTecnicos(),
+
+    cargarSolicitudesPremium()
+
+  ]);
+
+}
+
+
+// =========================================================
+// CARGAR TÉCNICOS
 // =========================================================
 
 async function cargarTecnicos() {
+
 
   const container =
     document.getElementById(
       "tecnicosContainer"
     );
+
 
   const contador =
     document.getElementById(
@@ -1051,17 +1413,14 @@ async function cargarTecnicos() {
 
   try {
 
-    // =====================================================
-    // CARGAR TÉCNICOS
-    // =====================================================
 
-    const resTecnicos =
+    const res =
       await fetch(
         `${API}/tecnicos`
       );
 
 
-    if (!resTecnicos.ok) {
+    if (!res.ok) {
 
       throw new Error(
         "No se pudieron obtener los técnicos."
@@ -1071,66 +1430,7 @@ async function cargarTecnicos() {
 
 
     tecnicos =
-      await resTecnicos.json();
-
-
-    // =====================================================
-    // CARGAR SOLICITUDES PREMIUM
-    // =====================================================
-
-    const resSolicitudes =
-      await fetch(
-        `${API}/solicitudes-premium`
-      );
-
-
-    if (!resSolicitudes.ok) {
-
-      throw new Error(
-        "No se pudieron obtener las solicitudes Premium."
-      );
-
-    }
-
-
-    solicitudesPremium =
-      await resSolicitudes.json();
-
-
-    // =====================================================
-    // RELACIONAR SOLICITUD CON TÉCNICO
-    // =====================================================
-
-    tecnicos =
-      tecnicos.map(
-        tecnico => {
-
-          const solicitud =
-            solicitudesPremium.find(
-              s =>
-                s.tecnicoId === tecnico.id &&
-                s.estado === "pendiente"
-            );
-
-
-          return {
-
-            ...tecnico,
-
-            premiumSolicitud:
-              solicitud
-                ? true
-                : false,
-
-            solicitudPremiumId:
-              solicitud
-                ? solicitud.id
-                : null
-
-          };
-
-        }
-      );
+      await res.json();
 
 
     mostrarTecnicos(
@@ -1139,6 +1439,7 @@ async function cargarTecnicos() {
 
 
   } catch (error) {
+
 
     console.error(
       error
@@ -1165,10 +1466,280 @@ async function cargarTecnicos() {
 
 
 // =========================================================
+// CARGAR SOLICITUDES PREMIUM
+// =========================================================
+
+async function cargarSolicitudesPremium() {
+
+
+  const container =
+    document.getElementById(
+      "solicitudesContainer"
+    );
+
+
+  const contador =
+    document.getElementById(
+      "contadorSolicitudes"
+    );
+
+
+  container.innerHTML = `
+
+    <div class="mensaje">
+
+      Cargando solicitudes Premium...
+
+    </div>
+
+  `;
+
+
+  try {
+
+
+    const res =
+      await fetch(
+        `${API}/solicitudes-premium`
+      );
+
+
+    if (!res.ok) {
+
+      throw new Error(
+        "No se pudieron obtener las solicitudes Premium."
+      );
+
+    }
+
+
+    solicitudes =
+      await res.json();
+
+
+    const pendientes =
+      solicitudes.filter(
+        solicitud =>
+          solicitud.estado === "pendiente"
+      );
+
+
+    contador.textContent =
+
+      `${pendientes.length} pendiente${
+
+        pendientes.length !== 1
+
+          ? "s"
+
+          : ""
+
+      }`;
+
+
+    if (pendientes.length === 0) {
+
+
+      container.innerHTML = `
+
+        <div class="mensaje">
+
+          ✅ No hay solicitudes Premium pendientes.
+
+        </div>
+
+      `;
+
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      "";
+
+
+    pendientes.forEach(
+      solicitud => {
+
+
+        const card =
+          document.createElement(
+            "article"
+          );
+
+
+        card.className =
+          "solicitud-card";
+
+
+        card.innerHTML = `
+
+          <div class="solicitud-header">
+
+            <div class="solicitud-titulo">
+
+              ${solicitud.nombre}
+
+            </div>
+
+
+            <span class="solicitud-estado">
+
+              🟠 Pendiente
+
+            </span>
+
+          </div>
+
+
+          <div class="tecnico-servicio">
+
+            👨‍🔧 ${solicitud.servicio}
+
+          </div>
+
+
+          <div class="solicitud-info">
+
+            <strong>Descripción:</strong>
+
+            ${solicitud.descripcion || "Sin descripción"}
+
+          </div>
+
+
+          <div class="solicitud-info">
+
+            <strong>Precio:</strong>
+
+            ${solicitud.precio} B/.
+
+          </div>
+
+
+          <div class="solicitud-info">
+
+            <strong>Ciudad:</strong>
+
+            ${solicitud.ciudad}
+
+          </div>
+
+
+          <div class="solicitud-info">
+
+            <strong>Teléfono:</strong>
+
+            ${solicitud.telefono}
+
+          </div>
+
+
+          <div class="solicitud-info">
+
+            <strong>Correo:</strong>
+
+            ${solicitud.correo}
+
+          </div>
+
+
+          <div class="solicitud-info">
+
+            <strong>Fecha de solicitud:</strong>
+
+            ${solicitud.fecha}
+
+          </div>
+
+
+          <div class="solicitud-info">
+
+            <strong>ID especialista:</strong>
+
+            ${solicitud.tecnicoId}
+
+          </div>
+
+
+          <div class="solicitud-acciones">
+
+
+            <button
+
+              class="btn-premium"
+
+              onclick="aprobarSolicitudPremium(${solicitud.id})">
+
+              ⭐ Aprobar Premium
+
+            </button>
+
+
+            <button
+
+              class="btn-rechazar"
+
+              onclick="rechazarSolicitudPremium(${solicitud.id})">
+
+              ✕ Rechazar
+
+            </button>
+
+
+          </div>
+
+        `;
+
+
+        container.appendChild(
+          card
+        );
+
+      }
+
+    );
+
+
+  } catch (error) {
+
+
+    console.error(
+      error
+    );
+
+
+    contador.textContent =
+      "Error";
+
+
+    container.innerHTML = `
+
+      <div class="mensaje">
+
+        No se pudieron cargar las solicitudes Premium.
+
+        <br><br>
+
+        ${error.message}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+// =========================================================
 // MOSTRAR TÉCNICOS
 // =========================================================
 
 function mostrarTecnicos(lista) {
+
 
   const container =
     document.getElementById(
@@ -1187,19 +1758,24 @@ function mostrarTecnicos(lista) {
     `${lista.length} especialista${
 
       lista.length !== 1
+
         ? "s"
+
         : ""
 
     } registrado${
 
       lista.length !== 1
+
         ? "s"
+
         : ""
 
     }`;
 
 
   if (lista.length === 0) {
+
 
     container.innerHTML = `
 
@@ -1235,14 +1811,11 @@ function mostrarTecnicos(lista) {
         "tecnico-card";
 
 
-      // =================================================
-      // ESTADO
-      // =================================================
-
       let estado;
 
 
       if (tecnico.premium) {
+
 
         estado = `
 
@@ -1255,22 +1828,8 @@ function mostrarTecnicos(lista) {
         `;
 
 
-      } else if (
-        tecnico.premiumSolicitud
-      ) {
-
-        estado = `
-
-          <span class="pendiente">
-
-            🟠 Solicita Premium
-
-          </span>
-
-        `;
-
-
       } else {
+
 
         estado = `
 
@@ -1285,44 +1844,10 @@ function mostrarTecnicos(lista) {
       }
 
 
-      // =================================================
-      // BOTÓN PREMIUM
-      // =================================================
-
-      let botonPremium =
-        "";
-
-
-      if (
-        !tecnico.premium &&
-        tecnico.premiumSolicitud &&
-        tecnico.solicitudPremiumId
-      ) {
-
-        botonPremium = `
-
-          <button
-
-            class="btn-premium"
-
-            onclick="aprobarPremium(${tecnico.solicitudPremiumId})">
-
-            ⭐ Aprobar Premium
-
-          </button>
-
-        `;
-
-      }
-
-
-      // =================================================
-      // CARD
-      // =================================================
-
       card.innerHTML = `
 
         <div class="tecnico-header">
+
 
           <div class="tecnico-nombre">
 
@@ -1330,7 +1855,9 @@ function mostrarTecnicos(lista) {
 
           </div>
 
+
           ${estado}
+
 
         </div>
 
@@ -1387,6 +1914,7 @@ function mostrarTecnicos(lista) {
 
         <div class="acciones">
 
+
           <button
 
             class="btn btn-outline"
@@ -1398,9 +1926,6 @@ function mostrarTecnicos(lista) {
           </button>
 
 
-          ${botonPremium}
-
-
           <button
 
             class="btn btn-danger"
@@ -1410,6 +1935,7 @@ function mostrarTecnicos(lista) {
             🗑 Eliminar
 
           </button>
+
 
         </div>
 
@@ -1427,25 +1953,24 @@ function mostrarTecnicos(lista) {
 
 
 // =========================================================
-// APROBAR PREMIUM
+// APROBAR SOLICITUD PREMIUM
 // =========================================================
 
-async function aprobarPremium(
+async function aprobarSolicitudPremium(
   solicitudId
 ) {
 
 
   const solicitud =
-    solicitudesPremium.find(
-      s =>
-        s.id === solicitudId
+    solicitudes.find(
+      s => s.id === solicitudId
     );
 
 
   if (!solicitud) {
 
     alert(
-      "No se encontró la solicitud Premium."
+      "No se encontró la solicitud."
     );
 
     return;
@@ -1456,7 +1981,7 @@ async function aprobarPremium(
   const confirmar =
     confirm(
 
-      `¿Confirmar Premium para ${solicitud.nombre}?\n\n` +
+      `¿Aprobar Premium para ${solicitud.nombre}?\n\n` +
 
       "El especialista pasará al plan Premium de 5,00 B/. mensuales."
 
@@ -1498,6 +2023,7 @@ async function aprobarPremium(
 
     if (!res.ok) {
 
+
       throw new Error(
 
         resultado.error ||
@@ -1511,16 +2037,12 @@ async function aprobarPremium(
 
     alert(
 
-      "⭐ Premium aprobado correctamente."
+      `⭐ Premium aprobado correctamente para ${solicitud.nombre}.`
 
     );
 
 
-    // ===================================================
-    // RECARGAR TODO
-    // ===================================================
-
-    await cargarTecnicos();
+    await actualizarPanel();
 
 
   } catch (error) {
@@ -1534,6 +2056,116 @@ async function aprobarPremium(
     alert(
 
       "No se pudo aprobar el Premium.\n\n" +
+
+      error.message
+
+    );
+
+  }
+
+}
+
+
+// =========================================================
+// RECHAZAR SOLICITUD PREMIUM
+// =========================================================
+
+async function rechazarSolicitudPremium(
+  solicitudId
+) {
+
+
+  const solicitud =
+    solicitudes.find(
+      s => s.id === solicitudId
+    );
+
+
+  if (!solicitud) {
+
+    alert(
+      "No se encontró la solicitud."
+    );
+
+    return;
+
+  }
+
+
+  const confirmar =
+    confirm(
+
+      `¿Rechazar la solicitud Premium de ${solicitud.nombre}?`
+
+    );
+
+
+  if (!confirmar)
+    return;
+
+
+  try {
+
+
+    const res =
+      await fetch(
+
+        `${API}/solicitudes-premium/${solicitudId}/rechazar`,
+
+        {
+
+          method:
+            "PUT",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          }
+
+        }
+
+      );
+
+
+    const resultado =
+      await res.json();
+
+
+    if (!res.ok) {
+
+
+      throw new Error(
+
+        resultado.error ||
+
+        "No se pudo rechazar la solicitud."
+
+      );
+
+    }
+
+
+    alert(
+      "Solicitud Premium rechazada."
+    );
+
+
+    await actualizarPanel();
+
+
+  } catch (error) {
+
+
+    console.error(
+      error
+    );
+
+
+    alert(
+
+      "No se pudo rechazar la solicitud.\n\n" +
 
       error.message
 
@@ -1616,7 +2248,7 @@ async function eliminarTecnico(id) {
     );
 
 
-    await cargarTecnicos();
+    await actualizarPanel();
 
 
   } catch (error) {
@@ -1666,11 +2298,7 @@ function verTecnico(id) {
 
       ? "⭐ Premium"
 
-      : t.premiumSolicitud
-
-        ? "🟠 Solicita Premium"
-
-        : "Básico";
+      : "Básico";
 
 
   const info =
@@ -1817,11 +2445,7 @@ function copiarDatos() {
 
       ? "Premium"
 
-      : t.premiumSolicitud
-
-        ? "Solicitud Premium pendiente"
-
-        : "Básico";
+      : "Básico";
 
 
   const texto = `
@@ -1875,11 +2499,7 @@ function enviarWhatsApp() {
 
       ? "Premium"
 
-      : t.premiumSolicitud
-
-        ? "Solicitud Premium pendiente"
-
-        : "Básico";
+      : "Básico";
 
 
   const texto = `
@@ -2039,7 +2659,8 @@ document
 // INICIAR
 // =========================================================
 
-cargarTecnicos();
+actualizarPanel();
+
 
 </script>
 
