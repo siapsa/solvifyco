@@ -247,6 +247,168 @@ app.get("/tecnicos/:id", (req, res) => {
 });
 
 // =====================
+// REGISTRAR NUEVO TÉCNICO
+// =====================
+
+app.post("/tecnicos", (req, res) => {
+
+  try {
+
+    const data = fs.readFileSync(tecnicosFile, "utf8");
+    const tecnicos = JSON.parse(data);
+
+    const {
+      nombre,
+      servicio,
+      descripcion,
+      precio,
+      zona,
+      ciudad,
+      telefono,
+      correo,
+      solicitaPremium
+    } = req.body;
+
+
+    // =====================
+    // VALIDACIONES
+    // =====================
+
+    if (
+      !nombre ||
+      !servicio ||
+      !descripcion ||
+      !precio ||
+      !zona ||
+      !ciudad ||
+      !telefono ||
+      !correo
+    ) {
+
+      return res.status(400).json({
+        error: "Todos los campos son obligatorios"
+      });
+
+    }
+
+
+    // =====================
+    // IMAGEN AUTOMÁTICA
+    // =====================
+
+    const imagenes = {
+
+      electricista: "imagenes/electricista.jpg",
+
+      mantenimiento: "imagenes/mantenimiento.jpg",
+
+      ebanista: "imagenes/ebanista.jpg",
+
+      albanil: "imagenes/albanil.jpg",
+
+      abogado: "imagenes/abogado.jpg"
+
+    };
+
+    const imagen =
+      imagenes[servicio] || "imagenes/default.jpg";
+
+
+    // =====================
+    // GENERAR NUEVO ID
+    // =====================
+
+    const ultimoId =
+      tecnicos.length > 0
+        ? Math.max(...tecnicos.map(t => Number(t.id)))
+        : 0;
+
+    const nuevoId = ultimoId + 1;
+
+
+    // =====================
+    // CREAR TÉCNICO
+    // =====================
+
+    const nuevoTecnico = {
+
+      id: nuevoId,
+
+      nombre: nombre,
+
+      servicio: servicio,
+
+      descripcion: descripcion,
+
+      precio: Number(precio),
+
+      zona: zona,
+
+      ciudad: ciudad,
+
+      telefono: telefono,
+
+      correo: correo,
+
+      imagen: imagen,
+
+      // Siempre comienza como false
+      premium: false
+
+    };
+
+
+    // =====================
+    // GUARDAR EN JSON
+    // =====================
+
+    tecnicos.push(nuevoTecnico);
+
+    fs.writeFileSync(
+      tecnicosFile,
+      JSON.stringify(tecnicos, null, 2)
+    );
+
+
+    console.log(
+      "Nuevo técnico registrado:",
+      nuevoTecnico
+    );
+
+
+    // =====================
+    // RESPUESTA
+    // =====================
+
+    res.status(201).json({
+
+      mensaje: solicitaPremium === true
+        ? "Registro creado. Solicitud Premium pendiente."
+        : "Técnico registrado correctamente.",
+
+      tecnico: nuevoTecnico
+
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "Error registrando técnico:",
+      error
+    );
+
+    res.status(500).json({
+
+      error: "Error al registrar técnico"
+
+    });
+
+  }
+
+});
+
+// =====================
 // INICIAR SERVIDOR
 // =====================
 
