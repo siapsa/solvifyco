@@ -47,6 +47,16 @@
       color: #7b3cff;
     }
 
+    .btn-whatsapp {
+  background: #25D366;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-whatsapp:hover {
+  background: #1ebe5d;
+}
+
     nav a {
       margin-left: 24px;
       text-decoration: none;
@@ -423,6 +433,13 @@
 
         <div class="buttons">
           <button id="btnCotizar" class="btn btn-primary">Cotizar</button>
+          <a
+              id="btnWhatsapp"
+              class="btn btn-whatsapp"
+              href="#"
+              target="_blank">
+              💬 WhatsApp
+          </a>
           
         </div>
 
@@ -618,6 +635,20 @@ async function cargarTecnico() {
       "telefonoTecnico"
     ).textContent = tecnico.telefono;
 
+    const btnWhatsapp = document.getElementById("btnWhatsapp");
+
+const numeroWhatsApp = tecnico.telefono
+  .replace(/\+/g, "")
+  .replace(/\s/g, "")
+  .replace(/-/g, "");
+
+const mensaje = encodeURIComponent(
+  `Hola ${tecnico.nombre}, vi tu perfil en Solvify y estoy interesado en tus servicios.`
+);
+
+btnWhatsapp.href =
+  `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+
     document.getElementById(
       "correoVisible"
     ).textContent = tecnico.correo;
@@ -648,6 +679,8 @@ async function cargarTecnico() {
         "planBasico"
       ).style.display = "none";
 
+      document.getElementById("btnWhatsapp").style.display = "inline-flex";
+
     } else {
 
       document.getElementById(
@@ -661,6 +694,8 @@ async function cargarTecnico() {
       document.getElementById(
         "planBasico"
       ).style.display = "block";
+
+      document.getElementById("btnWhatsapp").style.display = "none";
 
     }
 
