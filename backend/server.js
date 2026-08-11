@@ -246,6 +246,70 @@ app.get("/tecnicos/:id", (req, res) => {
 
 });
 
+// =========================================================
+// ELIMINAR TÉCNICO
+// =========================================================
+
+app.delete("/tecnicos/:id", (req, res) => {
+
+  try {
+
+    const tecnicoId = parseInt(req.params.id);
+
+    const data = fs.readFileSync(
+      tecnicosFile,
+      "utf8"
+    );
+
+    const tecnicos = JSON.parse(data);
+
+    const tecnicoExiste = tecnicos.some(
+      tecnico => tecnico.id === tecnicoId
+    );
+
+    if (!tecnicoExiste) {
+
+      return res.status(404).json({
+        error: "Técnico no encontrado"
+      });
+
+    }
+
+    const tecnicosActualizados =
+      tecnicos.filter(
+        tecnico => tecnico.id !== tecnicoId
+      );
+
+    fs.writeFileSync(
+      tecnicosFile,
+      JSON.stringify(
+        tecnicosActualizados,
+        null,
+        2
+      )
+    );
+
+    console.log(
+      `Técnico ${tecnicoId} eliminado correctamente`
+    );
+
+    res.json({
+      mensaje: "Técnico eliminado correctamente",
+      id: tecnicoId
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "Error al eliminar técnico"
+    });
+
+  }
+
+});
+
 // =====================
 // REGISTRAR NUEVO TÉCNICO
 // =====================
