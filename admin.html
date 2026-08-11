@@ -30,7 +30,24 @@
       background: var(--bg);
       color: var(--text);
     }
+.premium {
+  font-size: 0.7rem;
+  color: #6d28d9;
+  background: #f3ecff;
+  border: 1px solid #d8c4ff;
+  padding: 3px 7px;
+  border-radius: 999px;
+}
 
+    .btn-eliminar {
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  background: transparent;
+}
+
+.btn-eliminar:hover {
+  background: #fef2f2;
+}
     /* NAVBAR */
 
     .navbar {
@@ -355,11 +372,11 @@
   <div>
 
     <h1>
-      Especialistas Básicos
+      Especialistas Solvify
     </h1>
 
     <p>
-      Consulta rápidamente los datos de los especialistas gestionados por Solvify.
+      Consulta rápidamente los datos de todos los especialistas registrados.
     </p>
 
   </div>
@@ -470,42 +487,27 @@ async function cargarTecnicos() {
   const contador =
     document.getElementById("contador");
 
-
   container.innerHTML =
     `<div class="mensaje">Cargando especialistas...</div>`;
-
 
   try {
 
     const res =
       await fetch(`${API}/tecnicos`);
 
-
     if (!res.ok) {
-
       throw new Error(
         "No se pudieron obtener los técnicos."
       );
-
     }
-
 
     const tecnicos =
       await res.json();
 
+    // TODOS LOS TÉCNICOS
+    tecnicosBasicos = tecnicos;
 
-    // SOLO BÁSICOS
-
-    tecnicosBasicos =
-      tecnicos.filter(
-        tecnico => tecnico.premium === false
-      );
-
-
-    mostrarTecnicos(
-      tecnicosBasicos
-    );
-
+    mostrarTecnicos(tecnicosBasicos);
 
   } catch (error) {
 
@@ -522,8 +524,6 @@ async function cargarTecnicos() {
   }
 
 }
-
-
 /* =========================================================
    MOSTRAR TÉCNICOS
 ========================================================= */
@@ -531,34 +531,33 @@ async function cargarTecnicos() {
 function mostrarTecnicos(lista) {
 
   const container =
-    document.getElementById(
-      "tecnicosContainer"
-    );
+    document.getElementById("tecnicosContainer");
 
   const contador =
-    document.getElementById(
-      "contador"
-    );
+    document.getElementById("contador");
 
+  const cantidadPremium =
+    lista.filter(t => t.premium === true).length;
+
+  const cantidadBasicos =
+    lista.filter(t => t.premium === false).length;
 
   contador.textContent =
-    `${lista.length} especialista${lista.length !== 1 ? "s" : ""} Básico${lista.length !== 1 ? "s" : ""}`;
-
+    `${lista.length} especialista${lista.length !== 1 ? "s" : ""} · ` +
+    `${cantidadPremium} Premium · ` +
+    `${cantidadBasicos} Básico${cantidadBasicos !== 1 ? "s" : ""}`;
 
   if (lista.length === 0) {
 
     container.innerHTML =
       `<div class="mensaje">
-        No hay especialistas Básicos registrados.
+        No hay especialistas registrados.
       </div>`;
 
     return;
-
   }
 
-
   container.innerHTML = "";
-
 
   lista.forEach(tecnico => {
 
@@ -568,6 +567,8 @@ function mostrarTecnicos(lista) {
     card.className =
       "tecnico-card";
 
+    const esPremium =
+      tecnico.premium === true;
 
     card.innerHTML = `
 
@@ -577,46 +578,39 @@ function mostrarTecnicos(lista) {
           ${tecnico.nombre}
         </div>
 
-        <span class="basico">
-          Básico
+        <span class="${esPremium ? "premium" : "basico"}">
+          ${esPremium ? "⭐ Premium" : "Básico"}
         </span>
 
       </div>
 
-
       <div class="tecnico-servicio">
         👨‍🔧 ${tecnico.servicio}
       </div>
-
 
       <div class="dato">
         <strong>Precio:</strong>
         ${tecnico.precio} B/.
       </div>
 
-
       <div class="dato">
         <strong>Ubicación:</strong>
         ${tecnico.ciudad}
       </div>
-
 
       <div class="dato">
         <strong>Teléfono:</strong>
         ${tecnico.telefono}
       </div>
 
-
       <div class="dato">
         <strong>Correo:</strong>
         ${tecnico.correo}
       </div>
 
-
       <div class="descripcion">
         ${tecnico.descripcion || "Sin descripción"}
       </div>
-
 
       <div class="acciones">
 
@@ -625,19 +619,21 @@ function mostrarTecnicos(lista) {
           onclick="verTecnico(${tecnico.id})">
           Ver información
         </button>
+         <button
+    class="btn btn-eliminar"
+    onclick="eliminarTecnico(${tecnico.id})">
+    Eliminar
+  </button>
 
       </div>
 
     `;
-
 
     container.appendChild(card);
 
   });
 
 }
-
-
 /* =========================================================
    VER INFORMACIÓN
 ========================================================= */
@@ -904,7 +900,73 @@ document
 
     }
   );
+async function eliminarTecnico(id) {
 
+  const tecnico =
+    tecnicosBasicos.find(
+      tecnico => tecnico.id === id
+    );
+
+  if (!tecnico) {
+    return;
+  }
+
+  const confirmar = confirm(
+    `¿Seguro que deseas eliminar a ${tecnico.nombre}?\n\n` +
+    `Esta acción eliminará al especialista de Solvify.`
+  );
+
+  if (!confirmar) {
+    return;
+  }
+
+  try {
+
+    const res = await fetch(
+      `${API}/tecnicos/${id}`,
+      {
+        method: "DELETE"
+      }
+    );
+
+    const resultado =
+      await res.json();
+
+    if (!res.ok) {
+
+      throw new Error(
+        resultado.error ||
+        "No se pudo eliminar el técnico."
+      );
+
+    }
+
+    alert(
+      "Técnico eliminado correctamente."
+    );
+
+    // Quitar del array local
+    tecnicosBasicos =
+      tecnicosBasicos.filter(
+        tecnico => tecnico.id !== id
+      );
+
+    // Actualizar el panel
+    mostrarTecnicos(
+      tecnicosBasicos
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "No se pudo eliminar el técnico."
+    );
+
+  }
+
+}
 
 /* =========================================================
    INICIAR
