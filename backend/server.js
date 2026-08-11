@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
@@ -143,6 +144,27 @@ async function inicializarBaseDatos() {
       )
     `);
 
+    // =====================================================
+    // TABLA SOLICITUDES PREMIUM
+    // =====================================================
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS solicitudes_premium (
+        id SERIAL PRIMARY KEY,
+
+        tecnico_id INTEGER NOT NULL,
+
+        estado TEXT NOT NULL DEFAULT 'pendiente',
+
+        fecha TEXT NOT NULL,
+
+        CONSTRAINT fk_solicitud_tecnico
+          FOREIGN KEY (tecnico_id)
+          REFERENCES tecnicos(id)
+          ON DELETE CASCADE
+      )
+    `);
+
     console.log("Tablas verificadas correctamente.");
 
     // =====================================================
@@ -202,7 +224,8 @@ async function inicializarBaseDatos() {
 
       }
 
-      // Ajustar el contador del SERIAL
+      // Ajustar contador SERIAL
+
       await pool.query(`
         SELECT setval(
           pg_get_serial_sequence('tecnicos', 'id'),
@@ -647,7 +670,9 @@ app.post("/tecnicos", async (req, res) => {
       premium
     } = req.body;
 
-    // Validaciones básicas
+    // =====================================================
+    // VALIDACIONES
+    // =====================================================
 
     if (
       !nombre ||
@@ -666,6 +691,19 @@ app.post("/tecnicos", async (req, res) => {
       });
 
     }
+
+    // =====================================================
+    // IMPORTANTE
+    //
+    // Aunque el frontend mande premium = true,
+    // el técnico se crea inicialmente como FALSE.
+    //
+    // Después se crea una solicitud Premium pendiente.
+    // =====================================================
+
+    const quierePremium =
+      premium === true ||
+      premium === "true";
 
     const resultado =
       await pool.query(
@@ -710,12 +748,52 @@ app.post("/tecnicos", async (req, res) => {
           telefono,
           correo,
           imagen || "",
-          premium === true
+          false
         ]
       );
 
     const nuevoTecnico =
       resultado.rows[0];
+
+    // =====================================================
+    // SI QUIERE PREMIUM
+    // CREAR SOLICITUD PENDIENTE
+    // =====================================================
+
+    if (quierePremium) {
+
+      const fecha =
+        new Date().toLocaleString();
+
+      const solicitud =
+        await pool.query(
+          `
+          INSERT INTO solicitudes_premium
+          (
+            tecnico_id,
+            estado,
+            fecha
+          )
+          VALUES
+          ($1,'pendiente',$2)
+          RETURNING
+            id,
+            tecnico_id AS "tecnicoId",
+            estado,
+            fecha
+          `,
+          [
+            nuevoTecnico.id,
+            fecha
+          ]
+        );
+
+      console.log(
+        "Solicitud Premium creada:",
+        solicitud.rows[0]
+      );
+
+    }
 
     console.log(
       "Nuevo técnico registrado:",
@@ -723,10 +801,18 @@ app.post("/tecnicos", async (req, res) => {
     );
 
     res.status(201).json({
+
       mensaje:
-        "Técnico registrado correctamente",
+        quierePremium
+          ? "Técnico registrado y solicitud Premium enviada"
+          : "Técnico registrado correctamente",
+
       tecnico:
-        nuevoTecnico
+        nuevoTecnico,
+
+      premiumSolicitado:
+        quierePremium
+
     });
 
   } catch (error) {
@@ -744,8 +830,12 @@ app.post("/tecnicos", async (req, res) => {
 
 // =========================================================
 // ELIMINAR TÉCNICO
-// También elimina automáticamente sus comentarios
-// y ratings por ON DELETE CASCADE.
+// También elimina automáticamente:
+// - comentarios
+// - ratings
+// - solicitudes Premium
+//
+// Gracias a ON DELETE CASCADE.
 // =========================================================
 
 app.delete("/tecnicos/:id", async (req, res) => {
@@ -800,6 +890,441 @@ app.delete("/tecnicos/:id", async (req, res) => {
 });
 
 // =========================================================
+// SOLICITUDES PREMIUM
+// =========================================================
+
+// =========================================================
+// OBTENER TODAS LAS SOLICITUDES PREMIUM
+//
+// Incluye los datos del técnico.
+// =========================================================
+
+app.get("/solicitudes-premium", async (req, res) => {
+
+  try {
+
+    const resultado =
+      await pool.query(`
+        SELECT
+          sp.id,
+          sp.tecnico_id AS "tecnicoId",
+          sp.estado,
+          sp.fecha,
+
+          t.nombre,
+          t.servicio,
+          t.descripcion,
+          t.precio,
+          t.zona,
+          t.ciudad,
+          t.telefono,
+          t.correo,
+          t.premium
+
+        FROM solicitudes_premium sp
+
+        INNER JOIN tecnicos t
+          ON t.id = sp.tecnico_id
+
+        ORDER BY sp.id DESC
+      `);
+
+    res.json(resultado.rows);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error:
+        "Error al obtener solicitudes Premium"
+    });
+
+  }
+
+});
+
+// =========================================================
+// OBTENER SOLICITUD PREMIUM POR ID
+// =========================================================
+
+app.get("/solicitudes-premium/:id", async (req, res) => {
+
+  try {
+
+    const id =
+      parseInt(req.params.id);
+
+    const resultado =
+      await pool.query(
+        `
+        SELECT
+          sp.id,
+          sp.tecnico_id AS "tecnicoId",
+          sp.estado,
+          sp.fecha,
+
+          t.nombre,
+          t.servicio,
+          t.descripcion,
+          t.precio,
+          t.zona,
+          t.ciudad,
+          t.telefono,
+          t.correo,
+          t.premium
+
+        FROM solicitudes_premium sp
+
+        INNER JOIN tecnicos t
+          ON t.id = sp.tecnico_id
+
+        WHERE sp.id = $1
+        `,
+        [id]
+      );
+
+    if (resultado.rows.length === 0) {
+
+      return res.status(404).json({
+        error:
+          "Solicitud Premium no encontrada"
+      });
+
+    }
+
+    res.json(
+      resultado.rows[0]
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error:
+        "Error al obtener solicitud Premium"
+    });
+
+  }
+
+});
+
+// =========================================================
+// ACTIVAR PREMIUM
+// =========================================================
+
+app.put(
+  "/solicitudes-premium/:id/aprobar",
+  async (req, res) => {
+
+    const client =
+      await pool.connect();
+
+    try {
+
+      const solicitudId =
+        parseInt(req.params.id);
+
+      await client.query("BEGIN");
+
+      // ===================================================
+      // Buscar solicitud
+      // ===================================================
+
+      const solicitud =
+        await client.query(
+          `
+          SELECT
+            id,
+            tecnico_id,
+            estado
+          FROM solicitudes_premium
+          WHERE id = $1
+          FOR UPDATE
+          `,
+          [solicitudId]
+        );
+
+      if (solicitud.rows.length === 0) {
+
+        await client.query("ROLLBACK");
+
+        return res.status(404).json({
+          error:
+            "Solicitud Premium no encontrada"
+        });
+
+      }
+
+      const solicitudData =
+        solicitud.rows[0];
+
+      // ===================================================
+      // Verificar estado
+      // ===================================================
+
+      if (
+        solicitudData.estado === "aprobada"
+      ) {
+
+        await client.query("ROLLBACK");
+
+        return res.status(400).json({
+          error:
+            "Esta solicitud ya fue aprobada"
+        });
+
+      }
+
+      // ===================================================
+      // Activar Premium
+      // ===================================================
+
+      const tecnico =
+        await client.query(
+          `
+          UPDATE tecnicos
+
+          SET premium = TRUE
+
+          WHERE id = $1
+
+          RETURNING
+            id,
+            nombre,
+            servicio,
+            premium
+          `,
+          [
+            solicitudData.tecnico_id
+          ]
+        );
+
+      if (tecnico.rows.length === 0) {
+
+        await client.query("ROLLBACK");
+
+        return res.status(404).json({
+          error:
+            "El técnico asociado no existe"
+        });
+
+      }
+
+      // ===================================================
+      // Cambiar solicitud a aprobada
+      // ===================================================
+
+      const solicitudActualizada =
+        await client.query(
+          `
+          UPDATE solicitudes_premium
+
+          SET estado = 'aprobada'
+
+          WHERE id = $1
+
+          RETURNING
+            id,
+            tecnico_id AS "tecnicoId",
+            estado,
+            fecha
+          `,
+          [
+            solicitudId
+          ]
+        );
+
+      await client.query("COMMIT");
+
+      console.log(
+        "Premium activado:",
+        tecnico.rows[0]
+      );
+
+      res.json({
+
+        mensaje:
+          "Premium activado correctamente",
+
+        tecnico:
+          tecnico.rows[0],
+
+        solicitud:
+          solicitudActualizada.rows[0]
+
+      });
+
+    } catch (error) {
+
+      await client.query("ROLLBACK");
+
+      console.error(error);
+
+      res.status(500).json({
+        error:
+          "Error al activar Premium"
+      });
+
+    } finally {
+
+      client.release();
+
+    }
+
+  }
+);
+
+// =========================================================
+// RECHAZAR SOLICITUD PREMIUM
+// =========================================================
+
+app.put(
+  "/solicitudes-premium/:id/rechazar",
+  async (req, res) => {
+
+    try {
+
+      const solicitudId =
+        parseInt(req.params.id);
+
+      const resultado =
+        await pool.query(
+          `
+          UPDATE solicitudes_premium
+
+          SET estado = 'rechazada'
+
+          WHERE id = $1
+
+          RETURNING
+            id,
+            tecnico_id AS "tecnicoId",
+            estado,
+            fecha
+          `,
+          [
+            solicitudId
+          ]
+        );
+
+      if (resultado.rows.length === 0) {
+
+        return res.status(404).json({
+          error:
+            "Solicitud Premium no encontrada"
+        });
+
+      }
+
+      console.log(
+        "Solicitud Premium rechazada:",
+        resultado.rows[0]
+      );
+
+      res.json({
+
+        mensaje:
+          "Solicitud Premium rechazada",
+
+        solicitud:
+          resultado.rows[0]
+
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      res.status(500).json({
+        error:
+          "Error al rechazar solicitud Premium"
+      });
+
+    }
+
+  }
+);
+
+// =========================================================
+// CAMBIAR PREMIUM MANUALMENTE
+//
+// Esta ruta permite al administrador activar/desactivar
+// Premium directamente desde el panel si algún día
+// necesitamos hacerlo manualmente.
+// =========================================================
+
+app.put("/tecnicos/:id/premium", async (req, res) => {
+
+  try {
+
+    const id =
+      parseInt(req.params.id);
+
+    const premium =
+      req.body.premium === true ||
+      req.body.premium === "true";
+
+    const resultado =
+      await pool.query(
+        `
+        UPDATE tecnicos
+
+        SET premium = $1
+
+        WHERE id = $2
+
+        RETURNING
+          id,
+          nombre,
+          servicio,
+          premium
+        `,
+        [
+          premium,
+          id
+        ]
+      );
+
+    if (resultado.rows.length === 0) {
+
+      return res.status(404).json({
+        error:
+          "Técnico no encontrado"
+      });
+
+    }
+
+    console.log(
+      "Estado Premium actualizado:",
+      resultado.rows[0]
+    );
+
+    res.json({
+
+      mensaje:
+        "Estado Premium actualizado",
+
+      tecnico:
+        resultado.rows[0]
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error:
+        "Error al actualizar Premium"
+    });
+
+  }
+
+});
+
+// =========================================================
 // INICIAR SERVIDOR
 // =========================================================
 
@@ -813,3 +1338,4 @@ app.listen(PORT, () => {
   );
 
 });
+
