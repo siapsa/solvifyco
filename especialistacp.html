@@ -542,9 +542,18 @@
 /* ===========================
    MODAL DE COTIZACIÓN
 =========================== */
+/* ===========================
+   MODAL DE COTIZACIÓN
+=========================== */
 
 const modal = document.getElementById("cotizarModal");
 const btnCotizar = document.getElementById("btnCotizar");
+
+// WhatsApp oficial de Solvify
+const whatsappSolvify = "50762804587";
+
+// Guardará la información del técnico seleccionado
+let tecnicoActual = null;
 
 function openModal() {
   modal.style.display = "flex";
@@ -556,38 +565,75 @@ function closeModal() {
 
 btnCotizar.addEventListener("click", openModal);
 
+
+/* ===========================
+   ENVIAR COTIZACIÓN
+   SIEMPRE A SOLVIFY
+=========================== */
+
 document.getElementById("cotizarForm").addEventListener("submit", function (e) {
+
   e.preventDefault();
 
+  if (!tecnicoActual) {
+    alert("No se pudo identificar al especialista.");
+    return;
+  }
+
   const datos = {
-    nombre: this.nombre.value,
-    descripcion: this.descripcion.value,
-    direccion: this.direccion.value,
-    telefono: this.telefono.value,
-    correo: this.correo.value
+    nombre: this.nombre.value.trim(),
+    descripcion: this.descripcion.value.trim(),
+    direccion: this.direccion.value.trim(),
+    telefono: this.telefono.value.trim(),
+    correo: this.correo.value.trim()
   };
 
-  const correoTecnico = document
-    .getElementById("correoTecnico")
-    .textContent
-    .trim();
 
-  const mensaje = encodeURIComponent(`
-Nueva solicitud de cotización
+  /* ===========================
+     MENSAJE PARA SOLVIFY
+  =========================== */
 
+  const mensaje = encodeURIComponent(
+`🔔 NUEVA SOLICITUD DE SERVICIO - SOLVIFY
+
+👨‍🔧 ESPECIALISTA SELECCIONADO
+Nombre: ${tecnicoActual.nombre}
+Especialidad: ${tecnicoActual.especialidad || "No especificada"}
+Teléfono: ${tecnicoActual.telefono}
+Correo: ${tecnicoActual.correo}
+Plan: Básico (Premium: false)
+
+👤 DATOS DEL CLIENTE
 Nombre: ${datos.nombre}
-Descripción: ${datos.descripcion}
-Dirección: ${datos.direccion}
 Teléfono: ${datos.telefono}
 Correo: ${datos.correo}
-`);
+Dirección: ${datos.direccion}
 
-  window.location.href =
-    `mailto:${correoTecnico}?subject=${encodeURIComponent("Cotización de servicio")}&body=${mensaje}`;
+📋 SERVICIO SOLICITADO
+${datos.descripcion}
+
+--------------------------------
+Solvify debe gestionar el contacto
+entre el cliente y el especialista.
+--------------------------------`
+  );
+
+
+  /* ===========================
+     ABRIR WHATSAPP DE SOLVIFY
+  =========================== */
+
+  window.open(
+    `https://wa.me/${whatsappSolvify}?text=${mensaje}`,
+    "_blank"
+  );
 
   closeModal();
-});
 
+  // Limpiar formulario
+  this.reset();
+
+});
 
 /* ===========================
    OBTENER ID DEL TÉCNICO
@@ -620,6 +666,9 @@ async function cargarTecnico() {
     }
 
     const tecnico = await res.json();
+
+    // Guardar técnico seleccionado para utilizarlo en la cotización
+      tecnicoActual = tecnico;
 
     /* Información básica */
 
@@ -669,39 +718,76 @@ btnWhatsapp.href =
        PREMIUM / BÁSICO
     =========================== */
 
-    if (tecnico.premium) {
+   /* ===========================
+   PREMIUM / BÁSICO
+=========================== */
 
-      document.getElementById(
-        "ratingSection"
-      ).style.display = "block";
+if (tecnico.premium === true) {
 
-      document.getElementById(
-        "comentariosSection"
-      ).style.display = "block";
+  /* ===========================
+     ESPECIALISTA PREMIUM
+  =========================== */
 
-      document.getElementById(
-        "planBasico"
-      ).style.display = "none";
+  document.getElementById(
+    "ratingSection"
+  ).style.display = "block";
 
-      document.getElementById("btnWhatsapp").style.display = "inline-flex";
+  document.getElementById(
+    "comentariosSection"
+  ).style.display = "block";
 
-    } else {
+  document.getElementById(
+    "planBasico"
+  ).style.display = "none";
 
-      document.getElementById(
-        "ratingSection"
-      ).style.display = "none";
 
-      document.getElementById(
-        "comentariosSection"
-      ).style.display = "none";
+  /* Premium:
+     WhatsApp directo
+     Cotizar oculto
+  */
 
-      document.getElementById(
-        "planBasico"
-      ).style.display = "block";
+  document.getElementById(
+    "btnWhatsapp"
+  ).style.display = "inline-flex";
 
-      document.getElementById("btnWhatsapp").style.display = "none";
+  document.getElementById(
+    "btnCotizar"
+  ).style.display = "none";
 
-    }
+
+} else {
+
+  /* ===========================
+     ESPECIALISTA BÁSICO
+  =========================== */
+
+  document.getElementById(
+    "ratingSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "comentariosSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "planBasico"
+  ).style.display = "block";
+
+
+  /* Básico:
+     Cotizar mediante Solvify
+     WhatsApp directo oculto
+  */
+
+  document.getElementById(
+    "btnWhatsapp"
+  ).style.display = "none";
+
+  document.getElementById(
+    "btnCotizar"
+  ).style.display = "inline-flex";
+
+}
 
   } catch (error) {
 
