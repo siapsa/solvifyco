@@ -1,84 +1,218 @@
+
 <!DOCTYPE html>
 
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
+
   <title>Solvify - Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
   <style>
 
     :root {
+
       --primary: #7b3cff;
       --primary-soft: #f3ecff;
+
       --bg: #f7f7fb;
       --text: #222;
       --muted: #777;
+
       --border: #e2e2ee;
       --card: #fff;
+
       --radius: 10px;
+
     }
+
 
     * {
+
       box-sizing: border-box;
+
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
     }
+
 
     body {
+
       background: var(--bg);
+
       color: var(--text);
+
     }
-.premium {
-  font-size: 0.7rem;
-  color: #6d28d9;
-  background: #f3ecff;
-  border: 1px solid #d8c4ff;
-  padding: 3px 7px;
-  border-radius: 999px;
-}
 
-    .btn-eliminar {
-  border: 1px solid #dc2626;
-  color: #dc2626;
-  background: transparent;
-}
 
-.btn-eliminar:hover {
-  background: #fef2f2;
-}
-    /* NAVBAR */
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
 
     .navbar {
+
       background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 0.75rem 2rem;
+
+      border-bottom:
+        1px solid var(--border);
+
+      padding:
+        0.75rem 2rem;
 
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
     }
+
 
     .logo {
+
       color: var(--primary);
+
       font-weight: 700;
+
       font-size: 1.1rem;
+
     }
+
 
     .navbar span {
+
       color: var(--muted);
+
       font-size: 0.85rem;
+
     }
 
-    /* CONTENEDOR */
+
+    /* =====================================================
+       CONTENEDOR
+    ===================================================== */
 
     .page {
+
       max-width: 1100px;
+
       margin: 2rem auto;
-      padding: 0 1rem;
+
+      padding:
+        0 1rem;
+
     }
-.footer {
+
+
+    .header-panel {
+
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      margin-bottom:
+        1.5rem;
+
+    }
+
+
+    .header-panel h1 {
+
+      font-size:
+        1.5rem;
+
+    }
+
+
+    .header-panel p {
+
+      color:
+        var(--muted);
+
+      font-size:
+        0.9rem;
+
+      margin-top:
+        4px;
+
+    }
+
+
+    /* =====================================================
+       BOTONES
+    ===================================================== */
+
+    .btn {
+
+      border-radius:
+        999px;
+
+      padding:
+        0.45rem 1rem;
+
+      border:
+        none;
+
+      cursor:
+        pointer;
+
+      font-size:
+        0.85rem;
+
+    }
+
+
+    .btn-primary {
+
+      background:
+        var(--primary);
+
+      color:
+        white;
+
+    }
+
+
+    .btn-primary:hover {
+
+      background:
+        #6425df;
+
+    }
+
+
+    .btn-outline {
+
+      border:
+        1px solid var(--primary);
+
+      color:
+        var(--primary);
+
+      background:
+        transparent;
+
+    }
+
+    .footer {
 width: 100%;
 text-align: center;
 padding: 1.5rem 1rem;
@@ -87,265 +221,574 @@ border-top: 1px solid var(--border);
 color: var(--muted);
 font-size: 0.8rem;
 background: #fff;
-}
- 
-    .header-panel {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
+} 
 
-    .header-panel h1 {
-      font-size: 1.5rem;
-    }
-
-    .header-panel p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
-
-    .btn {
-      border-radius: 999px;
-      padding: 0.45rem 1rem;
-      border: none;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #6425df;
-    }
-
-    .btn-outline {
-      border: 1px solid var(--primary);
-      color: var(--primary);
-      background: transparent;
-    }
 
     .btn-outline:hover {
-      background: var(--primary-soft);
+
+      background:
+        var(--primary-soft);
+
     }
 
-    /* BUSCADOR */
+
+    .btn-danger {
+
+      border:
+        1px solid #dc2626;
+
+      color:
+        #dc2626;
+
+      background:
+        transparent;
+
+    }
+
+
+    .btn-danger:hover {
+
+      background:
+        #fef2f2;
+
+    }
+
+
+    .btn-premium {
+
+      background:
+        #f59e0b;
+
+      color:
+        white;
+
+      border:
+        none;
+
+      border-radius:
+        999px;
+
+      padding:
+        0.45rem 0.9rem;
+
+      cursor:
+        pointer;
+
+      font-size:
+        0.8rem;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .btn-premium:hover {
+
+      background:
+        #d97706;
+
+    }
+
+
+    /* =====================================================
+       BUSCADOR
+    ===================================================== */
 
     .search {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 999px;
 
-      padding: 0.6rem 1rem;
+      background:
+        white;
 
-      width: 100%;
-      margin-bottom: 1.5rem;
+      border:
+        1px solid var(--border);
 
-      outline: none;
-      font-size: 0.9rem;
+      border-radius:
+        999px;
+
+      padding:
+        0.6rem 1rem;
+
+      width:
+        100%;
+
+      margin-bottom:
+        1.5rem;
+
+      outline:
+        none;
+
+      font-size:
+        0.9rem;
+
     }
+
 
     .search:focus {
-      border-color: var(--primary);
+
+      border-color:
+        var(--primary);
+
     }
 
-    /* CONTADOR */
+
+    /* =====================================================
+       CONTADOR
+    ===================================================== */
 
     .contador {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
+
+      font-size:
+        0.85rem;
+
+      color:
+        var(--muted);
+
+      margin-bottom:
+        1rem;
+
     }
 
-    /* GRID */
+
+    /* =====================================================
+       GRID
+    ===================================================== */
 
     .tecnicos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(280px, 1fr)
+        );
+
+      gap:
+        1rem;
+
     }
 
-    /* CARD */
+
+    /* =====================================================
+       CARD
+    ===================================================== */
 
     .tecnico-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
 
-      padding: 1rem;
+      background:
+        var(--card);
 
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        1rem;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        0.6rem;
+
     }
+
 
     .tecnico-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        flex-start;
+
     }
+
 
     .tecnico-nombre {
-      font-size: 1rem;
-      font-weight: 600;
+
+      font-size:
+        1rem;
+
+      font-weight:
+        600;
+
     }
+
 
     .basico {
-      font-size: 0.7rem;
-      color: #9a3412;
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      padding: 3px 7px;
-      border-radius: 999px;
+
+      font-size:
+        0.7rem;
+
+      color:
+        #9a3412;
+
+      background:
+        #fff7ed;
+
+      border:
+        1px solid #fed7aa;
+
+      padding:
+        3px 7px;
+
+      border-radius:
+        999px;
+
     }
+
+
+    .premium {
+
+      font-size:
+        0.7rem;
+
+      color:
+        #92400e;
+
+      background:
+        #fffbeb;
+
+      border:
+        1px solid #fcd34d;
+
+      padding:
+        3px 7px;
+
+      border-radius:
+        999px;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .pendiente {
+
+      font-size:
+        0.7rem;
+
+      color:
+        #7c2d12;
+
+      background:
+        #fff7ed;
+
+      border:
+        1px solid #fdba74;
+
+      padding:
+        3px 7px;
+
+      border-radius:
+        999px;
+
+      font-weight:
+        600;
+
+    }
+
 
     .tecnico-servicio {
-      color: var(--primary);
-      font-size: 0.85rem;
-      font-weight: 500;
+
+      color:
+        var(--primary);
+
+      font-size:
+        0.85rem;
+
+      font-weight:
+        500;
+
     }
+
 
     .dato {
-      font-size: 0.82rem;
-      color: #555;
+
+      font-size:
+        0.82rem;
+
+      color:
+        #555;
+
     }
+
 
     .dato strong {
-      color: #333;
+
+      color:
+        #333;
+
     }
+
 
     .descripcion {
-      background: #f8f8fb;
-      padding: 0.6rem;
-      border-radius: 7px;
-      font-size: 0.8rem;
-      color: #555;
+
+      background:
+        #f8f8fb;
+
+      padding:
+        0.6rem;
+
+      border-radius:
+        7px;
+
+      font-size:
+        0.8rem;
+
+      color:
+        #555;
+
     }
+
 
     .acciones {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        0.5rem;
+
+      margin-top:
+        0.5rem;
+
     }
+
 
     .acciones button {
-      flex: 1;
+
+      flex:
+        1;
+
+      min-width:
+        110px;
+
     }
 
-    /* MODAL */
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
 
     .modal {
-      display: none;
 
-      position: fixed;
-      inset: 0;
+      display:
+        none;
 
-      z-index: 9999;
+      position:
+        fixed;
 
-      background: rgba(0, 0, 0, 0.45);
+      inset:
+        0;
 
-      align-items: center;
-      justify-content: center;
+      z-index:
+        9999;
 
-      padding: 20px;
+      background:
+        rgba(0,0,0,0.45);
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      padding:
+        20px;
+
     }
+
 
     .modal-content {
-      background: white;
 
-      width: 100%;
-      max-width: 500px;
+      background:
+        white;
 
-      max-height: 90vh;
-      overflow-y: auto;
+      width:
+        100%;
 
-      border-radius: var(--radius);
+      max-width:
+        500px;
 
-      border: 1px solid var(--border);
+      max-height:
+        90vh;
 
-      padding: 1.5rem;
+      overflow-y:
+        auto;
+
+      border-radius:
+        var(--radius);
+
+      border:
+        1px solid var(--border);
+
+      padding:
+        1.5rem;
+
     }
+
 
     .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
 
-      margin-bottom: 1.2rem;
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      margin-bottom:
+        1.2rem;
+
     }
+
 
     .modal-header h2 {
-      font-size: 1.2rem;
+
+      font-size:
+        1.2rem;
+
     }
+
 
     .cerrar {
-      border: none;
-      background: transparent;
 
-      font-size: 1.5rem;
+      border:
+        none;
 
-      cursor: pointer;
+      background:
+        transparent;
 
-      color: #777;
+      font-size:
+        1.5rem;
+
+      cursor:
+        pointer;
+
+      color:
+        #777;
+
     }
+
 
     .info-line {
-      padding: 0.65rem 0;
 
-      border-bottom: 1px solid var(--border);
+      padding:
+        0.65rem 0;
 
-      font-size: 0.85rem;
+      border-bottom:
+        1px solid var(--border);
+
+      font-size:
+        0.85rem;
+
     }
+
 
     .info-line strong {
-      display: block;
 
-      font-size: 0.75rem;
+      display:
+        block;
 
-      color: var(--muted);
+      font-size:
+        0.75rem;
 
-      margin-bottom: 3px;
+      color:
+        var(--muted);
+
+      margin-bottom:
+        3px;
+
     }
+
 
     .modal-actions {
-      display: flex;
-      gap: 0.6rem;
 
-      margin-top: 1.2rem;
+      display:
+        flex;
+
+      gap:
+        0.6rem;
+
+      margin-top:
+        1.2rem;
+
     }
+
 
     .modal-actions button {
-      flex: 1;
+
+      flex:
+        1;
+
     }
 
-    /* MENSAJE */
+
+    /* =====================================================
+       MENSAJE
+    ===================================================== */
 
     .mensaje {
-      text-align: center;
 
-      color: var(--muted);
+      text-align:
+        center;
 
-      padding: 3rem 1rem;
+      color:
+        var(--muted);
+
+      padding:
+        3rem 1rem;
+
     }
+
 
     @media (max-width: 600px) {
 
       .navbar {
-        padding: 0.75rem 1rem;
+
+        padding:
+          0.75rem 1rem;
+
       }
+
 
       .header-panel {
-        align-items: flex-start;
-        gap: 1rem;
-        flex-direction: column;
+
+        align-items:
+          flex-start;
+
+        gap:
+          1rem;
+
+        flex-direction:
+          column;
+
       }
 
+
       .tecnicos {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
 
     }
@@ -354,178 +797,277 @@ background: #fff;
 
 </head>
 
+
 <body>
 
-  <!-- NAVBAR -->
 
-  <header class="navbar">
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-```
-<div class="logo">
-  Solvify
-</div>
+<header class="navbar">
 
-<span>
-  Panel de gestión
-</span>
-```
+  <div class="logo">
 
-  </header>
-
-  <!-- CONTENIDO -->
-
-  <main class="page">
-
-<div class="header-panel">
-
-  <div>
-
-    <h1>
-      Especialistas Solvify
-    </h1>
-
-    <p>
-      Consulta rápidamente los datos de todos los especialistas registrados.
-    </p>
-
-  </div>
-
-  <button
-    class="btn btn-primary"
-    onclick="cargarTecnicos()">
-    Actualizar
-  </button>
-
-</div>
-
-
-<!-- BUSCADOR -->
-
-<input
-  type="text"
-  id="buscador"
-  class="search"
-  placeholder="Buscar por nombre o servicio...">
-
-
-<div
-  id="contador"
-  class="contador">
-  Cargando especialistas...
-</div>
-
-
-<!-- TÉCNICOS -->
-
-<section
-  id="tecnicosContainer"
-  class="tecnicos">
-
-</section>
-
-
-  </main>
-
-  <!-- MODAL -->
-
-  <div
-    id="modalTecnico"
-    class="modal">
-
-```
-<div class="modal-content">
-
-  <div class="modal-header">
-
-    <h2>
-      Información del especialista
-    </h2>
-
-    <button
-      class="cerrar"
-      onclick="cerrarModal()">
-      ×
-    </button>
+    Solvify
 
   </div>
 
 
-  <div id="informacionTecnico"></div>
+  <span>
+
+    Panel de gestión
+
+  </span>
+
+</header>
 
 
-  <div class="modal-actions">
+<!-- =====================================================
+     CONTENIDO
+===================================================== -->
 
-    <button
-      class="btn btn-outline"
-      onclick="copiarDatos()">
-      📋 Copiar datos
-    </button>
+<main class="page">
+
+
+  <div class="header-panel">
+
+    <div>
+
+      <h1>
+
+        Especialistas
+
+      </h1>
+
+
+      <p>
+
+        Gestiona los especialistas registrados en Solvify.
+
+      </p>
+
+    </div>
+
 
     <button
       class="btn btn-primary"
-      onclick="enviarWhatsApp()">
-      💬 WhatsApp
+      onclick="cargarTecnicos()">
+
+      Actualizar
+
     </button>
+
+  </div>
+
+
+  <!-- BUSCADOR -->
+
+  <input
+
+    type="text"
+
+    id="buscador"
+
+    class="search"
+
+    placeholder="Buscar por nombre, servicio o ciudad...">
+
+
+  <div
+
+    id="contador"
+
+    class="contador">
+
+    Cargando especialistas...
+
+  </div>
+
+
+  <!-- TÉCNICOS -->
+
+  <section
+
+    id="tecnicosContainer"
+
+    class="tecnicos">
+
+  </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+
+  id="modalTecnico"
+
+  class="modal">
+
+
+  <div class="modal-content">
+
+
+    <div class="modal-header">
+
+      <h2>
+
+        Información del especialista
+
+      </h2>
+
+
+      <button
+
+        class="cerrar"
+
+        onclick="cerrarModal()">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <div
+
+      id="informacionTecnico">
+
+    </div>
+
+
+    <div class="modal-actions">
+
+
+      <button
+
+        class="btn btn-outline"
+
+        onclick="copiarDatos()">
+
+        📋 Copiar datos
+
+      </button>
+
+
+      <button
+
+        class="btn btn-primary"
+
+        onclick="enviarWhatsApp()">
+
+        💬 WhatsApp
+
+      </button>
+
+
+    </div>
+
 
   </div>
 
 </div>
 
 
-  </div>
-
 <script>
+
+
+// =========================================================
+// API
+// =========================================================
 
 const API =
   "https://solvifyco-backend.onrender.com";
 
-let tecnicosBasicos = [];
 
-let tecnicoSeleccionado = null;
+let tecnicos =
+  [];
+
+let tecnicoSeleccionado =
+  null;
 
 
-/* =========================================================
-   CARGAR TÉCNICOS
-========================================================= */
+// =========================================================
+// CARGAR TÉCNICOS
+// =========================================================
 
 async function cargarTecnicos() {
 
+
   const container =
-    document.getElementById("tecnicosContainer");
+    document.getElementById(
+      "tecnicosContainer"
+    );
+
 
   const contador =
-    document.getElementById("contador");
+    document.getElementById(
+      "contador"
+    );
 
-  container.innerHTML =
-    `<div class="mensaje">Cargando especialistas...</div>`;
+
+  container.innerHTML = `
+
+    <div class="mensaje">
+
+      Cargando especialistas...
+
+    </div>
+
+  `;
+
 
   try {
 
+
     const res =
-      await fetch(`${API}/tecnicos`);
+      await fetch(
+        `${API}/tecnicos`
+      );
+
 
     if (!res.ok) {
+
       throw new Error(
         "No se pudieron obtener los técnicos."
       );
+
     }
 
-    const tecnicos =
+
+    tecnicos =
       await res.json();
 
-    // TODOS LOS TÉCNICOS
-    tecnicosBasicos = tecnicos;
 
-    mostrarTecnicos(tecnicosBasicos);
+    mostrarTecnicos(
+      tecnicos
+    );
+
 
   } catch (error) {
 
-    console.error(error);
 
-    container.innerHTML =
-      `<div class="mensaje">
+    console.error(
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="mensaje">
+
         No se pudieron cargar los especialistas.
-      </div>`;
+
+      </div>
+
+    `;
+
 
     contador.textContent =
       "Error cargando datos.";
@@ -533,129 +1075,520 @@ async function cargarTecnicos() {
   }
 
 }
-/* =========================================================
-   MOSTRAR TÉCNICOS
-========================================================= */
+
+
+// =========================================================
+// MOSTRAR TÉCNICOS
+// =========================================================
 
 function mostrarTecnicos(lista) {
 
+
   const container =
-    document.getElementById("tecnicosContainer");
+    document.getElementById(
+      "tecnicosContainer"
+    );
+
 
   const contador =
-    document.getElementById("contador");
+    document.getElementById(
+      "contador"
+    );
 
-  const cantidadPremium =
-    lista.filter(t => t.premium === true).length;
-
-  const cantidadBasicos =
-    lista.filter(t => t.premium === false).length;
 
   contador.textContent =
-    `${lista.length} especialista${lista.length !== 1 ? "s" : ""} · ` +
-    `${cantidadPremium} Premium · ` +
-    `${cantidadBasicos} Básico${cantidadBasicos !== 1 ? "s" : ""}`;
+
+    `${lista.length} especialista${
+
+      lista.length !== 1
+
+        ? "s"
+
+        : ""
+
+    } registrado${
+
+      lista.length !== 1
+
+        ? "s"
+
+        : ""
+
+    }`;
+
 
   if (lista.length === 0) {
 
-    container.innerHTML =
-      `<div class="mensaje">
+
+    container.innerHTML = `
+
+      <div class="mensaje">
+
         No hay especialistas registrados.
-      </div>`;
-
-    return;
-  }
-
-  container.innerHTML = "";
-
-  lista.forEach(tecnico => {
-
-    const card =
-      document.createElement("article");
-
-    card.className =
-      "tecnico-card";
-
-    const esPremium =
-      tecnico.premium === true;
-
-    card.innerHTML = `
-
-      <div class="tecnico-header">
-
-        <div class="tecnico-nombre">
-          ${tecnico.nombre}
-        </div>
-
-        <span class="${esPremium ? "premium" : "basico"}">
-          ${esPremium ? "⭐ Premium" : "Básico"}
-        </span>
-
-      </div>
-
-      <div class="tecnico-servicio">
-        👨‍🔧 ${tecnico.servicio}
-      </div>
-
-      <div class="dato">
-        <strong>Precio:</strong>
-        ${tecnico.precio} B/.
-      </div>
-
-      <div class="dato">
-        <strong>Ubicación:</strong>
-        ${tecnico.ciudad}
-      </div>
-
-      <div class="dato">
-        <strong>Teléfono:</strong>
-        ${tecnico.telefono}
-      </div>
-
-      <div class="dato">
-        <strong>Correo:</strong>
-        ${tecnico.correo}
-      </div>
-
-      <div class="descripcion">
-        ${tecnico.descripcion || "Sin descripción"}
-      </div>
-
-      <div class="acciones">
-
-        <button
-          class="btn btn-outline"
-          onclick="verTecnico(${tecnico.id})">
-          Ver información
-        </button>
-         <button
-    class="btn btn-eliminar"
-    onclick="eliminarTecnico(${tecnico.id})">
-    Eliminar
-  </button>
 
       </div>
 
     `;
 
-    container.appendChild(card);
 
-  });
+    return;
+
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  lista.forEach(
+    tecnico => {
+
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        "tecnico-card";
+
+
+      // =================================================
+      // ESTADO
+      // =================================================
+
+      let estado;
+
+
+      if (tecnico.premium) {
+
+
+        estado = `
+
+          <span class="premium">
+
+            ⭐ Premium
+
+          </span>
+
+        `;
+
+
+      } else if (
+        tecnico.premiumSolicitud
+      ) {
+
+
+        estado = `
+
+          <span class="pendiente">
+
+            🟠 Solicita Premium
+
+          </span>
+
+        `;
+
+
+      } else {
+
+
+        estado = `
+
+          <span class="basico">
+
+            Básico
+
+          </span>
+
+        `;
+
+      }
+
+
+      // =================================================
+      // BOTÓN PREMIUM
+      // =================================================
+
+      let botonPremium =
+        "";
+
+
+      if (
+        !tecnico.premium &&
+        tecnico.premiumSolicitud
+      ) {
+
+
+        botonPremium = `
+
+          <button
+
+            class="btn-premium"
+
+            onclick="aprobarPremium(${tecnico.id})">
+
+            ⭐ Aprobar Premium
+
+          </button>
+
+        `;
+
+      }
+
+
+      // =================================================
+      // CARD
+      // =================================================
+
+      card.innerHTML = `
+
+        <div class="tecnico-header">
+
+
+          <div class="tecnico-nombre">
+
+            ${tecnico.nombre}
+
+          </div>
+
+
+          ${estado}
+
+
+        </div>
+
+
+        <div class="tecnico-servicio">
+
+          👨‍🔧 ${tecnico.servicio}
+
+        </div>
+
+
+        <div class="dato">
+
+          <strong>Precio:</strong>
+
+          ${tecnico.precio} B/.
+
+        </div>
+
+
+        <div class="dato">
+
+          <strong>Ubicación:</strong>
+
+          ${tecnico.ciudad}
+
+        </div>
+
+
+        <div class="dato">
+
+          <strong>Teléfono:</strong>
+
+          ${tecnico.telefono}
+
+        </div>
+
+
+        <div class="dato">
+
+          <strong>Correo:</strong>
+
+          ${tecnico.correo}
+
+        </div>
+
+
+        <div class="descripcion">
+
+          ${tecnico.descripcion || "Sin descripción"}
+
+        </div>
+
+
+        <div class="acciones">
+
+
+          <button
+
+            class="btn btn-outline"
+
+            onclick="verTecnico(${tecnico.id})">
+
+            Ver información
+
+          </button>
+
+
+          ${botonPremium}
+
+
+          <button
+
+            class="btn btn-danger"
+
+            onclick="eliminarTecnico(${tecnico.id})">
+
+            🗑 Eliminar
+
+          </button>
+
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
 
 }
-/* =========================================================
-   VER INFORMACIÓN
-========================================================= */
 
-function verTecnico(id) {
 
-  tecnicoSeleccionado =
-    tecnicosBasicos.find(
-      tecnico => tecnico.id === id
+// =========================================================
+// APROBAR PREMIUM
+// =========================================================
+
+async function aprobarPremium(id) {
+
+
+  const tecnico =
+    tecnicos.find(
+      t => t.id === id
     );
 
 
-  if (!tecnicoSeleccionado) return;
+  if (!tecnico) return;
+
+
+  const confirmar =
+    confirm(
+
+      `¿Confirmar Premium para ${tecnico.nombre}?\n\n` +
+
+      "El especialista pasará al plan Premium de 5,00 B/. mensuales."
+
+    );
+
+
+  if (!confirmar) return;
+
+
+  try {
+
+
+    const res =
+      await fetch(
+
+        `${API}/tecnicos/${id}/premium`,
+
+        {
+
+          method:
+            "PATCH",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              premium:
+                true
+
+            })
+
+        }
+
+      );
+
+
+    const resultado =
+      await res.json();
+
+
+    if (!res.ok) {
+
+
+      throw new Error(
+
+        resultado.error ||
+
+        "No se pudo aprobar Premium."
+
+      );
+
+    }
+
+
+    alert(
+
+      "⭐ Premium aprobado correctamente."
+
+    );
+
+
+    await cargarTecnicos();
+
+
+  } catch (error) {
+
+
+    console.error(
+      error
+    );
+
+
+    alert(
+
+      "No se pudo aprobar el Premium.\n\n" +
+
+      error.message
+
+    );
+
+  }
+
+}
+
+
+// =========================================================
+// ELIMINAR TÉCNICO
+// =========================================================
+
+async function eliminarTecnico(id) {
+
+
+  const tecnico =
+    tecnicos.find(
+      t => t.id === id
+    );
+
+
+  if (!tecnico) return;
+
+
+  const confirmar =
+    confirm(
+
+      `¿Seguro que deseas eliminar a ${tecnico.nombre}?\n\n` +
+
+      "Esta acción también eliminará sus comentarios y ratings."
+
+    );
+
+
+  if (!confirmar) return;
+
+
+  try {
+
+
+    const res =
+      await fetch(
+
+        `${API}/tecnicos/${id}`,
+
+        {
+
+          method:
+            "DELETE"
+
+        }
+
+      );
+
+
+    const resultado =
+      await res.json();
+
+
+    if (!res.ok) {
+
+
+      throw new Error(
+
+        resultado.error ||
+
+        "No se pudo eliminar."
+
+      );
+
+    }
+
+
+    alert(
+      "Técnico eliminado correctamente."
+    );
+
+
+    await cargarTecnicos();
+
+
+  } catch (error) {
+
+
+    console.error(
+      error
+    );
+
+
+    alert(
+
+      "No se pudo eliminar el técnico."
+
+    );
+
+  }
+
+}
+
+
+// =========================================================
+// VER INFORMACIÓN
+// =========================================================
+
+function verTecnico(id) {
+
+
+  tecnicoSeleccionado =
+    tecnicos.find(
+      tecnico =>
+        tecnico.id === id
+    );
+
+
+  if (!tecnicoSeleccionado)
+    return;
+
+
+  const t =
+    tecnicoSeleccionado;
+
+
+  const estado =
+
+    t.premium
+
+      ? "⭐ Premium"
+
+      : t.premiumSolicitud
+
+        ? "🟠 Solicita Premium"
+
+        : "Básico";
 
 
   const info =
@@ -667,48 +1600,92 @@ function verTecnico(id) {
   info.innerHTML = `
 
     <div class="info-line">
+
       <strong>Nombre</strong>
-      ${tecnicoSeleccionado.nombre}
+
+      ${t.nombre}
+
     </div>
 
+
     <div class="info-line">
+
       <strong>Servicio</strong>
-      ${tecnicoSeleccionado.servicio}
+
+      ${t.servicio}
+
     </div>
 
+
     <div class="info-line">
+
       <strong>Descripción</strong>
-      ${tecnicoSeleccionado.descripcion || "Sin descripción"}
+
+      ${t.descripcion || "Sin descripción"}
+
     </div>
 
+
     <div class="info-line">
+
       <strong>Precio</strong>
-      ${tecnicoSeleccionado.precio} B/.
+
+      ${t.precio} B/.
+
     </div>
 
+
     <div class="info-line">
+
       <strong>Zona</strong>
-      ${tecnicoSeleccionado.zona}
+
+      ${t.zona}
+
     </div>
 
+
     <div class="info-line">
+
       <strong>Ciudad</strong>
-      ${tecnicoSeleccionado.ciudad}
+
+      ${t.ciudad}
+
     </div>
 
+
     <div class="info-line">
+
       <strong>Teléfono</strong>
-      ${tecnicoSeleccionado.telefono}
+
+      ${t.telefono}
+
     </div>
 
+
     <div class="info-line">
+
       <strong>Correo</strong>
-      ${tecnicoSeleccionado.correo}
+
+      ${t.correo}
+
     </div>
 
+
     <div class="info-line">
+
+      <strong>Plan / Estado</strong>
+
+      ${estado}
+
+    </div>
+
+
+    <div class="info-line">
+
       <strong>ID</strong>
-      ${tecnicoSeleccionado.id}
+
+      ${t.id}
+
     </div>
 
   `;
@@ -716,35 +1693,53 @@ function verTecnico(id) {
 
   document.getElementById(
     "modalTecnico"
-  ).style.display = "flex";
+  ).style.display =
+    "flex";
 
 }
 
 
-/* =========================================================
-   CERRAR MODAL
-========================================================= */
+// =========================================================
+// CERRAR MODAL
+// =========================================================
 
 function cerrarModal() {
 
+
   document.getElementById(
     "modalTecnico"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
 }
 
 
-/* =========================================================
-   COPIAR DATOS
-========================================================= */
+// =========================================================
+// COPIAR DATOS
+// =========================================================
 
 function copiarDatos() {
 
-  if (!tecnicoSeleccionado) return;
+
+  if (!tecnicoSeleccionado)
+    return;
 
 
   const t =
     tecnicoSeleccionado;
+
+
+  const plan =
+
+    t.premium
+
+      ? "Premium"
+
+      : t.premiumSolicitud
+
+        ? "Solicitud Premium pendiente"
+
+        : "Básico";
 
 
   const texto = `
@@ -759,7 +1754,7 @@ Zona: ${t.zona}
 Ciudad: ${t.ciudad}
 Teléfono: ${t.telefono}
 Correo: ${t.correo}
-Plan: Básico
+Plan: ${plan}
 ID: ${t.id}
 
   `.trim();
@@ -777,17 +1772,32 @@ ID: ${t.id}
 }
 
 
-/* =========================================================
-   WHATSAPP
-========================================================= */
+// =========================================================
+// WHATSAPP
+// =========================================================
 
 function enviarWhatsApp() {
 
-  if (!tecnicoSeleccionado) return;
+
+  if (!tecnicoSeleccionado)
+    return;
 
 
   const t =
     tecnicoSeleccionado;
+
+
+  const plan =
+
+    t.premium
+
+      ? "Premium"
+
+      : t.premiumSolicitud
+
+        ? "Solicitud Premium pendiente"
+
+        : "Básico";
 
 
   const texto = `
@@ -819,7 +1829,7 @@ Correo:
 ${t.correo}
 
 Plan:
-Básico
+${plan}
 
 ID del especialista:
 ${t.id}
@@ -828,7 +1838,9 @@ ${t.id}
 
 
   const mensaje =
-    encodeURIComponent(texto);
+    encodeURIComponent(
+      texto
+    );
 
 
   const numeroSolvify =
@@ -836,22 +1848,28 @@ ${t.id}
 
 
   window.open(
+
     `https://wa.me/${numeroSolvify}?text=${mensaje}`,
+
     "_blank"
+
   );
 
 }
 
 
-/* =========================================================
-   BUSCADOR
-========================================================= */
+// =========================================================
+// BUSCADOR
+// =========================================================
 
 document
-  .getElementById("buscador")
+  .getElementById(
+    "buscador"
+  )
   .addEventListener(
     "input",
     function () {
+
 
       const texto =
         this.value
@@ -860,24 +1878,45 @@ document
 
 
       const filtrados =
-        tecnicosBasicos.filter(
-          tecnico =>
+        tecnicos.filter(
+          tecnico => {
 
-            tecnico.nombre
-              .toLowerCase()
-              .includes(texto)
 
-            ||
+            return (
 
-            tecnico.servicio
-              .toLowerCase()
-              .includes(texto)
+              String(
+                tecnico.nombre || ""
+              )
+                .toLowerCase()
+                .includes(texto)
 
-            ||
+              ||
 
-            tecnico.ciudad
-              .toLowerCase()
-              .includes(texto)
+              String(
+                tecnico.servicio || ""
+              )
+                .toLowerCase()
+                .includes(texto)
+
+              ||
+
+              String(
+                tecnico.ciudad || ""
+              )
+                .toLowerCase()
+                .includes(texto)
+
+              ||
+
+              String(
+                tecnico.correo || ""
+              )
+                .toLowerCase()
+                .includes(texto)
+
+            );
+
+          }
         );
 
 
@@ -889,15 +1928,18 @@ document
   );
 
 
-/* =========================================================
-   CERRAR MODAL AL HACER CLICK AFUERA
-========================================================= */
+// =========================================================
+// CERRAR MODAL AL HACER CLICK AFUERA
+// =========================================================
 
 document
-  .getElementById("modalTecnico")
+  .getElementById(
+    "modalTecnico"
+  )
   .addEventListener(
     "click",
     function (event) {
+
 
       if (
         event.target === this
@@ -909,77 +1951,11 @@ document
 
     }
   );
-async function eliminarTecnico(id) {
 
-  const tecnico =
-    tecnicosBasicos.find(
-      tecnico => tecnico.id === id
-    );
 
-  if (!tecnico) {
-    return;
-  }
-
-  const confirmar = confirm(
-    `¿Seguro que deseas eliminar a ${tecnico.nombre}?\n\n` +
-    `Esta acción eliminará al especialista de Solvify.`
-  );
-
-  if (!confirmar) {
-    return;
-  }
-
-  try {
-
-    const res = await fetch(
-      `${API}/tecnicos/${id}`,
-      {
-        method: "DELETE"
-      }
-    );
-
-    const resultado =
-      await res.json();
-
-    if (!res.ok) {
-
-      throw new Error(
-        resultado.error ||
-        "No se pudo eliminar el técnico."
-      );
-
-    }
-
-    alert(
-      "Técnico eliminado correctamente."
-    );
-
-    // Quitar del array local
-    tecnicosBasicos =
-      tecnicosBasicos.filter(
-        tecnico => tecnico.id !== id
-      );
-
-    // Actualizar el panel
-    mostrarTecnicos(
-      tecnicosBasicos
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert(
-      "No se pudo eliminar el técnico."
-    );
-
-  }
-
-}
-
-/* =========================================================
-   INICIAR
-========================================================= */
+// =========================================================
+// INICIAR
+// =========================================================
 
 cargarTecnicos();
 
@@ -989,4 +1965,5 @@ cargarTecnicos();
 </footer>
 
 </body>
+
 </html>
