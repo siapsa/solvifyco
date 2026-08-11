@@ -514,6 +514,14 @@
   </div>
 
 <script>
+/* =========================================================
+   SOLVIFY - PERFIL DEL ESPECIALISTA
+   ========================================================= */
+
+/* ===========================
+   MODAL DE COTIZACIÓN
+=========================== */
+
 const modal = document.getElementById("cotizarModal");
 const btnCotizar = document.getElementById("btnCotizar");
 
@@ -540,7 +548,8 @@ document.getElementById("cotizarForm").addEventListener("submit", function (e) {
 
   const correoTecnico = document
     .getElementById("correoTecnico")
-    .textContent.trim();
+    .textContent
+    .trim();
 
   const mensaje = encodeURIComponent(`
 Nueva solicitud de cotización
@@ -558,45 +567,72 @@ Correo: ${datos.correo}
   closeModal();
 });
 
-  const params = new URLSearchParams(window.location.search);
 
+/* ===========================
+   OBTENER ID DEL TÉCNICO
+=========================== */
+
+const params = new URLSearchParams(window.location.search);
 const tecnicoId = params.get("id");
+
+const API = "https://solvifyco-backend.onrender.com";
+
+
+/* ===========================
+   CARGAR INFORMACIÓN DEL TÉCNICO
+=========================== */
 
 async function cargarTecnico() {
 
   try {
 
+    if (!tecnicoId) {
+      throw new Error("No se encontró el ID del técnico.");
+    }
+
     const res = await fetch(
-      `https://solvifyco-backend.onrender.com/tecnicos/${tecnicoId}`
+      `${API}/tecnicos/${tecnicoId}`
     );
 
+    if (!res.ok) {
+      throw new Error("No se pudo obtener el técnico.");
+    }
+
     const tecnico = await res.json();
+
+    /* Información básica */
+
     document.getElementById(
-  "breadcrumbNombre"
-).textContent = tecnico.nombre;
+      "breadcrumbNombre"
+    ).textContent = tecnico.nombre;
 
-document.getElementById(
-  "nombreTecnico"
-).textContent = tecnico.nombre;
+    document.getElementById(
+      "nombreTecnico"
+    ).textContent = tecnico.nombre;
 
-document.getElementById(
-  "precioTecnico"
-).textContent = tecnico.precio + ",00 B/.";
+    document.getElementById(
+      "precioTecnico"
+    ).textContent = tecnico.precio + ",00 B/.";
 
-document.getElementById(
-  "telefonoTecnico"
-).textContent = tecnico.telefono;
+    document.getElementById(
+      "telefonoTecnico"
+    ).textContent = tecnico.telefono;
 
-document.getElementById(
-  "correoVisible"
-).textContent = tecnico.correo;
+    document.getElementById(
+      "correoVisible"
+    ).textContent = tecnico.correo;
 
-document.getElementById(
-  "correoTecnico"
-).textContent = tecnico.correo;
+    document.getElementById(
+      "correoTecnico"
+    ).textContent = tecnico.correo;
 
-document.title =
-  "Solvify - " + tecnico.nombre;
+    document.title =
+      "Solvify - " + tecnico.nombre;
+
+
+    /* ===========================
+       PREMIUM / BÁSICO
+    =========================== */
 
     if (tecnico.premium) {
 
@@ -639,10 +675,18 @@ document.title =
 
 }
 
+
+/* =========================================================
+   RATING
+========================================================= */
+
 let uberRating = 0;
 
-const uberStars = document.querySelectorAll(".uber-star");
-const uberRatingText = document.getElementById("uberRatingText");
+const uberStars =
+  document.querySelectorAll(".uber-star");
+
+const uberRatingText =
+  document.getElementById("uberRatingText");
 
 const mensajes = {
   1: "Muy malo",
@@ -652,184 +696,575 @@ const mensajes = {
   5: "Excelente"
 };
 
-async function cargarRating() {
-  try {
-    const res = await fetch("https://solvifyco-backend.onrender.com/rating");
-
-    if (!res.ok) {
-      throw new Error("Error obteniendo rating");
-    }
-
-    const data = await res.json();
-
-    uberStars.forEach(s => s.classList.remove("selected"));
-
-    if (data.valor) {
-      uberRating = data.valor;
-
-      for (let i = 0; i < uberRating; i++) {
-        uberStars[i].classList.add("selected");
-      }
-
-      uberRatingText.textContent = mensajes[uberRating];
-    }
-
-  } catch (error) {
-    console.error("Error cargando rating:", error);
-  }
-}
-
-async function guardarRating(valor) {
-  try {
-
-    const res = await fetch("https://solvifyco-backend.onrender.com/rating", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ valor })
-    });
-
-    const data = await res.json();
-
-    console.log("Rating guardado:", data);
-
-  } catch (error) {
-    console.error("Error guardando rating:", error);
-    alert("No se pudo guardar el rating.");
-  }
-}
-
-uberStars.forEach(star => {
-  star.addEventListener("click", () => {
-
-    uberRating = parseInt(star.dataset.value);
-
-    uberStars.forEach(s => s.classList.remove("selected"));
-
-    for (let i = 0; i < uberRating; i++) {
-      uberStars[i].classList.add("selected");
-    }
-
-    uberRatingText.textContent = mensajes[uberRating];
-
-    guardarRating(uberRating);
-  });
-});
-
-cargarRating();
 
 /* ===========================
-   COMENTARIOS
+   CARGAR RATINGS DEL TÉCNICO
 =========================== */
 
-const btnComentar = document.getElementById("btncomentar");
-const nombreInput = document.getElementById("nombreComentario");
-const comentarioInput = document.getElementById("textoComentario");
+async function cargarRating() {
 
-let historial = document.getElementById("historialComentarios");
+  try {
+
+    if (!tecnicoId) return;
+
+    const res = await fetch(
+      `${API}/rating/${tecnicoId}`
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        "Error obteniendo ratings"
+      );
+    }
+
+    const ratings =
+      await res.json();
+
+
+    /* Limpiar estrellas */
+
+    uberStars.forEach(star => {
+      star.classList.remove("selected");
+    });
+
+
+    /* Si no existen ratings */
+
+    if (
+      !ratings ||
+      ratings.length === 0
+    ) {
+
+      uberRating = 0;
+
+      uberRatingText.textContent =
+        "Selecciona una calificación";
+
+      return;
+    }
+
+
+    /* Calcular promedio */
+
+    const suma = ratings.reduce(
+      (total, rating) =>
+        total + Number(rating.valor),
+      0
+    );
+
+    const promedio =
+      suma / ratings.length;
+
+
+    /* Mostrar promedio */
+
+    const promedioRedondeado =
+      Math.round(promedio);
+
+
+    uberRating =
+      promedioRedondeado;
+
+
+    for (
+      let i = 0;
+      i < promedioRedondeado;
+      i++
+    ) {
+
+      if (uberStars[i]) {
+        uberStars[i].classList.add(
+          "selected"
+        );
+      }
+
+    }
+
+
+    uberRatingText.textContent =
+      `Promedio: ${promedio.toFixed(1)} ⭐ (${ratings.length} valoración${ratings.length !== 1 ? "es" : ""})`;
+
+
+  } catch (error) {
+
+    console.error(
+      "Error cargando rating:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ===========================
+   GUARDAR RATING
+=========================== */
+
+async function guardarRating(valor) {
+
+  try {
+
+    if (!tecnicoId) {
+      throw new Error(
+        "No existe ID del técnico."
+      );
+    }
+
+    const res = await fetch(
+      `${API}/rating`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          tecnicoId: Number(tecnicoId),
+          valor: Number(valor)
+        })
+      }
+    );
+
+
+    if (!res.ok) {
+      throw new Error(
+        "Error guardando rating"
+      );
+    }
+
+
+    const data =
+      await res.json();
+
+    console.log(
+      "Rating guardado:",
+      data
+    );
+
+
+    /* Volver a cargar el promedio */
+
+    await cargarRating();
+
+
+  } catch (error) {
+
+    console.error(
+      "Error guardando rating:",
+      error
+    );
+
+    alert(
+      "No se pudo guardar el rating."
+    );
+
+  }
+
+}
+
+
+/* ===========================
+   SELECCIÓN DE ESTRELLAS
+=========================== */
+
+uberStars.forEach(star => {
+
+  star.addEventListener(
+    "click",
+    () => {
+
+      const valor =
+        parseInt(
+          star.dataset.value
+        );
+
+
+      uberRating = valor;
+
+
+      /* Mostrar selección */
+
+      uberStars.forEach(s => {
+        s.classList.remove(
+          "selected"
+        );
+      });
+
+
+      for (
+        let i = 0;
+        i < valor;
+        i++
+      ) {
+
+        if (uberStars[i]) {
+          uberStars[i].classList.add(
+            "selected"
+          );
+        }
+
+      }
+
+
+      uberRatingText.textContent =
+        mensajes[valor];
+
+
+      /* Guardar en backend */
+
+      guardarRating(valor);
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   COMENTARIOS
+========================================================= */
+
+const btnComentar =
+  document.getElementById(
+    "btncomentar"
+  );
+
+const nombreInput =
+  document.getElementById(
+    "nombreComentario"
+  );
+
+const comentarioInput =
+  document.getElementById(
+    "textoComentario"
+  );
+
+
+/* ===========================
+   CONTENEDOR DEL HISTORIAL
+=========================== */
+
+let historial =
+  document.getElementById(
+    "historialComentarios"
+  );
+
 
 if (!historial) {
 
-  historial = document.createElement("div");
-  historial.id = "historialComentarios";
+  historial =
+    document.createElement(
+      "div"
+    );
+
+  historial.id =
+    "historialComentarios";
+
 
   document
-    .querySelector(".comentario .card-content")
+    .querySelector(
+      ".comentario .card-content"
+    )
     .appendChild(historial);
+
 }
+
+
+/* ===========================
+   CARGAR COMENTARIOS
+=========================== */
 
 async function cargarComentarios() {
 
   try {
 
-    const res = await fetch("https://solvifyco-backend.onrender.com/comentarios");
+    if (!tecnicoId) return;
+
+
+    const res = await fetch(
+      `${API}/comentarios/${tecnicoId}`
+    );
+
 
     if (!res.ok) {
-      throw new Error("Error obteniendo comentarios");
+
+      throw new Error(
+        "Error obteniendo comentarios"
+      );
+
     }
 
-    const comentarios = await res.json();
 
-    renderComentarios(comentarios);
+    const comentarios =
+      await res.json();
+
+
+    renderComentarios(
+      comentarios
+    );
+
 
   } catch (error) {
-    console.error(error);
+
+    console.error(
+      "Error cargando comentarios:",
+      error
+    );
+
   }
+
 }
 
-btnComentar.addEventListener("click", async () => {
 
-  const nombre = nombreInput.value.trim();
-  const texto = comentarioInput.value.trim();
+/* ===========================
+   GUARDAR COMENTARIO
+=========================== */
 
-  if (!nombre || !texto) {
-    alert("Completa ambos campos.");
-    return;
+btnComentar.addEventListener(
+  "click",
+  async () => {
+
+    const nombre =
+      nombreInput.value.trim();
+
+    const texto =
+      comentarioInput.value.trim();
+
+
+    if (!nombre || !texto) {
+
+      alert(
+        "Completa ambos campos."
+      );
+
+      return;
+    }
+
+
+    try {
+
+      if (!tecnicoId) {
+
+        throw new Error(
+          "No existe ID del técnico."
+        );
+
+      }
+
+
+      const res = await fetch(
+        `${API}/comentarios`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            tecnicoId:
+              Number(tecnicoId),
+
+            nombre:
+              nombre,
+
+            texto:
+              texto
+
+          })
+
+        }
+      );
+
+
+      if (!res.ok) {
+
+        throw new Error(
+          "Error guardando comentario"
+        );
+
+      }
+
+
+      const data =
+        await res.json();
+
+
+      console.log(
+        "Comentario guardado:",
+        data
+      );
+
+
+      /* Limpiar formulario */
+
+      nombreInput.value = "";
+
+      comentarioInput.value = "";
+
+
+      /* Actualizar historial */
+
+      await cargarComentarios();
+
+
+    } catch (error) {
+
+      console.error(
+        "Error guardando comentario:",
+        error
+      );
+
+      alert(
+        "No se pudo guardar el comentario."
+      );
+
+    }
+
   }
+);
 
-  try {
 
-    const res = await fetch("https://solvifyco-backend.onrender.com/comentarios", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        nombre,
-        texto
-      })
-    });
-
-    const data = await res.json();
-
-    console.log("Comentario guardado:", data);
-
-    nombreInput.value = "";
-    comentarioInput.value = "";
-
-    cargarComentarios();
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("No se pudo guardar el comentario.");
-  }
-});
+/* =========================================================
+   MOSTRAR COMENTARIOS
+========================================================= */
 
 function renderComentarios(lista) {
 
   historial.innerHTML = "";
 
+
+  /* Si no existen comentarios */
+
+  if (
+    !lista ||
+    lista.length === 0
+  ) {
+
+    const vacio =
+      document.createElement(
+        "p"
+      );
+
+    vacio.textContent =
+      "Todavía no hay reseñas para este especialista.";
+
+    vacio.style.color =
+      "#6b7280";
+
+    vacio.style.marginTop =
+      "15px";
+
+    historial.appendChild(
+      vacio
+    );
+
+    return;
+  }
+
+
+  /* Crear cada comentario */
+
   lista.forEach(com => {
 
-    const item = document.createElement("div");
+    const item =
+      document.createElement(
+        "div"
+      );
 
-    item.style.padding = "12px";
-    item.style.marginBottom = "10px";
-    item.style.border = "1px solid #ddd";
-    item.style.borderRadius = "10px";
 
-    const nombre = document.createElement("strong");
-    nombre.textContent = com.nombre;
+    item.style.padding =
+      "14px";
 
-    const texto = document.createElement("p");
-    texto.textContent = com.texto;
+    item.style.marginTop =
+      "12px";
 
-    const fecha = document.createElement("small");
-    fecha.textContent = com.fecha;
+    item.style.border =
+      "1px solid #e5e7eb";
 
-    item.appendChild(nombre);
-    item.appendChild(texto);
-    item.appendChild(fecha);
+    item.style.borderRadius =
+      "10px";
 
-    historial.appendChild(item);
+    item.style.background =
+      "#ffffff";
+
+
+    /* Nombre del usuario */
+
+    const nombre =
+      document.createElement(
+        "strong"
+      );
+
+    nombre.textContent =
+      com.nombre;
+
+
+    /* Comentario */
+
+    const texto =
+      document.createElement(
+        "p"
+      );
+
+    texto.textContent =
+      com.texto;
+
+    texto.style.margin =
+      "6px 0";
+
+
+    /* Fecha */
+
+    const fecha =
+      document.createElement(
+        "small"
+      );
+
+    fecha.textContent =
+      com.fecha;
+
+    fecha.style.color =
+      "#9ca3af";
+
+
+    item.appendChild(
+      nombre
+    );
+
+    item.appendChild(
+      texto
+    );
+
+    item.appendChild(
+      fecha
+    );
+
+
+    historial.appendChild(
+      item
+    );
+
   });
+
 }
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
+
 cargarTecnico();
+
 cargarRating();
+
 cargarComentarios();
+
 </script>
 </body>
 </html>
