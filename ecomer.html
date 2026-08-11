@@ -152,6 +152,48 @@ background: #fff;
       font-size: 0.95rem;
     }
 
+    .nav-search {
+  width: 360px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  margin-left: 2rem;
+  margin-right: auto;
+}
+
+.nav-search span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nav-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.nav-search input::placeholder {
+  color: #999;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-search {
+    width: 200px;
+    margin-left: 0.5rem;
+  }
+}
+
     .nav-links a {
       text-decoration: none;
       color: var(--muted);
@@ -436,22 +478,36 @@ background: #fff;
   <!-- NAVBAR -->
   <header class="navbar">
     <div class="nav-left">
-      
-      <nav class="nav-links">
-        <a href="#" class="active" onclick="window.location.href='index.html'" >Inicio</a>
-        
-      </nav>
-    </div>
-    <div class="nav-right">
-    
-      
-      <button
-  id="btnContactenos"
-  class="btn-primary">
-  Registra tu Servicio
-</button>
-      
-    </div>
+
+  <nav class="nav-links">
+    <a href="#" class="active" onclick="window.location.href='index.html'">
+      Inicio
+    </a>
+  </nav>
+
+  <div class="nav-search">
+    <span>🔍</span>
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="¿Qué servicio estás buscando?"
+      autocomplete="off"
+    >
+
+  </div>
+
+</div>
+
+<div class="nav-right">
+
+  <button
+    id="btnContactenos"
+    class="btn-primary">
+    Registra tu Servicio
+  </button>
+
+</div>
   </header>
 
   <!-- CONTENT -->
@@ -800,7 +856,8 @@ let cards = [];
 let zonaSeleccionada = "all";
 
 let servicioSeleccionado = "all";
-
+  
+let textoBusqueda = "";
 
 // =========================================================
 // CARGAR TÉCNICOS
@@ -889,16 +946,14 @@ async function cargarTecnicos() {
 
 
       container.innerHTML += `
-
-        <article
-
-          class="card"
-
-          data-price="${tecnico.precio}"
-
-          data-zone="${tecnico.zona}"
-
-          data-service="${tecnico.servicio}">
+  <article
+  class="card"
+  data-price="${tecnico.precio}"
+  data-zone="${tecnico.zona}"
+  data-service="${tecnico.servicio}"
+  data-nombre="${tecnico.nombre}"
+  data-descripcion="${tecnico.descripcion}"
+  data-ciudad="${tecnico.ciudad}">
 
 
           <div
@@ -1017,6 +1072,21 @@ const services =
     "#serviceFilters .chip"
   );
 
+  const searchInput =
+  document.getElementById("searchInput");
+
+searchInput.addEventListener(
+  "input",
+  () => {
+
+    textoBusqueda =
+      searchInput.value.trim();
+
+    filtrar();
+
+  }
+);
+
 
 // =========================================================
 // FILTRAR
@@ -1027,65 +1097,67 @@ function filtrar() {
   const maxPrecio =
     parseInt(range.value);
 
-
   cards.forEach(card => {
-
 
     const precio =
       parseInt(
-        card.getAttribute(
-          "data-price"
-        )
+        card.getAttribute("data-price")
       );
-
 
     const zona =
-      card.getAttribute(
-        "data-zone"
-      );
-
+      card.getAttribute("data-zone");
 
     const servicio =
-      card.getAttribute(
-        "data-service"
-      );
+      card.getAttribute("data-service");
 
+    const nombre =
+      card.getAttribute("data-nombre") || "";
+
+    const descripcion =
+      card.getAttribute("data-descripcion") || "";
+
+    const ciudad =
+      card.getAttribute("data-ciudad") || "";
 
     const cumplePrecio =
       precio <= maxPrecio;
-
 
     const cumpleZona =
       zonaSeleccionada === "all" ||
       zona === zonaSeleccionada;
 
-
     const cumpleServicio =
       servicioSeleccionado === "all" ||
       servicio === servicioSeleccionado;
 
+    const textoCompleto =
+      `${nombre} ${descripcion} ${servicio} ${ciudad}`
+        .toLowerCase();
+
+    const cumpleBusqueda =
+      textoBusqueda === "" ||
+      textoCompleto.includes(
+        textoBusqueda.toLowerCase()
+      );
 
     if (
       cumplePrecio &&
       cumpleZona &&
-      cumpleServicio
+      cumpleServicio &&
+      cumpleBusqueda
     ) {
 
-      card.style.display =
-        "flex";
+      card.style.display = "flex";
 
     } else {
 
-      card.style.display =
-        "none";
+      card.style.display = "none";
 
     }
 
   });
 
 }
-
-
 // =========================================================
 // SLIDER PRECIO
 // =========================================================
