@@ -513,6 +513,9 @@ background: #fff;
 
   <!-- CONTENT -->
   <main class="page">
+    <button id="toggleFilters" class="toggle-filters">
+  ⚙️ Filtros <span id="filterArrow">⌄</span>
+    </button>
      <!-- SIDEBAR -->
     <aside class="sidebar">
       <section class="price-range">
@@ -1509,6 +1512,31 @@ imagen: ""
 // =========================================================
 
 cargarTecnicos();
+const toggleFilters =
+  document.getElementById("toggleFilters");
+
+const sidebar =
+  document.querySelector(".sidebar");
+
+const filterArrow =
+  document.getElementById("filterArrow");
+
+toggleFilters.addEventListener("click", () => {
+
+  sidebar.classList.toggle("filters-open");
+
+  if (sidebar.classList.contains("filters-open")) {
+
+    filterArrow.textContent = "⌃";
+
+  } else {
+
+    filterArrow.textContent = "⌄";
+
+  }
+
+});
+  
 
 </script>
 
