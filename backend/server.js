@@ -8,11 +8,18 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Rutas de los archivos JSON
+// =====================
+// ARCHIVOS JSON
+// =====================
+
 const comentariosFile = path.join(__dirname, "comentarios.json");
 const ratingFile = path.join(__dirname, "rating.json");
+const tecnicosFile = path.join(__dirname, "tecnicos.json");
 
-// Ruta principal para verificar que el servidor está vivo
+// =====================
+// RUTA PRINCIPAL
+// =====================
+
 app.get("/", (req, res) => {
   res.json({
     mensaje: "Backend Solvify funcionando correctamente"
@@ -23,15 +30,39 @@ app.get("/", (req, res) => {
 // COMENTARIOS
 // =====================
 
-// Obtener comentarios
+// Obtener TODOS los comentarios
 app.get("/comentarios", (req, res) => {
   try {
     const data = fs.readFileSync(comentariosFile, "utf8");
     res.json(JSON.parse(data));
   } catch (error) {
     console.error(error);
+
     res.status(500).json({
       error: "Error al leer comentarios"
+    });
+  }
+});
+
+// Obtener comentarios de un técnico específico
+app.get("/comentarios/:tecnicoId", (req, res) => {
+  try {
+    const tecnicoId = parseInt(req.params.tecnicoId);
+
+    const data = fs.readFileSync(comentariosFile, "utf8");
+    const comentarios = JSON.parse(data);
+
+    const comentariosTecnico = comentarios.filter(
+      comentario => comentario.tecnicoId === tecnicoId
+    );
+
+    res.json(comentariosTecnico);
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      error: "Error al obtener comentarios del técnico"
     });
   }
 });
@@ -39,10 +70,12 @@ app.get("/comentarios", (req, res) => {
 // Guardar comentario
 app.post("/comentarios", (req, res) => {
   try {
+
     const data = fs.readFileSync(comentariosFile, "utf8");
     const comentarios = JSON.parse(data);
 
     const nuevoComentario = {
+      tecnicoId: parseInt(req.body.tecnicoId),
       nombre: req.body.nombre,
       texto: req.body.texto,
       fecha: new Date().toLocaleString()
@@ -63,6 +96,7 @@ app.post("/comentarios", (req, res) => {
     });
 
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
@@ -75,13 +109,16 @@ app.post("/comentarios", (req, res) => {
 // RATING
 // =====================
 
-// Obtener rating
+// Obtener TODOS los ratings
 app.get("/rating", (req, res) => {
   try {
+
     const data = fs.readFileSync(ratingFile, "utf8");
+
     res.json(JSON.parse(data));
 
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
@@ -90,17 +127,49 @@ app.get("/rating", (req, res) => {
   }
 });
 
+// Obtener ratings de un técnico específico
+app.get("/rating/:tecnicoId", (req, res) => {
+  try {
+
+    const tecnicoId = parseInt(req.params.tecnicoId);
+
+    const data = fs.readFileSync(ratingFile, "utf8");
+    const ratings = JSON.parse(data);
+
+    const ratingsTecnico = ratings.filter(
+      rating => rating.tecnicoId === tecnicoId
+    );
+
+    res.json(ratingsTecnico);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "Error al obtener ratings del técnico"
+    });
+  }
+});
+
 // Guardar rating
 app.post("/rating", (req, res) => {
   try {
+
+    const data = fs.readFileSync(ratingFile, "utf8");
+    const ratings = JSON.parse(data);
+
     const nuevoRating = {
-      valor: req.body.valor,
+      tecnicoId: parseInt(req.body.tecnicoId),
+      valor: parseInt(req.body.valor),
       fecha: new Date().toLocaleString()
     };
 
+    ratings.push(nuevoRating);
+
     fs.writeFileSync(
       ratingFile,
-      JSON.stringify(nuevoRating, null, 2)
+      JSON.stringify(ratings, null, 2)
     );
 
     console.log("Rating guardado:", nuevoRating);
@@ -111,12 +180,70 @@ app.post("/rating", (req, res) => {
     });
 
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
       error: "Error al guardar rating"
     });
   }
+});
+
+// =====================
+// TÉCNICOS
+// =====================
+
+// Obtener todos los técnicos
+app.get("/tecnicos", (req, res) => {
+
+  try {
+
+    const data = fs.readFileSync(tecnicosFile, "utf8");
+
+    res.json(JSON.parse(data));
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "Error al leer técnicos"
+    });
+  }
+
+});
+
+// Obtener técnico por ID
+app.get("/tecnicos/:id", (req, res) => {
+
+  try {
+
+    const data = fs.readFileSync(tecnicosFile, "utf8");
+    const tecnicos = JSON.parse(data);
+
+    const tecnico = tecnicos.find(
+      t => t.id == req.params.id
+    );
+
+    if (!tecnico) {
+
+      return res.status(404).json({
+        error: "Técnico no encontrado"
+      });
+
+    }
+
+    res.json(tecnico);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "Error al obtener técnico"
+    });
+  }
+
 });
 
 // =====================
@@ -127,28 +254,4 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en puerto ${PORT}`);
-});
-
-const tecnicosFile = path.join(__dirname, "tecnicos.json");
-
-app.get("/tecnicos", (req, res) => {
-  const data = fs.readFileSync(tecnicosFile, "utf8");
-  res.json(JSON.parse(data));
-});
-
-app.get("/tecnicos/:id", (req, res) => {
-  const data = fs.readFileSync(tecnicosFile, "utf8");
-  const tecnicos = JSON.parse(data);
-
-  const tecnico = tecnicos.find(
-    t => t.id == req.params.id
-  );
-
-  if (!tecnico) {
-    return res.status(404).json({
-      error: "Técnico no encontrado"
-    });
-  }
-
-  res.json(tecnico);
 });
