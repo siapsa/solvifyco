@@ -257,110 +257,37 @@ app.post("/tecnicos", (req, res) => {
     const data = fs.readFileSync(tecnicosFile, "utf8");
     const tecnicos = JSON.parse(data);
 
-    const {
-      nombre,
-      servicio,
-      descripcion,
-      precio,
-      zona,
-      ciudad,
-      telefono,
-      correo,
-      solicitaPremium
-    } = req.body;
-
-
-    // =====================
-    // VALIDACIONES
-    // =====================
-
-    if (
-      !nombre ||
-      !servicio ||
-      !descripcion ||
-      !precio ||
-      !zona ||
-      !ciudad ||
-      !telefono ||
-      !correo
-    ) {
-
-      return res.status(400).json({
-        error: "Todos los campos son obligatorios"
-      });
-
-    }
-
-
-    // =====================
-    // IMAGEN AUTOMÁTICA
-    // =====================
-
-    const imagenes = {
-
-      electricista: "imagenes/electricista.jpg",
-
-      mantenimiento: "imagenes/mantenimiento.jpg",
-
-      ebanista: "imagenes/ebanista.jpg",
-
-      albanil: "imagenes/albanil.jpg",
-
-      abogado: "imagenes/abogado.jpg"
-
-    };
-
-    const imagen =
-      imagenes[servicio] || "imagenes/default.jpg";
-
-
-    // =====================
-    // GENERAR NUEVO ID
-    // =====================
-
-    const ultimoId =
+    // Obtener nuevo ID
+    const nuevoId =
       tecnicos.length > 0
-        ? Math.max(...tecnicos.map(t => Number(t.id)))
-        : 0;
-
-    const nuevoId = ultimoId + 1;
-
-
-    // =====================
-    // CREAR TÉCNICO
-    // =====================
+        ? Math.max(...tecnicos.map(t => Number(t.id))) + 1
+        : 1;
 
     const nuevoTecnico = {
 
       id: nuevoId,
 
-      nombre: nombre,
+      nombre: req.body.nombre,
 
-      servicio: servicio,
+      servicio: req.body.servicio,
 
-      descripcion: descripcion,
+      descripcion: req.body.descripcion,
 
-      precio: Number(precio),
+      precio: Number(req.body.precio),
 
-      zona: zona,
+      zona: req.body.zona,
 
-      ciudad: ciudad,
+      ciudad: req.body.ciudad,
 
-      telefono: telefono,
+      telefono: req.body.telefono,
 
-      correo: correo,
+      correo: req.body.correo,
 
-      imagen: imagen,
+      imagen: "",
 
-      // Siempre comienza como false
-      premium: false
+      premium: req.body.plan === "premium"
 
     };
-
-
-    // =====================
-    // GUARDAR EN JSON
-    // =====================
 
     tecnicos.push(nuevoTecnico);
 
@@ -369,27 +296,18 @@ app.post("/tecnicos", (req, res) => {
       JSON.stringify(tecnicos, null, 2)
     );
 
-
     console.log(
       "Nuevo técnico registrado:",
       nuevoTecnico
     );
 
-
-    // =====================
-    // RESPUESTA
-    // =====================
-
     res.status(201).json({
 
-      mensaje: solicitaPremium === true
-        ? "Registro creado. Solicitud Premium pendiente."
-        : "Técnico registrado correctamente.",
+      mensaje: "Técnico registrado correctamente",
 
       tecnico: nuevoTecnico
 
     });
-
 
   } catch (error) {
 
@@ -399,15 +317,12 @@ app.post("/tecnicos", (req, res) => {
     );
 
     res.status(500).json({
-
       error: "Error al registrar técnico"
-
     });
 
   }
 
 });
-
 // =====================
 // INICIAR SERVIDOR
 // =====================
