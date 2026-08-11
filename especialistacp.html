@@ -449,7 +449,7 @@
 </p>
 -->
 
-        <div class="contact-block">
+        <div class="contact-block" id="datosContactoTecnico">
           <div>
             <span class="contact-label">Teléfono</span><br />
             <span id="telefonoTecnico"></span>
@@ -710,11 +710,6 @@ btnWhatsapp.href =
     document.title =
       "Solvify - " + tecnico.nombre;
 
-
-    /* ===========================
-       PREMIUM / BÁSICO
-    =========================== */
-
    /* ===========================
    PREMIUM / BÁSICO
 =========================== */
@@ -750,7 +745,8 @@ if (tecnico.premium === true) {
   document.getElementById(
     "btnCotizar"
   ).style.display = "none";
-
+  
+document.getElementById("datosContactoTecnico").style.display = "grid";
 
 } else {
 
@@ -783,7 +779,8 @@ if (tecnico.premium === true) {
   document.getElementById(
     "btnCotizar"
   ).style.display = "inline-flex";
-
+  
+document.getElementById("datosContactoTecnico").style.display = "none";
 }
 
   } catch (error) {
