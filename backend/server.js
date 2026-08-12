@@ -2,7 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
-
+const { Resend } = require("resend");
 const app = express();
 
 app.use(express.json());
@@ -18,6 +18,11 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 });
+
+const resend = new Resend(
+  process.env.RESEND_API_KEY
+);
+
 
 // =========================================================
 // DATOS INICIALES DE TÉCNICOS
@@ -332,6 +337,60 @@ app.post("/login", (req, res) => {
   return res.status(401).json({
     ok: false
   });
+
+});
+
+// =========================================================
+// TEST EMAIL
+
+app.get("/test-email", async (req, res) => {
+
+  try {
+
+    await resend.emails.send({
+
+      from:
+        "onboarding@resend.dev",
+
+      to:
+        process.env.ADMIN_EMAIL,
+
+      subject:
+        "✅ Prueba Solvify",
+
+      html: `
+        <h2>Correo de prueba</h2>
+
+        <p>
+          Resend está funcionando correctamente.
+        </p>
+
+        <p>
+          Las notificaciones de Solvify están listas.
+        </p>
+      `
+
+    });
+
+    res.json({
+      ok: true,
+      mensaje:
+        "Correo enviado correctamente"
+    });
+
+  } catch (error) {
+
+    console.error(
+      "Error enviando correo:",
+      error
+    );
+
+    res.status(500).json({
+      error:
+        error.message
+    });
+
+  }
 
 });
 
