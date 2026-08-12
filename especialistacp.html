@@ -621,13 +621,46 @@ Agradezco su ayuda para gestionar el contacto con el especialista.`
 
 
   /* ===========================
-     ABRIR WHATSAPP DE SOLVIFY
+    Enviar cotizacion a admin
   =========================== */
 
-  window.open(
-    `https://wa.me/${whatsappSolvify}?text=${mensaje}`,
-    "_blank"
-  );
+  await fetch(
+  `${API}/cotizaciones`,
+  {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+
+      tecnicoId:
+        tecnicoActual.id,
+
+      clienteNombre:
+        datos.nombre,
+
+      descripcion:
+        datos.descripcion,
+
+      direccion:
+        datos.direccion,
+
+      telefono:
+        datos.telefono,
+
+      correo:
+        datos.correo
+
+    })
+
+  }
+);
+
+alert(
+  "Solicitud enviada correctamente a Solvify."
+);
 
   closeModal();
 
