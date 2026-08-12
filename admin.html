@@ -1136,6 +1136,14 @@ Panel de gestión
 
 
   </span>
+  
+<button
+  class="btn btn-danger"
+  onclick="cerrarSesion()">
+
+  Salir
+
+</button>  
 
 </header>
 
@@ -1461,6 +1469,17 @@ Panel de gestión
 </div>       
 
 <script>
+
+if (
+  localStorage.getItem(
+    "adminLogueado"
+  ) !== "true"
+) {
+
+  window.location.href =
+    "login.html";
+
+}  
 
 
 // =========================================================
@@ -3214,13 +3233,24 @@ document
       }
 
     }
-  );
+  ); 
 
 // =========================================================
 // INICIAR
 // =========================================================
 
 actualizarPanel();
+
+function cerrarSesion(){
+
+  localStorage.removeItem(
+    "adminLogueado"
+  );
+
+  window.location.href =
+    "login.html";
+
+}  
 
 
 </script>
