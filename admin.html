@@ -316,6 +316,75 @@ content="width=device-width, initial-scale=1"
 
     }
 
+    document
+  .getElementById(
+    "formEditarTecnico"
+  )
+  .addEventListener(
+    "submit",
+    async function(e) {
+
+      e.preventDefault();
+
+      const id =
+        document.getElementById(
+          "editId"
+        ).value;
+
+      await fetch(
+        `${API}/tecnicos/${id}`,
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            nombre:
+              document.getElementById(
+                "editNombre"
+              ).value,
+
+            servicio:
+              document.getElementById(
+                "editServicio"
+              ).value,
+
+            precio:
+              document.getElementById(
+                "editPrecio"
+              ).value,
+
+            ciudad:
+              document.getElementById(
+                "editCiudad"
+              ).value,
+
+            telefono:
+              document.getElementById(
+                "editTelefono"
+              ).value,
+
+            correo:
+              document.getElementById(
+                "editCorreo"
+              ).value
+
+          })
+
+        }
+      );
+
+      cerrarEditar();
+
+      actualizarPanel();
+
+    }
+  );
+
 
     /* =====================================================
        BUSCADOR
