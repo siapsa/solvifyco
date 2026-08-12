@@ -1527,6 +1527,135 @@ app.delete("/cotizaciones/:id", async (req, res) => {
 
 });
 
+app.put("/tecnicos/:id", async (req, res) => {
+
+  try {
+
+    const id =
+      parseInt(req.params.id);
+
+    const {
+      nombre,
+      servicio,
+      precio,
+      ciudad,
+      telefono,
+      correo
+    } = req.body;
+
+    const resultado =
+      await pool.query(
+        `
+        UPDATE tecnicos
+
+        SET
+          nombre = $1,
+          servicio = $2,
+          precio = $3,
+          ciudad = $4,
+          telefono = $5,
+          correo = $6
+
+        WHERE id = $7
+
+        RETURNING *
+        `,
+        [
+          nombre,
+          servicio,
+          precio,
+          ciudad,
+          telefono,
+          correo,
+          id
+        ]
+      );
+
+    res.json(
+      resultado.rows[0]
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "Error actualizando técnico"
+    });
+
+  }
+
+});
+
+document
+  .getElementById(
+    "formEditarTecnico"
+  )
+  .addEventListener(
+    "submit",
+    async function(e) {
+
+      e.preventDefault();
+
+      const id =
+        document.getElementById(
+          "editId"
+        ).value;
+
+      await fetch(
+        `${API}/tecnicos/${id}`,
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            nombre:
+              document.getElementById(
+                "editNombre"
+              ).value,
+
+            servicio:
+              document.getElementById(
+                "editServicio"
+              ).value,
+
+            precio:
+              document.getElementById(
+                "editPrecio"
+              ).value,
+
+            ciudad:
+              document.getElementById(
+                "editCiudad"
+              ).value,
+
+            telefono:
+              document.getElementById(
+                "editTelefono"
+              ).value,
+
+            correo:
+              document.getElementById(
+                "editCorreo"
+              ).value
+
+          })
+
+        }
+      );
+
+      cerrarEditar();
+
+      actualizarPanel();
+
+    }
+  );
+
 // =========================================================
 // INICIAR SERVIDOR
 // =========================================================
