@@ -2221,6 +2221,14 @@ function mostrarTecnicos(lista) {
 
           </button>
 
+<button
+  class="btn btn-primary"
+  onclick="editarTecnico(${tecnico.id})">
+
+  ✏️ Editar
+
+</button>
+
 
           <button
 
@@ -2231,6 +2239,16 @@ function mostrarTecnicos(lista) {
             🗑 Eliminar
 
           </button>
+      
+      <button
+  class="btn btn-primary"
+  onclick="cambiarPremium(${tecnico.id}, ${tecnico.premium})">
+
+  ${tecnico.premium
+      ? "⬇️ Pasar a Básico"
+      : "⭐ Pasar a Premium"}
+
+</button>    
 
 
         </div>
@@ -2564,7 +2582,79 @@ async function eliminarTecnico(id) {
   }
 
 }
+function editarTecnico(id) {
 
+  const tecnico =
+    tecnicos.find(
+      t => t.id === id
+    );
+
+  if (!tecnico) return;
+
+  document.getElementById("editId").value =
+    tecnico.id;
+
+  document.getElementById("editNombre").value =
+    tecnico.nombre;
+
+  document.getElementById("editServicio").value =
+    tecnico.servicio;
+
+  document.getElementById("editPrecio").value =
+    tecnico.precio;
+
+  document.getElementById("editCiudad").value =
+    tecnico.ciudad;
+
+  document.getElementById("editTelefono").value =
+    tecnico.telefono;
+
+  document.getElementById("editCorreo").value =
+    tecnico.correo;
+
+  document.getElementById(
+    "modalEditar"
+  ).style.display = "flex";
+
+}
+
+function cerrarEditar() {
+
+  document.getElementById(
+    "modalEditar"
+  ).style.display = "none";
+
+}  
+
+async function cambiarPremium(
+  id,
+  premiumActual
+) {
+
+  const nuevoEstado =
+    !premiumActual;
+
+  await fetch(
+    `${API}/tecnicos/${id}/premium`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type":
+          "application/json"
+      },
+
+      body: JSON.stringify({
+        premium:
+          nuevoEstado
+      })
+
+    }
+  );
+
+  actualizarPanel();
+
+}  
 
 // =========================================================
 // VER INFORMACIÓN
@@ -2959,6 +3049,64 @@ actualizarPanel();
 
 
 </script>
+
+<div id="modalEditar" class="modal">
+
+  <div class="modal-content">
+
+    <div class="modal-header">
+
+      <h2>Editar especialista</h2>
+
+      <button
+        class="cerrar"
+        onclick="cerrarEditar()">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <form id="formEditarTecnico">
+
+      <input type="hidden" id="editId">
+
+      <label>Nombre</label>
+      <input id="editNombre">
+
+      <label>Servicio</label>
+      <input id="editServicio">
+
+      <label>Precio</label>
+      <input id="editPrecio">
+
+      <label>Ciudad</label>
+      <input id="editCiudad">
+
+      <label>Teléfono</label>
+      <input id="editTelefono">
+
+      <label>Correo</label>
+      <input id="editCorreo">
+
+      <div class="modal-actions">
+
+        <button
+          type="submit"
+          class="btn btn-primary">
+
+          Guardar cambios
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>  
 
 <footer class="footer">
 
