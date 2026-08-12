@@ -856,32 +856,49 @@ app.post("/tecnicos", async (req, res) => {
         solicitud.rows[0]
       );
 
-   await resend.emails.send({
+   try {
 
-  from:
-    "onboarding@resend.dev",
+  const emailResultado =
+    await resend.emails.send({
 
-  to:
-    process.env.ADMIN_EMAIL,
+      from:
+        "onboarding@resend.dev",
 
-  subject:
-    "⭐ Nueva solicitud Premium",
+      to:
+        process.env.ADMIN_EMAIL,
 
-  html: `
-    <h2>Nueva solicitud Premium</h2>
+      subject:
+        "⭐ Nueva solicitud Premium",
 
-    <p>
-      Un especialista solicitó activar
-      el plan Premium.
-    </p>
+      html: `
+        <h2>Nueva solicitud Premium</h2>
 
-    <p>
-      Ingresa al panel de administración
-      para revisarla.
-    </p>
-  `
+        <p>
+          Un especialista solicitó activar
+          el plan Premium.
+        </p>
 
-});   
+        <p>
+          Ingresa al panel de administración
+          para revisarla.
+        </p>
+      `
+
+    });
+
+  console.log(
+    "Correo Premium enviado:",
+    emailResultado
+  );
+
+} catch (emailError) {
+
+  console.error(
+    "Error enviando correo Premium:",
+    emailError
+  );
+
+}
 
     }
 
