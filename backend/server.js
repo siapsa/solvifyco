@@ -164,7 +164,41 @@ async function inicializarBaseDatos() {
           ON DELETE CASCADE
       )
     `);
+    
+ // =====================================================
+// TABLA COTIZACIONES
+// =====================================================
 
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS cotizaciones (
+
+    id SERIAL PRIMARY KEY,
+
+    tecnico_id INTEGER NOT NULL,
+
+    cliente_nombre TEXT NOT NULL,
+
+    descripcion TEXT,
+
+    direccion TEXT,
+
+    telefono TEXT,
+
+    correo TEXT,
+
+    estado TEXT DEFAULT 'pendiente',
+
+    fecha TEXT,
+
+    CONSTRAINT fk_cotizacion_tecnico
+      FOREIGN KEY (tecnico_id)
+      REFERENCES tecnicos(id)
+      ON DELETE CASCADE
+
+  )
+`);
+
+    
     console.log("Tablas verificadas correctamente.");
 
     // =====================================================
@@ -1318,6 +1352,175 @@ app.put("/tecnicos/:id/premium", async (req, res) => {
     res.status(500).json({
       error:
         "Error al actualizar Premium"
+    });
+
+  }
+
+});
+
+// =========================================================
+// COTIZACIONES
+// =========================================================
+
+// Crear cotización
+
+app.post("/cotizaciones", async (req, res) => {
+
+  try {
+
+    const {
+      tecnicoId,
+      clienteNombre,
+      descripcion,
+      direccion,
+      telefono,
+      correo
+    } = req.body;
+
+    const fecha =
+      new Date().toLocaleString();
+
+    const resultado =
+      await pool.query(
+        `
+        INSERT INTO cotizaciones
+        (
+          tecnico_id,
+          cliente_nombre,
+          descripcion,
+          direccion,
+          telefono,
+          correo,
+          fecha
+        )
+        VALUES
+        ($1,$2,$3,$4,$5,$6,$7)
+        RETURNING *
+        `,
+        [
+          tecnicoId,
+          clienteNombre,
+          descripcion,
+          direccion,
+          telefono,
+          correo,
+          fecha
+        ]
+      );
+
+    res.status(201).json({
+      mensaje: "Cotización registrada",
+      cotizacion: resultado.rows[0]
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "No se pudo registrar la cotización"
+    });
+
+  }
+
+});
+
+// Obtener todas las cotizaciones
+
+app.get("/cotizaciones", async (req, res) => {
+
+  try {
+
+    const resultado =
+      await pool.query(`
+        SELECT
+          c.*,
+
+          t.nombre AS tecnico_nombre,
+          t.servicio
+
+        FROM cotizaciones c
+
+        INNER JOIN tecnicos t
+          ON t.id = c.tecnico_id
+
+        ORDER BY c.id DESC
+      `);
+
+    res.json(resultado.rows);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "No se pudieron obtener las cotizaciones"
+    });
+
+  }
+
+});
+
+// marcar atendidas las cotizaciones
+app.put("/cotizaciones/:id/atendida", async (req, res) => {
+
+  try {
+
+    const resultado =
+      await pool.query(
+        `
+        UPDATE cotizaciones
+
+        SET estado = 'atendida'
+
+        WHERE id = $1
+
+        RETURNING *
+        `,
+        [req.params.id]
+      );
+
+    res.json({
+      mensaje: "Cotización actualizada",
+      cotizacion: resultado.rows[0]
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "No se pudo actualizar"
+    });
+
+  }
+
+});
+
+// eliminar cotizaciones
+
+app.delete("/cotizaciones/:id", async (req, res) => {
+
+  try {
+
+    await pool.query(
+      `
+      DELETE FROM cotizaciones
+      WHERE id = $1
+      `,
+      [req.params.id]
+    );
+
+    res.json({
+      mensaje: "Cotización eliminada"
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "No se pudo eliminar"
     });
 
   }
