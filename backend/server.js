@@ -340,39 +340,6 @@ app.post("/login", (req, res) => {
 
 });
 
-// =========================================================
-// TEST EMAIL
-
-app.get("/test-email", async (req, res) => {
-
-  try {
-
-    const resultado =
-      await resend.emails.send({
-
-        from:
-          "onboarding@resend.dev",
-
-        to:
-          "solvify.siapco@gmail.com",
-
-        subject:
-          "✅ PRUEBA SOLVIFY",
-
-        html:
-          "<h1>Prueba desde Solvify</h1>"
-
-      });
-
-    res.json(resultado);
-
-  } catch (error) {
-
-    res.status(500).json(error);
-
-  }
-
-});
 
 // =========================================================
 // Obtener TODOS los comentarios
@@ -888,6 +855,33 @@ app.post("/tecnicos", async (req, res) => {
         "Solicitud Premium creada:",
         solicitud.rows[0]
       );
+
+   await resend.emails.send({
+
+  from:
+    "onboarding@resend.dev",
+
+  to:
+    process.env.ADMIN_EMAIL,
+
+  subject:
+    "⭐ Nueva solicitud Premium",
+
+  html: `
+    <h2>Nueva solicitud Premium</h2>
+
+    <p>
+      Un especialista solicitó activar
+      el plan Premium.
+    </p>
+
+    <p>
+      Ingresa al panel de administración
+      para revisarla.
+    </p>
+  `
+
+});   
 
     }
 
@@ -1469,6 +1463,31 @@ app.post("/cotizaciones", async (req, res) => {
           fecha
         ]
       );
+
+    await resend.emails.send({
+
+  from:
+    "onboarding@resend.dev",
+
+  to:
+    process.env.ADMIN_EMAIL,
+
+  subject:
+    "📋 Nueva cotización en Solvify",
+
+  html: `
+    <h2>Nueva cotización recibida</h2>
+
+    <p>
+      Se ha registrado una nueva cotización.
+    </p>
+
+    <p>
+      Ingresa al panel de administración para revisarla.
+    </p>
+  `
+
+});  
 
     res.status(201).json({
       mensaje: "Cotización registrada",
