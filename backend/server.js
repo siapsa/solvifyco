@@ -1464,7 +1464,7 @@ app.post("/cotizaciones", async (req, res) => {
         ]
       );
 
-    await resend.emails.send({
+   await resend.emails.send({
 
   from:
     "onboarding@resend.dev",
@@ -1487,7 +1487,7 @@ app.post("/cotizaciones", async (req, res) => {
     </p>
   `
 
-});  
+});
 
     res.status(201).json({
       mensaje: "Cotización registrada",
