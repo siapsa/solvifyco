@@ -937,13 +937,27 @@ async function cargarTecnicos() {
 
     const tecnicos =
       await res.json();
+    container.innerHTML = "";
 
 
     const container =
       document.getElementById(
         "cardsContainer"
       );
-
+    
+container.innerHTML = `
+  <div
+    style="
+      text-align:center;
+      padding:40px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      color:var(--muted);
+    ">
+    ⏳ Cargando especialistas...
+  </div>
+`;
 
     // =====================================================
     // IMÁGENES SEGÚN SERVICIO
