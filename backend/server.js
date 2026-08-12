@@ -347,48 +347,38 @@ app.get("/test-email", async (req, res) => {
 
   try {
 
-    await resend.emails.send({
+    const resultado =
+      await resend.emails.send({
 
-      from:
-        "onboarding@resend.dev",
+        from:
+          "onboarding@resend.dev",
 
-      to:
-        process.env.ADMIN_EMAIL,
+        to:
+          "solvify.siapco@gmail.com",
 
-      subject:
-        "✅ Prueba Solvify",
+        subject:
+          "✅ PRUEBA SOLVIFY",
 
-      html: `
-        <h2>Correo de prueba</h2>
+        html:
+          "<h1>Prueba desde Solvify</h1>"
 
-        <p>
-          Resend está funcionando correctamente.
-        </p>
+      });
 
-        <p>
-          Las notificaciones de Solvify están listas.
-        </p>
-      `
+    console.log(
+      "RESPUESTA RESEND:",
+      resultado
+    );
 
-    });
-
-    res.json({
-      ok: true,
-      mensaje:
-        "Correo enviado correctamente"
-    });
+    res.json(resultado);
 
   } catch (error) {
 
     console.error(
-      "Error enviando correo:",
+      "ERROR RESEND:",
       error
     );
 
-    res.status(500).json({
-      error:
-        error.message
-    });
+    res.status(500).json(error);
 
   }
 
