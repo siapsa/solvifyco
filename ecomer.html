@@ -919,45 +919,36 @@ let textoBusqueda = "";
 
 async function cargarTecnicos() {
 
-  try {
+try {
+  
+const container =
+document.getElementById("cardsContainer");
 
-    const res = await fetch(
-      "https://solvifyco-backend.onrender.com/tecnicos"
-    );
-
-
-    if (!res.ok) {
-
-      throw new Error(
-        "No se pudieron cargar los técnicos."
-      );
-
-    }
-
-
-    const tecnicos =
-      await res.json();
-    container.innerHTML = "";
-
-
-    const container =
-      document.getElementById(
-        "cardsContainer"
-      );
-    
+// Mostrar carga
 container.innerHTML = `
-  <div
-    style="
-      text-align:center;
-      padding:40px;
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      color:var(--muted);
-    ">
-    ⏳ Cargando especialistas...
-  </div>
+<div style="text-align:center;
+padding:40px;
+background:#fff;
+border:1px solid var(--border);
+border-radius:var(--radius);
+color:var(--muted);">
+
+⏳ Cargando especialistas...
+
+</div>
 `;
+
+const res = await fetch("https://solvifyco-backend.onrender.com/tecnicos");
+
+if (!res.ok) {
+
+throw new Error("No se pudieron cargar los técnicos.");
+}
+const tecnicos = await res.json();
+  
+// Borrar mensaje de carga
+container.innerHTML = "";
+tecnicos.forEach(tecnico => {
 
     // =====================================================
     // IMÁGENES SEGÚN SERVICIO
@@ -992,20 +983,9 @@ container.innerHTML = `
 
     }
 
-
-    // =====================================================
-    // LIMPIAR CONTENEDOR
-    // =====================================================
-
-    container.innerHTML = "";
-
-
     // =====================================================
     // CREAR TARJETAS
     // =====================================================
-
-    tecnicos.forEach(tecnico => {
-
 
       const imagenServicio =
         obtenerImagenServicio(
