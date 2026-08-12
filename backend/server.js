@@ -310,9 +310,32 @@ app.get("/", (req, res) => {
 });
 
 // =========================================================
-// COMENTARIOS
+// ACC
 // =========================================================
 
+app.post("/login", (req, res) => {
+
+  const { usuario, password } =
+    req.body;
+
+  if (
+    usuario === process.env.ADMIN_USER &&
+    password === process.env.ADMIN_PASS
+  ) {
+
+    return res.json({
+      ok: true
+    });
+
+  }
+
+  return res.status(401).json({
+    ok: false
+  });
+
+});
+
+// =========================================================
 // Obtener TODOS los comentarios
 
 app.get("/comentarios", async (req, res) => {
