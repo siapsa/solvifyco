@@ -316,75 +316,6 @@ content="width=device-width, initial-scale=1"
 
     }
 
-    document
-  .getElementById(
-    "formEditarTecnico"
-  )
-  .addEventListener(
-    "submit",
-    async function(e) {
-
-      e.preventDefault();
-
-      const id =
-        document.getElementById(
-          "editId"
-        ).value;
-
-      await fetch(
-        `${API}/tecnicos/${id}`,
-        {
-          method: "PUT",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-
-            nombre:
-              document.getElementById(
-                "editNombre"
-              ).value,
-
-            servicio:
-              document.getElementById(
-                "editServicio"
-              ).value,
-
-            precio:
-              document.getElementById(
-                "editPrecio"
-              ).value,
-
-            ciudad:
-              document.getElementById(
-                "editCiudad"
-              ).value,
-
-            telefono:
-              document.getElementById(
-                "editTelefono"
-              ).value,
-
-            correo:
-              document.getElementById(
-                "editCorreo"
-              ).value
-
-          })
-
-        }
-      );
-
-      cerrarEditar();
-
-      actualizarPanel();
-
-    }
-  );
-
 
     /* =====================================================
        BUSCADOR
@@ -1379,11 +1310,7 @@ Panel de gestión
      MODAL
 ===================================================== -->
 
-<div
-
-id="modalTecnico"
-
-class="modal">
+<div id="modalTecnico" class="modal">
 
   <div class="modal-content">
 
@@ -1408,7 +1335,6 @@ class="modal">
   </button>
 
 </div>
-
 
 <div
 
@@ -1448,6 +1374,64 @@ class="modal">
   </div>
 
 </div>
+
+<div id="modalEditar" class="modal">
+
+  <div class="modal-content">
+
+    <div class="modal-header">
+
+      <h2>Editar especialista</h2>
+
+      <button
+        class="cerrar"
+        onclick="cerrarEditar()">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <form id="formEditarTecnico">
+
+      <input type="hidden" id="editId">
+
+      <label>Nombre</label>
+      <input id="editNombre">
+
+      <label>Servicio</label>
+      <input id="editServicio">
+
+      <label>Precio</label>
+      <input id="editPrecio">
+
+      <label>Ciudad</label>
+      <input id="editCiudad">
+
+      <label>Teléfono</label>
+      <input id="editTelefono">
+
+      <label>Correo</label>
+      <input id="editCorreo">
+
+      <div class="modal-actions">
+
+        <button
+          type="submit"
+          class="btn btn-primary">
+
+          Guardar cambios
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>       
 
 <script>
 
@@ -3109,6 +3093,101 @@ document
     }
   );
 
+  document
+  .getElementById("formEditarTecnico")
+  .addEventListener(
+    "submit",
+    async function (e) {
+
+      e.preventDefault();
+
+      try {
+
+        const id =
+          document.getElementById(
+            "editId"
+          ).value;
+
+        const res =
+          await fetch(
+            `${API}/tecnicos/${id}`,
+            {
+              method: "PUT",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+
+                nombre:
+                  document.getElementById(
+                    "editNombre"
+                  ).value,
+
+                servicio:
+                  document.getElementById(
+                    "editServicio"
+                  ).value,
+
+                precio:
+                  document.getElementById(
+                    "editPrecio"
+                  ).value,
+
+                ciudad:
+                  document.getElementById(
+                    "editCiudad"
+                  ).value,
+
+                telefono:
+                  document.getElementById(
+                    "editTelefono"
+                  ).value,
+
+                correo:
+                  document.getElementById(
+                    "editCorreo"
+                  ).value
+
+              })
+
+            }
+          );
+
+        const resultado =
+          await res.json();
+
+        if (!res.ok) {
+
+          throw new Error(
+            resultado.error ||
+            "No se pudo actualizar"
+          );
+
+        }
+
+        alert(
+          "Especialista actualizado correctamente."
+        );
+
+        cerrarEditar();
+
+        await actualizarPanel();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          error.message
+        );
+
+      }
+
+    }
+  );
 
 // =========================================================
 // INICIAR
@@ -3119,63 +3198,7 @@ actualizarPanel();
 
 </script>
 
-<div id="modalEditar" class="modal">
 
-  <div class="modal-content">
-
-    <div class="modal-header">
-
-      <h2>Editar especialista</h2>
-
-      <button
-        class="cerrar"
-        onclick="cerrarEditar()">
-
-        ×
-
-      </button>
-
-    </div>
-
-    <form id="formEditarTecnico">
-
-      <input type="hidden" id="editId">
-
-      <label>Nombre</label>
-      <input id="editNombre">
-
-      <label>Servicio</label>
-      <input id="editServicio">
-
-      <label>Precio</label>
-      <input id="editPrecio">
-
-      <label>Ciudad</label>
-      <input id="editCiudad">
-
-      <label>Teléfono</label>
-      <input id="editTelefono">
-
-      <label>Correo</label>
-      <input id="editCorreo">
-
-      <div class="modal-actions">
-
-        <button
-          type="submit"
-          class="btn btn-primary">
-
-          Guardar cambios
-
-        </button>
-
-      </div>
-
-    </form>
-
-  </div>
-
-</div>  
 
 <footer class="footer">
 
