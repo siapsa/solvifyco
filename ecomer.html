@@ -978,6 +978,29 @@ tecnicos.forEach(tecnico => {
 
     }
 
+function obtenerNombreZona(zona) {
+
+  const zonas = {
+
+    panama: "Ciudad de Panamá",
+
+    oeste: "Panamá Oeste",
+
+    colon: "Colón",
+
+    chiriqui: "Chiriquí",
+
+    veraguas: "Veraguas",
+
+    cocle: "Coclé"
+
+  };
+
+  return zonas[zona] || zona;
+
+}
+
+
     // =====================================================
     // CREAR TARJETAS
     // =====================================================
@@ -1040,7 +1063,7 @@ tecnicos.forEach(tecnico => {
 
             <span>
 
-              📍 ${tecnico.zona}
+              📍 ${obtenerNombreZona(tecnico.zona)}
 
             </span>
 
