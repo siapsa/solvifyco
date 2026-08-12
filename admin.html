@@ -1201,6 +1201,45 @@ Panel de gestión
 
   </section>
 
+   <!-- ===================================================
+      Cotizaciones
+  ==================================================== -->
+
+
+  <section class="seccion">
+
+  <div class="seccion-header">
+
+    <div>
+
+      <h2>
+        📋 Cotizaciones
+      </h2>
+
+      <p>
+        Solicitudes recibidas para especialistas básicos.
+      </p>
+
+    </div>
+
+    <span
+      id="contadorCotizaciones"
+      class="badge-contador">
+
+      0 pendientes
+
+    </span>
+
+  </div>
+
+  <div
+    id="cotizacionesContainer"
+    class="tecnicos">
+
+  </div>
+
+</section>
+
   <!-- ===================================================
        ESPECIALISTAS
   ==================================================== -->
@@ -1352,14 +1391,13 @@ const API =
   "https://solvifyco-backend.onrender.com";
 
 
-let tecnicos =
-  [];
+let tecnicos = [];
 
-let solicitudes =
-  [];
+let solicitudes = [];
 
-let tecnicoSeleccionado =
-  null;
+let cotizaciones = [];
+
+let tecnicoSeleccionado = null;
 
 
 // =========================================================
@@ -1368,13 +1406,15 @@ let tecnicoSeleccionado =
 
 async function actualizarPanel() {
 
-  await Promise.all([
+await Promise.all([
 
-    cargarTecnicos(),
+  cargarTecnicos(),
 
-    cargarSolicitudesPremium()
+  cargarSolicitudesPremium(),
 
-  ]);
+  cargarCotizaciones()
+
+]);
 
 }
 
@@ -1730,7 +1770,265 @@ async function cargarSolicitudesPremium() {
   }
 
 }
+  
+async function cargarCotizaciones() {
 
+  const container =
+    document.getElementById(
+      "cotizacionesContainer"
+    );
+
+  const contador =
+    document.getElementById(
+      "contadorCotizaciones"
+    );
+
+  container.innerHTML = `
+    <div class="mensaje">
+      Cargando cotizaciones...
+    </div>
+  `;
+
+  try {
+
+    const res =
+      await fetch(
+        `${API}/cotizaciones`
+      );
+
+    if (!res.ok) {
+
+      throw new Error(
+        "No se pudieron obtener las cotizaciones."
+      );
+
+    }
+
+    cotizaciones =
+      await res.json();
+
+    const pendientes =
+      cotizaciones.filter(
+        c => c.estado === "pendiente"
+      );
+
+    contador.textContent =
+      `${pendientes.length} pendiente${pendientes.length !== 1 ? "s" : ""}`;
+
+    if (pendientes.length === 0) {
+
+      container.innerHTML = `
+        <div class="mensaje">
+          ✅ No existen cotizaciones pendientes.
+        </div>
+      `;
+
+      return;
+
+    }
+
+    container.innerHTML = "";
+
+    pendientes.forEach(cotizacion => {
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        "solicitud-card";
+
+      card.innerHTML = `
+
+        <div class="solicitud-header">
+
+          <div class="solicitud-titulo">
+
+            ${cotizacion.cliente_nombre}
+
+          </div>
+
+          <span class="solicitud-estado">
+
+            Pendiente
+
+          </span>
+
+        </div>
+
+        <div class="solicitud-info">
+
+          <strong>Especialista:</strong>
+
+          ${cotizacion.tecnico_nombre}
+
+        </div>
+
+        <div class="solicitud-info">
+
+          <strong>Servicio:</strong>
+
+          ${cotizacion.servicio}
+
+        </div>
+
+        <div class="solicitud-info">
+
+          <strong>Descripción:</strong>
+
+          ${cotizacion.descripcion}
+
+        </div>
+
+        <div class="solicitud-info">
+
+          <strong>Teléfono:</strong>
+
+          ${cotizacion.telefono}
+
+        </div>
+
+        <div class="solicitud-info">
+
+          <strong>Correo:</strong>
+
+          ${cotizacion.correo}
+
+        </div>
+
+        <div class="solicitud-info">
+
+          <strong>Dirección:</strong>
+
+          ${cotizacion.direccion}
+
+        </div>
+
+        <div class="solicitud-info">
+
+          <strong>Fecha:</strong>
+
+          ${cotizacion.fecha}
+
+        </div>
+
+        <div class="solicitud-acciones">
+
+          <button
+            class="btn-premium"
+            onclick="marcarCotizacionAtendida(${cotizacion.id})">
+
+            ✅ Atendida
+
+          </button>
+
+          <button
+            class="btn-rechazar"
+            onclick="eliminarCotizacion(${cotizacion.id})">
+
+            🗑 Eliminar
+
+          </button>
+
+        </div>
+
+      `;
+
+      container.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <div class="mensaje">
+        Error cargando cotizaciones.
+      </div>
+    `;
+
+  }
+
+}
+
+async function marcarCotizacionAtendida(id) {
+
+  try {
+
+    const res =
+      await fetch(
+        `${API}/cotizaciones/${id}/atendida`,
+        {
+          method: "PUT"
+        }
+      );
+
+    if (!res.ok) {
+
+      throw new Error(
+        "No se pudo actualizar."
+      );
+
+    }
+
+    await cargarCotizaciones();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "No se pudo actualizar la cotización."
+    );
+
+  }
+
+}
+
+async function eliminarCotizacion(id) {
+
+  const confirmar =
+    confirm(
+      "¿Deseas eliminar esta cotización?"
+    );
+
+  if (!confirmar) {
+    return;
+  }
+
+  try {
+
+    const res =
+      await fetch(
+        `${API}/cotizaciones/${id}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+    if (!res.ok) {
+
+      throw new Error(
+        "No se pudo eliminar."
+      );
+
+    }
+
+    await cargarCotizaciones();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "No se pudo eliminar la cotización."
+    );
+
+  }
+
+}
 
 // =========================================================
 // MOSTRAR TÉCNICOS
