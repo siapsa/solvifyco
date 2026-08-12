@@ -364,19 +364,9 @@ app.get("/test-email", async (req, res) => {
 
       });
 
-    console.log(
-      "RESPUESTA RESEND:",
-      resultado
-    );
-
     res.json(resultado);
 
   } catch (error) {
-
-    console.error(
-      "ERROR RESEND:",
-      error
-    );
 
     res.status(500).json(error);
 
