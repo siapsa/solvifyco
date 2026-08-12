@@ -879,33 +879,27 @@ content="width=device-width, initial-scale=1"
     }
 
 
-    .modal-content {
+.modal-content {
 
-      background:
-        white;
+  background: white;
 
-      width:
-        100%;
+  width: 100%;
 
-      max-width:
-        500px;
+  max-width: 550px;
 
-      max-height:
-        90vh;
+  max-height: 90vh;
 
-      overflow-y:
-        auto;
+  overflow-y: auto;
 
-      border-radius:
-        var(--radius);
+  border-radius: 16px;
 
-      border:
-        1px solid var(--border);
+  border: 1px solid var(--border);
 
-      padding:
-        1.5rem;
+  padding: 1.5rem;
 
-    }
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+
+}
 
 
     .modal-header {
@@ -1004,7 +998,40 @@ content="width=device-width, initial-scale=1"
         1;
 
     }
+/* =====================================================
+   FORMULARIO EDITAR TÉCNICO
+===================================================== */
 
+#formEditarTecnico {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#formEditarTecnico label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+#formEditarTecnico input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.9rem;
+  background: white;
+}
+
+#formEditarTecnico input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+#formEditarTecnico label:not(:first-of-type) {
+  margin-top: 6px;
+}
 
     /* =====================================================
        FOOTER
@@ -2705,7 +2732,7 @@ async function cambiarPremium(
     }
   );
 
-  actualizarPanel();
+  await actualizarPanel();
 
 }  
 
