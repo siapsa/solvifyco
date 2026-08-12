@@ -258,6 +258,73 @@
       }
     }
 
+    /* =====================================
+   SOLVIFY EN NUMEROS
+===================================== */
+
+.stats-section {
+  margin-top: 40px;
+}
+
+.stats-title {
+  margin-bottom: 16px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-label {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.beneficios {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.beneficio {
+  background: var(--primary-soft);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 700px) {
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .beneficios {
+    grid-template-columns: 1fr;
+  }
+
+}
+
     .footer {
 width: 100%;
 text-align: center;
@@ -316,8 +383,66 @@ background: #fff;
           <span class="arrow">➜</span>
         </button>
       </div>
+ 
     </section>
 
+       <section class="stats-section">
+
+  <h3 class="stats-title">
+    🚀 Solvify en números
+  </h3>
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <div class="stat-number" id="totalTecnicos">0</div>
+      <div class="stat-label">
+        Especialistas activos
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-number" id="totalPremium">0</div>
+      <div class="stat-label">
+        Especialistas Premium
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-number" id="totalZonas">0</div>
+      <div class="stat-label">
+        Zonas cubiertas
+      </div>
+    </div>
+
+  </div>
+
+  <div class="beneficios">
+
+    <div class="beneficio">
+      ✅ Especialistas verificados
+    </div>
+
+    <div class="beneficio">
+      ✅ Cotizaciones rápidas
+    </div>
+
+    <div class="beneficio">
+      ✅ Reseñas reales
+    </div>
+
+    <div class="beneficio">
+      ✅ Contacto directo Premium
+    </div>
+
+    <div class="beneficio">
+      ✅ Cobertura nacional
+    </div>
+
+  </div>
+
+</section>
+    
     <aside class="hero-right">
       <div class="hero-card">
        <img src="logo.jpg" width="200">
@@ -327,6 +452,65 @@ background: #fff;
       </div>
     </aside>
   </main>
+
+<script>
+
+async function cargarEstadisticas() {
+
+  try {
+
+    const res =
+      await fetch(
+        "https://solvifyco-backend.onrender.com/tecnicos"
+      );
+
+    const tecnicos =
+      await res.json();
+
+    const totalTecnicos =
+      tecnicos.length;
+
+    const totalPremium =
+      tecnicos.filter(
+        t => t.premium === true
+      ).length;
+
+    const totalZonas =
+      new Set(
+        tecnicos.map(
+          t => t.zona
+        )
+      ).size;
+
+    document.getElementById(
+      "totalTecnicos"
+    ).textContent =
+      totalTecnicos;
+
+    document.getElementById(
+      "totalPremium"
+    ).textContent =
+      totalPremium;
+
+    document.getElementById(
+      "totalZonas"
+    ).textContent =
+      totalZonas;
+
+  } catch (error) {
+
+    console.error(
+      "Error cargando estadísticas:",
+      error
+    );
+
+  }
+
+}
+
+cargarEstadisticas();
+
+</script>  
 
 <footer class="footer">
   © 2026 SIAP S.A. Todos los derechos reservados.
