@@ -1464,30 +1464,40 @@ app.post("/cotizaciones", async (req, res) => {
         ]
       );
 
-   await resend.emails.send({
+   console.log(
+  "Enviando correo de cotización..."
+);
 
-  from:
-    "onboarding@resend.dev",
+const emailResultado =
+  await resend.emails.send({
 
-  to:
-    process.env.ADMIN_EMAIL,
+    from:
+      "onboarding@resend.dev",
 
-  subject:
-    "📋 Nueva cotización en Solvify",
+    to:
+      process.env.ADMIN_EMAIL,
 
-  html: `
-    <h2>Nueva cotización recibida</h2>
+    subject:
+      "📋 Nueva cotización en Solvify",
 
-    <p>
-      Se ha registrado una nueva cotización.
-    </p>
+    html: `
+      <h2>Nueva cotización recibida</h2>
 
-    <p>
-      Ingresa al panel de administración para revisarla.
-    </p>
-  `
+      <p>
+        Se ha registrado una nueva cotización.
+      </p>
 
-});
+      <p>
+        Ingresa al panel de administración para revisarla.
+      </p>
+    `
+
+  });
+
+console.log(
+  "Respuesta Resend:",
+  emailResultado
+);
 
     res.status(201).json({
       mensaje: "Cotización registrada",
