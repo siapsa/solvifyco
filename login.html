@@ -219,7 +219,7 @@ document
   .getElementById("loginForm")
   .addEventListener(
     "submit",
-    function(e){
+   async function(e){
 
       e.preventDefault();
 
@@ -232,32 +232,53 @@ document
         document.getElementById(
           "password"
         ).value;
+try {
+ const res =
+  await fetch(
+    "https://solvifyco-backend.onrender.com/login",
+    {
+      method: "POST",
 
-      if(
-        usuario === "admin" &&
-        password === "solvify2026"
-      ){
+      headers: {
+        "Content-Type":
+          "application/json"
+      },
 
-        localStorage.setItem(
-          "adminLogueado",
-          "true"
-        );
-
-        window.location.href =
-          "admin.html";
-
-      }else{
-
-        document.getElementById(
-          "error"
-        ).textContent =
-          "Usuario o contraseña incorrectos.";
-
-      }
-
+      body: JSON.stringify({
+        usuario,
+        password
+      })
     }
   );
 
+const data =
+  await res.json();
+
+if (data.ok) {
+
+  localStorage.setItem(
+    "adminLogueado",
+    "true"
+  );
+
+  window.location.href =
+    "admin.html";
+
+} else {
+
+  document.getElementById(
+    "error"
+  ).textContent =
+    "Usuario o contraseña incorrectos.";
+
+}
+  
+} catch(error) {
+
+document.getElementById("error").textContent = "No se pudo conectar con el servidor.";}
+}
+);
+  
 </script>
 
 </body>
