@@ -789,20 +789,14 @@ background: #fff;
   id="fotoPerfil"
   accept="image/*">
 
-<div
-  id="galeriaPremiumInputs"
-  style="display:none;">
+<label>Trabajo 1</label>
+<input type="file" id="fotoTrabajo1">
 
-  <label>Trabajo 1</label>
-  <input type="file" id="fotoTrabajo1">
+<label>Trabajo 2</label>
+<input type="file" id="fotoTrabajo2">
 
-  <label>Trabajo 2</label>
-  <input type="file" id="fotoTrabajo2">
-
-  <label>Trabajo 3</label>
-  <input type="file" id="fotoTrabajo3">
-
-</div>
+<label>Trabajo 3</label>
+<input type="file" id="fotoTrabajo3">
 
 
   <h3>Plan</h3>
@@ -945,37 +939,6 @@ async function subirACloudinary(
 
 }  
 
-document
-  .querySelector(
-    'input[value="premium"]'
-  )
-  .addEventListener(
-    "change",
-    () => {
-
-      document.getElementById(
-        "galeriaPremiumInputs"
-      ).style.display =
-        "block";
-
-    }
-  );
-
-document
-  .querySelector(
-    'input[value="basico"]'
-  )
-  .addEventListener(
-    "change",
-    () => {
-
-      document.getElementById(
-        "galeriaPremiumInputs"
-      ).style.display =
-        "none";
-
-    }
-  ); 
 
 
 
@@ -1430,21 +1393,20 @@ registroForm.addEventListener(
   );
 
 const fotoTrabajo1 =
-  solicitaPremium
-    ? await subirACloudinary("fotoTrabajo1")
-    : "";
+  await subirACloudinary(
+    "fotoTrabajo1"
+  );
 
 const fotoTrabajo2 =
-  solicitaPremium
-    ? await subirACloudinary("fotoTrabajo2")
-    : "";
+  await subirACloudinary(
+    "fotoTrabajo2"
+  );
 
 const fotoTrabajo3 =
-  solicitaPremium
-    ? await subirACloudinary("fotoTrabajo3")
-    : "";
-
-
+  await subirACloudinary(
+    "fotoTrabajo3"
+  );
+    
     // =====================================================
     // DATOS DEL TÉCNICO
     // =====================================================
