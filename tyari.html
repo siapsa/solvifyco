@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ventas y Transporte Yari S.A. | Transporte Nacional</title>
+
+  <meta
+    name="description"
+    content="Ventas y Transporte Yari S.A. Transporte pesado y carga a todo Panamá."
+  >
+
+  <style>
+
+    :root {
+      --bg: #f6f7f8;
+      --white: #ffffff;
+      --black: #111315;
+      --gray: #6b7077;
+      --light-gray: #e7e9ec;
+      --accent: #f59e0b;
+      --accent-dark: #d97706;
+      --green: #16a34a;
+      --radius: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+      background: var(--bg);
+      color: var(--black);
+
+      line-height: 1.5;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: rgba(246,247,248,.88);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(0,0,0,.05);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      height: 76px;
+
+      margin: auto;
+
+      padding: 0 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      font-weight: 800;
+      font-size: 17px;
+
+      letter-spacing: -.5px;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: var(--black);
+      color: white;
+
+      border-radius: 11px;
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+
+      color: var(--gray);
+
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--black);
+    }
+
+    .nav-button {
+      background: var(--black);
+      color: white;
+
+      border: none;
+      border-radius: 10px;
+
+      padding: 11px 18px;
+
+      font-size: 13px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-2px);
+      background: #292c30;
+    }
+
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      max-width: 1200px;
+
+      margin: auto;
+
+      padding: 105px 24px 90px;
+
+      display: grid;
+
+      grid-template-columns:
+        1.05fr
+        .95fr;
+
+      gap: 70px;
+
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+
+      align-items: center;
+      gap: 8px;
+
+      padding: 7px 12px;
+
+      border: 1px solid var(--light-gray);
+
+      background: white;
+
+      border-radius: 999px;
+
+      color: var(--gray);
+
+      font-size: 12px;
+      font-weight: 600;
+
+      margin-bottom: 25px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+    }
+
+    .hero h1 {
+      font-size: clamp(45px, 6vw, 76px);
+
+      line-height: .98;
+
+      letter-spacing: -4px;
+
+      font-weight: 850;
+    }
+
+    .hero h1 span {
+      color: #747980;
+    }
+
+    .hero p {
+      max-width: 570px;
+
+      margin: 25px 0 32px;
+
+      color: var(--gray);
+
+      font-size: 18px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 11px;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: white;
+
+      border: none;
+
+      padding: 13px 20px;
+
+      border-radius: 11px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: white;
+
+      border: 1px solid var(--light-gray);
+
+      padding: 13px 20px;
+
+      border-radius: 11px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+
+    /* =========================
+       TRUCK VISUAL
+    ========================= */
+
+    .truck-card {
+      min-height: 440px;
+
+      border-radius: 25px;
+
+      background: #16181b;
+
+      position: relative;
+
+      overflow: hidden;
+
+      display: flex;
+
+      align-items: flex-end;
+
+      padding: 30px;
+
+      box-shadow:
+        0 30px 70px rgba(0,0,0,.15);
+    }
+
+    .truck-background {
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          #282c31,
+          #0e1012
+        );
+    }
+
+    .truck-grid {
+      position: absolute;
+
+      inset: 0;
+
+      opacity: .12;
+
+      background-image:
+        linear-gradient(
+          rgba(255,255,255,.25) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.25) 1px,
+          transparent 1px
+        );
+
+      background-size: 45px 45px;
+    }
+
+    .truck-icon {
+      position: absolute;
+
+      inset: 0;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 155px;
+
+      filter:
+        grayscale(1)
+        brightness(1.4);
+
+      opacity: .9;
+    }
+
+    .truck-info {
+      position: relative;
+
+      z-index: 2;
+
+      color: white;
+    }
+
+    .truck-info small {
+      color: #aeb2b7;
+
+      font-size: 12px;
+    }
+
+    .truck-info h3 {
+      margin-top: 4px;
+
+      font-size: 25px;
+
+      letter-spacing: -.8px;
+    }
+
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      max-width: 1200px;
+
+      margin: auto;
+
+      padding: 0 24px 80px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap: 12px;
+    }
+
+    .stat {
+      background: white;
+
+      border: 1px solid var(--light-gray);
+
+      border-radius: 17px;
+
+      padding: 25px;
+    }
+
+    .stat strong {
+      display: block;
+
+      font-size: 29px;
+
+      letter-spacing: -1px;
+    }
+
+    .stat span {
+      color: var(--gray);
+
+      font-size: 13px;
+    }
+
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section {
+      max-width: 1200px;
+
+      margin: auto;
+
+      padding: 90px 24px;
+    }
+
+    .section-label {
+      color: var(--gray);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.7px;
+
+      font-size: 11px;
+
+      font-weight: 800;
+    }
+
+    .section-title {
+      margin-top: 8px;
+
+      font-size: 39px;
+
+      letter-spacing: -1.8px;
+    }
+
+    .section-description {
+      max-width: 580px;
+
+      color: var(--gray);
+
+      margin-top: 12px;
+    }
+
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .services {
+      margin-top: 38px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 15px;
+    }
+
+    .service {
+      background: white;
+
+      border: 1px solid var(--light-gray);
+
+      border-radius: var(--radius);
+
+      padding: 30px;
+
+      transition: .25s;
+    }
+
+    .service:hover {
+      transform: translateY(-5px);
+
+      box-shadow:
+        0 20px 45px rgba(0,0,0,.07);
+    }
+
+    .service-icon {
+      width: 46px;
+      height: 46px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #fff7e6;
+
+      color: var(--accent-dark);
+
+      border-radius: 12px;
+
+      margin-bottom: 20px;
+
+      font-size: 20px;
+    }
+
+    .service h3 {
+      font-size: 18px;
+
+      margin-bottom: 8px;
+    }
+
+    .service p {
+      color: var(--gray);
+
+      font-size: 14px;
+    }
+
+
+    /* =========================
+       COBERTURA
+    ========================= */
+
+    .coverage {
+      background: var(--black);
+
+      color: white;
+
+      border-radius: 25px;
+
+      padding: 55px;
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 50px;
+
+      align-items: center;
+    }
+
+    .coverage h2 {
+      font-size: 43px;
+
+      letter-spacing: -2px;
+
+      line-height: 1;
+    }
+
+    .coverage p {
+      color: #a7abb1;
+
+      margin-top: 15px;
+
+      max-width: 450px;
+    }
+
+    .map {
+      min-height: 300px;
+
+      border-radius: 18px;
+
+      background:
+        radial-gradient(
+          circle at 50% 45%,
+          #3c4148 0,
+          #17191c 55%
+        );
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 100px;
+    }
+
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+      max-width: 1200px;
+
+      margin: 0 auto 90px;
+
+      padding: 70px 30px;
+
+      text-align: center;
+
+      background: white;
+
+      border: 1px solid var(--light-gray);
+
+      border-radius: 25px;
+    }
+
+    .cta h2 {
+      font-size: 42px;
+
+      letter-spacing: -2px;
+    }
+
+    .cta p {
+      color: var(--gray);
+
+      margin: 12px auto 25px;
+
+      max-width: 520px;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid var(--light-gray);
+
+      padding: 35px 24px;
+
+      color: var(--gray);
+
+      font-size: 13px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+
+      margin: auto;
+
+      display: flex;
+
+      justify-content: space-between;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width:850px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+
+        padding-top: 70px;
+
+        gap: 45px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2.5px;
+      }
+
+      .truck-card {
+        min-height: 330px;
+      }
+
+      .truck-icon {
+        font-size: 110px;
+      }
+
+      .stats {
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .coverage {
+        grid-template-columns: 1fr;
+
+        padding: 30px;
+      }
+
+      .coverage h2 {
+        font-size: 35px;
+      }
+
+      .map {
+        min-height: 220px;
+      }
+
+      .footer-container {
+        flex-direction: column;
+
+        gap: 10px;
+      }
+
+    }
+
+
+    @media(max-width:500px) {
+
+      .nav-button {
+        display: none;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-buttons button {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        font-size: 32px;
+      }
+
+      .cta h2 {
+        font-size: 32px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+
+  <nav class="navbar">
+
+    <div class="nav-container">
+
+      <a href="#" class="logo">
+
+        <span class="logo-icon">
+          YT
+        </span>
+
+        Ventas y Transporte Yari S.A.
+
+      </a>
+
+
+      <div class="nav-links">
+
+        <a href="#servicios">
+          Servicios
+        </a>
+
+        <a href="#cobertura">
+          Cobertura
+        </a>
+
+        <a href="#empresa">
+          Nosotros
+        </a>
+
+      </div>
+
+
+      <button
+        class="nav-button"
+        onclick="contactar()"
+      >
+        Solicitar servicio
+      </button>
+
+    </div>
+
+  </nav>
+
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
+  <main>
+
+    <section class="hero">
+
+
+      <div>
+
+        <div class="badge">
+
+          <span class="badge-dot"></span>
+
+          Transporte nacional
+
+        </div>
+
+
+        <h1>
+
+          Movemos tu carga.
+          <span>A todo Panamá.</span>
+
+        </h1>
+
+
+        <p>
+
+          Transporte pesado, carga y logística
+          para empresas y proyectos en todo el país.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+          <button
+            class="btn-primary"
+            onclick="contactar()"
+          >
+
+            Solicitar transporte →
+
+          </button>
+
+
+          <button
+            class="btn-secondary"
+            onclick="document.getElementById('servicios').scrollIntoView()"
+          >
+
+            Ver servicios
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- VISUAL -->
+
+      <div class="truck-card">
+
+        <div class="truck-background"></div>
+
+        <div class="truck-grid"></div>
+
+
+        <div class="truck-icon">
+          🚛
+        </div>
+
+
+        <div class="truck-info">
+
+          <small>
+            VENTAS Y TRANSPORTE YARI S.A.
+          </small>
+
+          <h3>
+            Transporte pesado
+          </h3>
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         STATS
+    ========================== -->
+
+    <section class="stats">
+
+      <div class="stat">
+
+        <strong>
+          100%
+        </strong>
+
+        <span>
+          Cobertura nacional
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          24/7
+        </strong>
+
+        <span>
+          Atención y coordinación
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          🚛
+        </strong>
+
+        <span>
+          Transporte pesado
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          🇵🇦
+        </strong>
+
+        <span>
+          Todo Panamá
+        </span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         SERVICIOS
+    ========================== -->
+
+    <section
+      class="section"
+      id="servicios"
+    >
+
+      <span class="section-label">
+        Servicios
+      </span>
+
+
+      <h2 class="section-title">
+        Transporte diseñado para tu carga.
+      </h2>
+
+
+      <p class="section-description">
+
+        Soluciones de transporte para cargas,
+        materiales y mercancías que necesitan
+        llegar de forma segura a su destino.
+
+      </p>
+
+
+      <div class="services">
+
+
+        <div class="service">
+
+          <div class="service-icon">
+            🚛
+          </div>
+
+          <h3>
+            Transporte pesado
+          </h3>
+
+          <p>
+            Movilización de cargas pesadas
+            y mercancía por carretera.
+          </p>
+
+        </div>
+
+
+        <div class="service">
+
+          <div class="service-icon">
+            📦
+          </div>
+
+          <h3>
+            Transporte de carga
+          </h3>
+
+          <p>
+            Traslado de mercancías entre
+            diferentes puntos del país.
+          </p>
+
+        </div>
+
+
+        <div class="service">
+
+          <div class="service-icon">
+            🛣️
+          </div>
+
+          <h3>
+            Viajes nacionales
+          </h3>
+
+          <p>
+            Coordinamos viajes hacia
+            cualquier provincia de Panamá.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         COBERTURA
+    ========================== -->
+
+    <section
+      class="section"
+      id="cobertura"
+    >
+
+      <div class="coverage">
+
+
+        <div>
+
+          <span class="section-label">
+            Cobertura
+          </span>
+
+
+          <h2>
+            Llegamos donde
+            tu carga necesita.
+          </h2>
+
+
+          <p>
+
+            Realizamos viajes a todo el territorio
+            nacional, coordinando cada traslado
+            según las necesidades de tu carga.
+
+          </p>
+
+
+          <button
+            class="btn-primary"
+            style="margin-top:25px;"
+            onclick="contactar()"
+          >
+
+            Cotizar viaje →
+
+          </button>
+
+        </div>
+
+
+        <div class="map">
+
+          🇵🇦
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         NOSOTROS
+    ========================== -->
+
+    <section
+      class="section"
+      id="empresa"
+    >
+
+      <span class="section-label">
+        Ventas y Transporte Yari S.A.
+      </span>
+
+
+      <h2 class="section-title">
+        Transporte confiable,
+        de principio a fin.
+      </h2>
+
+
+      <p class="section-description">
+
+        Nos enfocamos en brindar un servicio
+        de transporte eficiente, responsable
+        y adaptado a las necesidades de cada cliente.
+
+      </p>
+
+    </section>
+
+
+
+    <!-- =========================
+         CTA
+    ========================== -->
+
+    <section class="cta">
+
+      <h2>
+        ¿Necesitas mover una carga?
+      </h2>
+
+
+      <p>
+
+        Cuéntanos qué necesitas transportar,
+        desde dónde y hacia dónde.
+
+      </p>
+
+
+      <button
+        class="btn-primary"
+        onclick="contactar()"
+      >
+
+        Solicitar cotización →
+
+      </button>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <div class="footer-container">
+
+      <span>
+        © 2026 Ventas y Transporte Yari S.A.
+      </span>
+
+      <span>
+        Transporte nacional · Panamá
+      </span>
+
+    </div>
+
+  </footer>
+
+
+
+  <script>
+
+    function contactar() {
+
+      /*
+        Aquí posteriormente podemos colocar:
+
+        WhatsApp
+        Teléfono
+        Formulario
+        Correo
+
+        Ejemplo:
+
+        window.open(
+          "https://wa.me/507XXXXXXXX",
+          "_blank"
+        );
+      */
+
+      alert(
+        "Aquí conectaremos el botón con WhatsApp o el formulario de cotización."
+      );
+
+    }
+
+  </script>
+
+
+</body>
+</html>
