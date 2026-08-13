@@ -779,6 +779,30 @@ background: #fff;
     name="ciudad"
     placeholder="Ej. Ciudad de Panamá"
     required>
+  
+<h3>Fotografías</h3>
+
+<label>Foto de perfil</label>
+
+<input
+  type="file"
+  id="fotoPerfil"
+  accept="image/*">
+
+<div
+  id="galeriaPremiumInputs"
+  style="display:none;">
+
+  <label>Trabajo 1</label>
+  <input type="file" id="fotoTrabajo1">
+
+  <label>Trabajo 2</label>
+  <input type="file" id="fotoTrabajo2">
+
+  <label>Trabajo 3</label>
+  <input type="file" id="fotoTrabajo3">
+
+</div>
 
 
   <h3>Plan</h3>
@@ -874,6 +898,51 @@ cerrarRegistroModal.addEventListener("click", () => {
 
 });
 
+// =========================================================
+// subir fotos a cloud
+// =========================================================
+  
+
+async function subirACloudinary(
+  inputId
+) {
+
+  const archivo =
+    document.getElementById(
+      inputId
+    ).files[0];
+
+  if (!archivo) return "";
+
+  const formData =
+    new FormData();
+
+  formData.append(
+    "file",
+    archivo
+  );
+
+  formData.append(
+    "upload_preset",
+    "solvify_upload"
+  );
+
+  const res =
+    await fetch(
+      "https://api.cloudinary.com/v1_1/hgpgcupj/image/upload",
+      {
+        method:"POST",
+        body:formData
+      }
+    );
+
+  const data =
+    await res.json();
+
+  return data.secure_url;
+
+}  
+
 
 // =========================================================
 // CERRAR MODAL CON CANCELAR
@@ -946,37 +1015,8 @@ container.innerHTML = "";
 tecnicos.forEach(tecnico => {
 
     // =====================================================
-    // IMÁGENES SEGÚN SERVICIO
+    // OBTENER ZONA
     // =====================================================
-
-    function obtenerImagenServicio(servicio) {
-
-      const imagenes = {
-
-        electricista:
-          "imagenes/electricista.jpg",
-
-        mantenimiento:
-          "imagenes/mantenimiento.jpg",
-
-        ebanista:
-          "imagenes/ebanista.jpg",
-
-        albanil:
-          "imagenes/albanil.jpg",
-
-        abogado:
-          "imagenes/abogado.jpg"
-
-      };
-
-
-      return (
-        imagenes[servicio] ||
-        "imagenes/default.jpg"
-      );
-
-    }
 
 function obtenerNombreZona(zona) {
 
@@ -1005,10 +1045,9 @@ function obtenerNombreZona(zona) {
     // CREAR TARJETAS
     // =====================================================
 
-      const imagenServicio =
-        obtenerImagenServicio(
-          tecnico.servicio
-        );
+     const imagenServicio =
+      tecnico.imagen ||
+      "imagenes/default.jpg";
 
 
       container.innerHTML += `
@@ -1350,6 +1389,26 @@ registroForm.addEventListener(
     const solicitaPremium =
       planSeleccionado === "premium";
 
+  const fotoPerfil =
+  await subirACloudinary(
+    "fotoPerfil"
+  );
+
+const fotoTrabajo1 =
+  solicitaPremium
+    ? await subirACloudinary("fotoTrabajo1")
+    : "";
+
+const fotoTrabajo2 =
+  solicitaPremium
+    ? await subirACloudinary("fotoTrabajo2")
+    : "";
+
+const fotoTrabajo3 =
+  solicitaPremium
+    ? await subirACloudinary("fotoTrabajo3")
+    : "";
+
 
     // =====================================================
     // DATOS DEL TÉCNICO
@@ -1437,8 +1496,16 @@ registroForm.addEventListener(
 premium:
   solicitaPremium,
 
-// No utilizamos imagen enviada.
-imagen: ""
+// usar fotos de trabajos
+      
+imagen: fotoPerfil,
+
+imagen1: fotoTrabajo1,
+
+imagen2: fotoTrabajo2,
+
+imagen3: fotoTrabajo3
+      
     };
 
 
