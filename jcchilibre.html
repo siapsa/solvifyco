@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Junta Comunal de Chilibre</title>
+
+<style>
+
+:root{
+  --primary:#174a38;
+  --primary-dark:#103528;
+  --accent:#d9a441;
+  --bg:#f5f6f4;
+  --white:#ffffff;
+  --text:#17201c;
+  --muted:#707873;
+  --border:#e4e7e4;
+  --success:#16834b;
+  --radius:18px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+
+  background:rgba(245,246,244,.92);
+  backdrop-filter:blur(18px);
+
+  border-bottom:1px solid var(--border);
+}
+
+.nav-container{
+  max-width:1200px;
+  height:76px;
+
+  margin:auto;
+  padding:0 24px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  font-size:15px;
+  font-weight:800;
+}
+
+.logo-mark{
+  width:40px;
+  height:40px;
+
+  border-radius:11px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:var(--primary);
+  color:white;
+
+  font-size:12px;
+  font-weight:800;
+}
+
+.nav-links{
+  display:flex;
+  gap:30px;
+
+  color:var(--muted);
+
+  font-size:14px;
+}
+
+.nav-links a:hover{
+  color:var(--primary);
+}
+
+.nav-button{
+  background:var(--primary);
+  color:white;
+
+  border:none;
+  border-radius:10px;
+
+  padding:11px 18px;
+
+  font-weight:700;
+}
+
+.nav-button:hover{
+  background:var(--primary-dark);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  max-width:1200px;
+
+  margin:auto;
+
+  padding:100px 24px 80px;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:70px;
+
+  align-items:center;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  background:white;
+
+  border:1px solid var(--border);
+
+  padding:7px 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  color:var(--muted);
+
+  margin-bottom:25px;
+}
+
+.badge-dot{
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:var(--success);
+}
+
+.hero h1{
+  font-size:clamp(44px,6vw,72px);
+
+  line-height:.98;
+
+  letter-spacing:-4px;
+
+  font-weight:850;
+}
+
+.hero h1 span{
+  color:#737b76;
+}
+
+.hero p{
+  max-width:560px;
+
+  margin:25px 0 32px;
+
+  color:var(--muted);
+
+  font-size:18px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.btn-primary{
+  border:none;
+
+  background:var(--primary);
+  color:white;
+
+  padding:13px 20px;
+
+  border-radius:10px;
+
+  font-weight:700;
+}
+
+.btn-primary:hover{
+  background:var(--primary-dark);
+}
+
+.btn-secondary{
+  background:white;
+
+  border:1px solid var(--border);
+
+  padding:13px 20px;
+
+  border-radius:10px;
+
+  font-weight:700;
+}
+
+
+/* =========================
+   HERO CARD
+========================= */
+
+.hero-card{
+  background:var(--primary);
+
+  color:white;
+
+  min-height:420px;
+
+  border-radius:25px;
+
+  padding:30px;
+
+  position:relative;
+
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.hero-card::before{
+  content:"";
+
+  position:absolute;
+
+  width:300px;
+  height:300px;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,.05);
+
+  right:-100px;
+  top:-100px;
+}
+
+.hero-card-title{
+  position:relative;
+  z-index:2;
+}
+
+.hero-card-title small{
+  color:#b9c8c0;
+
+  font-size:12px;
+}
+
+.hero-card-title h2{
+  margin-top:7px;
+
+  font-size:30px;
+
+  letter-spacing:-1px;
+}
+
+.quick-actions{
+  position:relative;
+  z-index:2;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:10px;
+}
+
+.quick-action{
+  background:rgba(255,255,255,.09);
+
+  border:1px solid rgba(255,255,255,.1);
+
+  border-radius:14px;
+
+  padding:18px;
+
+  color:white;
+
+  text-align:left;
+
+  transition:.2s;
+}
+
+.quick-action:hover{
+  background:rgba(255,255,255,.15);
+
+  transform:translateY(-3px);
+}
+
+.quick-action strong{
+  display:block;
+
+  font-size:14px;
+}
+
+.quick-action span{
+  display:block;
+
+  margin-top:4px;
+
+  color:#b9c8c0;
+
+  font-size:11px;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+  max-width:1200px;
+
+  margin:auto;
+
+  padding:90px 24px;
+}
+
+.section-label{
+  text-transform:uppercase;
+
+  letter-spacing:1.7px;
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+.section-title{
+  margin-top:8px;
+
+  font-size:38px;
+
+  letter-spacing:-1.8px;
+}
+
+.section-description{
+  max-width:600px;
+
+  margin-top:10px;
+
+  color:var(--muted);
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+.services{
+  margin-top:38px;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(4,1fr);
+
+  gap:14px;
+}
+
+.service{
+  background:white;
+
+  border:1px solid var(--border);
+
+  border-radius:18px;
+
+  padding:25px;
+
+  transition:.25s;
+}
+
+.service:hover{
+  transform:translateY(-5px);
+
+  box-shadow:
+  0 18px 40px rgba(0,0,0,.06);
+}
+
+.service-icon{
+  width:44px;
+  height:44px;
+
+  background:#eef4f0;
+
+  border-radius:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-bottom:18px;
+
+  font-size:20px;
+}
+
+.service h3{
+  font-size:17px;
+
+  margin-bottom:7px;
+}
+
+.service p{
+  color:var(--muted);
+
+  font-size:13px;
+}
+
+
+/* =========================
+   TRACKING
+========================= */
+
+.tracking-section{
+  background:white;
+
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+.tracking-box{
+  max-width:650px;
+
+  margin:35px auto 0;
+
+  display:flex;
+
+  padding:6px;
+
+  border:1px solid var(--border);
+
+  background:var(--bg);
+
+  border-radius:13px;
+}
+
+.tracking-box input{
+  flex:1;
+
+  border:none;
+  outline:none;
+
+  background:transparent;
+
+  padding:13px;
+}
+
+.tracking-box button{
+  border:none;
+
+  background:var(--primary);
+  color:white;
+
+  border-radius:9px;
+
+  padding:12px 20px;
+
+  font-weight:700;
+}
+
+
+/* =========================
+   ACTIVIDADES
+========================= */
+
+.activities{
+  margin-top:38px;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,1fr);
+
+  gap:15px;
+}
+
+.activity{
+  background:white;
+
+  border:1px solid var(--border);
+
+  border-radius:18px;
+
+  overflow:hidden;
+}
+
+.activity-image{
+  height:180px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #dfe8e2,
+    #b7c9bc
+  );
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  font-size:55px;
+}
+
+.activity-content{
+  padding:22px;
+}
+
+.activity-date{
+  color:var(--primary);
+
+  font-size:11px;
+
+  font-weight:800;
+
+  text-transform:uppercase;
+}
+
+.activity h3{
+  margin-top:6px;
+
+  font-size:18px;
+}
+
+.activity p{
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:13px;
+}
+
+
+/* =========================
+   CITAS
+========================= */
+
+.appointment{
+  background:var(--primary);
+
+  color:white;
+
+  border-radius:24px;
+
+  padding:50px;
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:50px;
+}
+
+.appointment h2{
+  font-size:38px;
+
+  letter-spacing:-1.5px;
+
+  line-height:1.05;
+}
+
+.appointment p{
+  margin-top:14px;
+
+  color:#b9c8c0;
+}
+
+.form{
+  background:white;
+
+  color:var(--text);
+
+  border-radius:16px;
+
+  padding:25px;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+
+  margin-bottom:6px;
+
+  font-size:12px;
+
+  font-weight:700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+
+  padding:12px;
+
+  border:1px solid var(--border);
+
+  border-radius:9px;
+
+  outline:none;
+
+  background:#fafafa;
+}
+
+.form-group textarea{
+  resize:vertical;
+
+  min-height:80px;
+}
+
+.form button{
+  width:100%;
+
+  margin-top:5px;
+}
+
+
+/* =========================
+   SOLICITUDES
+========================= */
+
+.request-area{
+  display:grid;
+
+  grid-template-columns:
+  1fr 1fr;
+
+  gap:15px;
+
+  margin-top:35px;
+}
+
+.request-card{
+  background:white;
+
+  border:1px solid var(--border);
+
+  border-radius:18px;
+
+  padding:28px;
+}
+
+.request-card h3{
+  font-size:19px;
+}
+
+.request-card p{
+  color:var(--muted);
+
+  font-size:13px;
+
+  margin:7px 0 20px;
+}
+
+
+/* =========================
+   TRANSPARENCIA
+========================= */
+
+.transparency{
+  margin-top:35px;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,1fr);
+
+  gap:15px;
+}
+
+.transparency-card{
+  background:white;
+
+  border:1px solid var(--border);
+
+  border-radius:16px;
+
+  padding:23px;
+}
+
+.transparency-card strong{
+  display:block;
+
+  font-size:15px;
+}
+
+.transparency-card span{
+  display:block;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  margin-top:5px;
+}
+
+
+/* =========================
+   CTA
+========================= */
+
+.cta{
+  max-width:1200px;
+
+  margin:0 auto 90px;
+
+  padding:70px 25px;
+
+  background:white;
+
+  border:1px solid var(--border);
+
+  border-radius:24px;
+
+  text-align:center;
+}
+
+.cta h2{
+  font-size:40px;
+
+  letter-spacing:-2px;
+}
+
+.cta p{
+  max-width:500px;
+
+  margin:10px auto 25px;
+
+  color:var(--muted);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  border-top:1px solid var(--border);
+
+  padding:35px 24px;
+
+  color:var(--muted);
+
+  font-size:12px;
+}
+
+.footer-container{
+  max-width:1200px;
+
+  margin:auto;
+
+  display:flex;
+
+  justify-content:space-between;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:850px){
+
+  .nav-links{
+    display:none;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+
+    padding-top:65px;
+
+    gap:40px;
+  }
+
+  .hero h1{
+    letter-spacing:-2.5px;
+  }
+
+  .services{
+    grid-template-columns:
+    1fr 1fr;
+  }
+
+  .activities{
+    grid-template-columns:1fr;
+  }
+
+  .appointment{
+    grid-template-columns:1fr;
+
+    padding:30px;
+
+    gap:30px;
+  }
+
+  .request-area{
+    grid-template-columns:1fr;
+  }
+
+  .transparency{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+@media(max-width:550px){
+
+  .nav-button{
+    display:none;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .hero-buttons button{
+    width:100%;
+  }
+
+  .services{
+    grid-template-columns:1fr;
+  }
+
+  .quick-actions{
+    grid-template-columns:1fr;
+  }
+
+  .tracking-box{
+    flex-direction:column;
+
+    background:transparent;
+
+    border:none;
+
+    padding:0;
+
+    gap:8px;
+  }
+
+  .tracking-box input{
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+  }
+
+  .tracking-box button{
+    width:100%;
+  }
+
+  .appointment h2{
+    font-size:31px;
+  }
+
+  .section-title{
+    font-size:32px;
+  }
+
+  .cta h2{
+    font-size:32px;
+  }
+
+  .footer-container{
+    flex-direction:column;
+
+    gap:8px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+  <div class="nav-container">
+
+    <a href="#" class="logo">
+
+      <span class="logo-mark">
+        JC
+      </span>
+
+      Junta Comunal de Chilibre
+
+    </a>
+
+
+    <div class="nav-links">
+
+      <a href="#servicios">
+        Servicios
+      </a>
+
+      <a href="#actividades">
+        Actividades
+      </a>
+
+      <a href="#citas">
+        Citas
+      </a>
+
+      <a href="#solicitudes">
+        Solicitudes
+      </a>
+
+    </div>
+
+
+    <button
+      class="nav-button"
+      onclick="irACitas()"
+    >
+      Solicitar cita
+    </button>
+
+  </div>
+
+</nav>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<main>
+
+<section class="hero">
+
+
+  <div>
+
+    <div class="badge">
+
+      <span class="badge-dot"></span>
+
+      Atención ciudadana
+
+    </div>
+
+
+    <h1>
+
+      Servicios para
+      <span>nuestra comunidad.</span>
+
+    </h1>
+
+
+    <p>
+
+      Gestiona tus solicitudes, permisos,
+      citas y actividades de la Junta Comunal
+      de Chilibre desde un solo lugar.
+
+    </p>
+
+
+    <div class="hero-buttons">
+
+      <button
+        class="btn-primary"
+        onclick="irACitas()"
+      >
+
+        📅 Solicitar una cita
+
+      </button>
+
+
+      <button
+        class="btn-secondary"
+        onclick="irASolicitudes()"
+      >
+
+        📄 Hacer una solicitud
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- PANEL -->
+
+  <div class="hero-card">
+
+    <div class="hero-card-title">
+
+      <small>
+        PORTAL CIUDADANO
+      </small>
+
+      <h2>
+        ¿Qué necesitas realizar?
+      </h2>
+
+    </div>
+
+
+    <div class="quick-actions">
+
+
+      <button
+        class="quick-action"
+        onclick="irACitas()"
+      >
+
+        <strong>
+          📅 Solicitar cita
+        </strong>
+
+        <span>
+          Agenda atención con nuestro personal
+        </span>
+
+      </button>
+
+
+      <button
+        class="quick-action"
+        onclick="irASolicitudes()"
+      >
+
+        <strong>
+          📄 Solicitar permiso
+        </strong>
+
+        <span>
+          Inicia tu trámite en línea
+        </span>
+
+      </button>
+
+
+      <button
+        class="quick-action"
+        onclick="irATracking()"
+      >
+
+        <strong>
+          🔎 Consultar solicitud
+        </strong>
+
+        <span>
+          Revisa el estado de tu trámite
+        </span>
+
+      </button>
+
+
+      <button
+        class="quick-action"
+        onclick="irAActividades()"
+      >
+
+        <strong>
+          📅 Actividades
+        </strong>
+
+        <span>
+          Consulta próximos eventos
+        </span>
+
+      </button>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     SERVICIOS
+========================= -->
+
+<section
+  class="section"
+  id="servicios"
+>
+
+  <span class="section-label">
+    Servicios digitales
+  </span>
+
+
+  <h2 class="section-title">
+    Haz tus trámites sin filas.
+  </h2>
+
+
+  <p class="section-description">
+
+    Accede a los principales servicios de la
+    Junta Comunal de forma sencilla y rápida.
+
+  </p>
+
+
+  <div class="services">
+
+
+    <div class="service">
+
+      <div class="service-icon">
+        📅
+      </div>
+
+      <h3>
+        Citas
+      </h3>
+
+      <p>
+        Solicita una fecha y hora para ser
+        atendido por el personal correspondiente.
+      </p>
+
+    </div>
+
+
+    <div class="service">
+
+      <div class="service-icon">
+        📄
+      </div>
+
+      <h3>
+        Permisos
+      </h3>
+
+      <p>
+        Envía tus documentos y consulta el
+        avance de tu solicitud.
+      </p>
+
+    </div>
+
+
+    <div class="service">
+
+      <div class="service-icon">
+        ✍️
+      </div>
+
+      <h3>
+        Firma digital
+      </h3>
+
+      <p>
+        Gestiona la aprobación y firma de
+        documentos desde la plataforma.
+      </p>
+
+    </div>
+
+
+    <div class="service">
+
+      <div class="service-icon">
+        🔎
+      </div>
+
+      <h3>
+        Seguimiento
+      </h3>
+
+      <p>
+        Consulta el estado de tus solicitudes
+        utilizando tu número de trámite.
+      </p>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     TRACKING
+========================= -->
+
+<section class="tracking-section">
+
+  <div
+    class="section"
+    id="seguimiento"
+    style="text-align:center;"
+  >
+
+    <span class="section-label">
+      Seguimiento
+    </span>
+
+
+    <h2 class="section-title">
+      Consulta tu solicitud.
+    </h2>
+
+
+    <p class="section-description"
+       style="margin-left:auto;margin-right:auto;">
+
+      Ingresa el número de trámite que recibiste
+      al realizar tu solicitud.
+
+    </p>
+
+
+    <div class="tracking-box">
+
+      <input
+        id="numeroSolicitud"
+        type="text"
+        placeholder="Ej. CH-2026-00481"
+      >
+
+      <button onclick="consultarSolicitud()">
+        Consultar
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     ACTIVIDADES
+========================= -->
+
+<section
+  class="section"
+  id="actividades"
+>
+
+  <span class="section-label">
+    Comunidad
+  </span>
+
+
+  <h2 class="section-title">
+    Próximas actividades.
+  </h2>
+
+
+  <p class="section-description">
+
+    Mantente informado sobre las actividades,
+    programas y eventos de nuestra comunidad.
+
+  </p>
+
+
+  <div class="activities">
+
+
+    <div class="activity">
+
+      <div class="activity-image">
+        🎉
+      </div>
+
+      <div class="activity-content">
+
+        <span class="activity-date">
+          24 Agosto · 10:00 AM
+        </span>
+
+        <h3>
+          Actividad comunitaria
+        </h3>
+
+        <p>
+          Información y participación
+          para residentes de Chilibre.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="activity">
+
+      <div class="activity-image">
+        ⚽
+      </div>
+
+      <div class="activity-content">
+
+        <span class="activity-date">
+          30 Agosto · 9:00 AM
+        </span>
+
+        <h3>
+          Jornada deportiva
+        </h3>
+
+        <p>
+          Actividad abierta para niños,
+          jóvenes y familias.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="activity">
+
+      <div class="activity-image">
+        🎭
+      </div>
+
+      <div class="activity-content">
+
+        <span class="activity-date">
+          Próximamente
+        </span>
+
+        <h3>
+          Actividad cultural
+        </h3>
+
+        <p>
+          Espacios para promover nuestra
+          cultura y tradiciones.
+        </p>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     CITAS
+========================= -->
+
+<section
+  class="section"
+  id="citas"
+>
+
+  <div class="appointment">
+
+
+    <div>
+
+      <span class="section-label">
+        Atención ciudadana
+      </span>
+
+
+      <h2>
+        Agenda tu cita
+        en pocos pasos.
+      </h2>
+
+
+      <p>
+
+        Selecciona el área con la que necesitas
+        hablar, elige una fecha disponible y
+        cuéntanos brevemente el motivo.
+
+      </p>
+
+    </div>
+
+
+    <div class="form">
+
+
+      <div class="form-group">
+
+        <label>
+          Nombre completo
+        </label>
+
+        <input
+          type="text"
+          placeholder="Tu nombre"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Área de atención
+        </label>
+
+        <select>
+
+          <option>
+            Atención ciudadana
+          </option>
+
+          <option>
+            Trabajo social
+          </option>
+
+          <option>
+            Permisos
+          </option>
+
+          <option>
+            Junta Comunal
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Fecha
+        </label>
+
+        <input
+          type="date"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Motivo
+        </label>
+
+        <textarea
+          placeholder="¿En qué podemos ayudarte?"
+        ></textarea>
+
+      </div>
+
+
+      <button
+        class="btn-primary"
+        onclick="solicitarCita()"
+      >
+
+        Solicitar cita
+
+      </button>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     SOLICITUDES
+========================= -->
+
+<section
+  class="section"
+  id="solicitudes"
+>
+
+  <span class="section-label">
+    Trámites
+  </span>
+
+
+  <h2 class="section-title">
+    Gestiona tus solicitudes.
+  </h2>
+
+
+  <div class="request-area">
+
+
+    <div class="request-card">
+
+      <h3>
+        📄 Solicitar un permiso
+      </h3>
+
+      <p>
+
+        Inicia tu solicitud, adjunta los documentos
+        necesarios y recibe un número de seguimiento.
+
+      </p>
+
+      <button
+        class="btn-primary"
+        onclick="solicitarPermiso()"
+      >
+
+        Iniciar solicitud →
+
+      </button>
+
+    </div>
+
+
+    <div class="request-card">
+
+      <h3>
+        ✍️ Documentos pendientes de firma
+      </h3>
+
+      <p>
+
+        Revisa documentos que requieren aprobación
+        o firma dentro de la plataforma.
+
+      </p>
+
+      <button
+        class="btn-secondary"
+        onclick="verFirmas()"
+      >
+
+        Ver documentos
+
+      </button>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     TRANSPARENCIA
+========================= -->
+
+<section class="section">
+
+  <span class="section-label">
+    Información pública
+  </span>
+
+
+  <h2 class="section-title">
+    Transparencia.
+  </h2>
+
+
+  <p class="section-description">
+
+    Consulta información pública y documentos
+    de la Junta Comunal.
+
+  </p>
+
+
+  <div class="transparency">
+
+
+    <div class="transparency-card">
+
+      <strong>
+        📑 Transparencia
+      </strong>
+
+      <span>
+        Información institucional
+      </span>
+
+    </div>
+
+
+    <div class="transparency-card">
+
+      <strong>
+        💰 Presupuesto
+      </strong>
+
+      <span>
+        Información presupuestaria
+      </span>
+
+    </div>
+
+
+    <div class="transparency-card">
+
+      <strong>
+        📋 Documentos
+      </strong>
+
+      <span>
+        Resoluciones y documentos públicos
+      </span>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="cta">
+
+  <h2>
+    Estamos para servirte.
+  </h2>
+
+
+  <p>
+
+    Accede a los servicios de la Junta Comunal
+    de Chilibre desde cualquier dispositivo.
+
+  </p>
+
+
+  <button
+    class="btn-primary"
+    onclick="irACitas()"
+  >
+
+    Solicitar una cita →
+
+  </button>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+  <div class="footer-container">
+
+    <span>
+      © 2026 Junta Comunal de Chilibre
+    </span>
+
+    <span>
+      República de Panamá
+    </span>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+
+
+/* =========================
+   NAVEGACIÓN
+========================= */
+
+function irACitas(){
+
+  document
+    .getElementById("citas")
+    .scrollIntoView();
+
+}
+
+
+function irASolicitudes(){
+
+  document
+    .getElementById("solicitudes")
+    .scrollIntoView();
+
+}
+
+
+function irATracking(){
+
+  document
+    .getElementById("seguimiento")
+    .scrollIntoView();
+
+}
+
+
+function irAActividades(){
+
+  document
+    .getElementById("actividades")
+    .scrollIntoView();
+
+}
+
+
+/* =========================
+   CONSULTAR SOLICITUD
+========================= */
+
+function consultarSolicitud(){
+
+  const numero =
+    document
+      .getElementById("numeroSolicitud")
+      .value
+      .trim();
+
+  if(!numero){
+
+    alert(
+      "Ingresa tu número de solicitud."
+    );
+
+    return;
+
+  }
+
+  /*
+    Posteriormente:
+
+    window.location.href =
+      "solicitud.html?id=" + numero;
+
+    Aquí conectaremos el frontend
+    con el backend.
+  */
+
+  alert(
+    "Consultando solicitud: " + numero
+  );
+
+}
+
+
+/* =========================
+   CITA
+========================= */
+
+function solicitarCita(){
+
+  alert(
+    "La solicitud de cita será enviada al sistema."
+  );
+
+}
+
+
+/* =========================
+   PERMISO
+========================= */
+
+function solicitarPermiso(){
+
+  alert(
+    "Aquí se abrirá el formulario de permisos."
+  );
+
+}
+
+
+/* =========================
+   FIRMAS
+========================= */
+
+function verFirmas(){
+
+  alert(
+    "Aquí se mostrarán los documentos pendientes de firma."
+  );
+
+}
+
+</script>
+
+
+</body>
+</html>
