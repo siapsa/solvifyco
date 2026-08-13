@@ -836,7 +836,7 @@ app.post("/tecnicos", async (req, res) => {
     await resend.emails.send({
 
       from:
-        "Notificaciones Solvify <notificaciones@solvifyapp.org>",
+        "onboarding@resend.dev",
 
       to:
         process.env.ADMIN_EMAIL,
@@ -1463,7 +1463,7 @@ const emailResultado =
   await resend.emails.send({
 
     from:
-      "Notificaciones Solvify <notificaciones@solvifyapp.org>",
+      "onboarding@resend.dev",
 
     to:
       process.env.ADMIN_EMAIL,
