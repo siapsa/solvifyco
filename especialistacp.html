@@ -849,9 +849,22 @@ galeria.innerHTML = "";
 
   if (!imagen) return;
 
-  galeria.innerHTML += `
-    ${imagen}
-  `;
+ galeria.innerHTML += `
+
+  <img
+    src="${imagen}"
+
+    style="
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      border-radius:12px;
+      border:1px solid #e5e7eb;
+    "
+
+    alt="Trabajo realizado">
+
+`;
 
 });  
 
