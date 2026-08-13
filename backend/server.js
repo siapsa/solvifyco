@@ -642,6 +642,9 @@ app.get("/tecnicos/:id", async (req, res) => {
           telefono,
           correo,
           imagen,
+          imagen1,
+          imagen2,
+          imagen3,
           premium
         FROM tecnicos
         WHERE id = $1
