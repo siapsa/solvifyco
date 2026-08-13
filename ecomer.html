@@ -810,11 +810,12 @@ background: #fff;
   <div class="planes-registro">
 
     <label>
-      <input
-        type="radio"
-        name="plan"
-        value="basico"
-        checked>
+   <input
+  type="radio"
+  id="planBasico"
+  name="plan"
+  value="basico"
+  checked>
 
       Básico — Gratis
     </label>
@@ -822,9 +823,10 @@ background: #fff;
 
     <label>
       <input
-        type="radio"
-        name="plan"
-        value="premium">
+   type="radio"
+  id="planPremium"
+  name="plan"
+  value="premium">
 
       Premium — 5,00 B/. mensual
     </label>
@@ -943,43 +945,38 @@ async function subirACloudinary(
 
 }  
 
- const radiosPlan =
-  document.querySelectorAll(
-    'input[name="plan"]'
-  );
-
-const galeriaPremiumInputs =
-  document.getElementById(
-    "galeriaPremiumInputs"
-  );
-
-radiosPlan.forEach(radio => {
-
-  radio.addEventListener(
+document
+  .querySelector(
+    'input[value="premium"]'
+  )
+  .addEventListener(
     "change",
     () => {
 
-      const plan =
-        document.querySelector(
-          'input[name="plan"]:checked'
-        ).value;
-
-      if (plan === "premium") {
-
-        galeriaPremiumInputs.style.display =
-          "block";
-
-      } else {
-
-        galeriaPremiumInputs.style.display =
-          "none";
-
-      }
+      document.getElementById(
+        "galeriaPremiumInputs"
+      ).style.display =
+        "block";
 
     }
   );
 
-}); 
+document
+  .querySelector(
+    'input[value="basico"]'
+  )
+  .addEventListener(
+    "change",
+    () => {
+
+      document.getElementById(
+        "galeriaPremiumInputs"
+      ).style.display =
+        "none";
+
+    }
+  ); 
+
 
 
 // =========================================================
