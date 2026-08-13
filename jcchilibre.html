@@ -9,924 +9,1086 @@
 <style>
 
 :root{
-  --primary:#174a38;
-  --primary-dark:#103528;
-  --accent:#d9a441;
-  --bg:#f5f6f4;
-  --white:#ffffff;
-  --text:#17201c;
-  --muted:#707873;
-  --border:#e4e7e4;
-  --success:#16834b;
-  --radius:18px;
+    --green:#075b43;
+    --green-dark:#043c2d;
+    --green-light:#e8f4ef;
+    --gold:#e3ad3b;
+    --orange:#ef8c32;
+    --red:#d94b45;
+    --blue:#3478c5;
+    --white:#ffffff;
+    --bg:#f5f7f6;
+    --text:#18221e;
+    --muted:#6d7772;
+    --shadow:0 15px 40px rgba(0,0,0,.09);
 }
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  font-family:
+    font-family:
     -apple-system,
     BlinkMacSystemFont,
-    "Helvetica Neue",
+    "Segoe UI",
     Arial,
     sans-serif;
 
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.5;
+    background:var(--bg);
+    color:var(--text);
 }
 
 button,
 input,
 select,
 textarea{
-  font:inherit;
+    font-family:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 a{
-  text-decoration:none;
-  color:inherit;
+    text-decoration:none;
+    color:inherit;
 }
 
 
 /* =========================
-   NAVBAR
+HEADER
 ========================= */
 
-.navbar{
-  position:sticky;
-  top:0;
-  z-index:1000;
+.topbar{
+    background:var(--green-dark);
+    color:white;
 
-  background:rgba(245,246,244,.92);
-  backdrop-filter:blur(18px);
+    padding:8px 20px;
 
-  border-bottom:1px solid var(--border);
+    font-size:12px;
 }
 
-.nav-container{
-  max-width:1200px;
-  height:76px;
+.topbar-inner{
+    max-width:1250px;
+    margin:auto;
 
-  margin:auto;
-  padding:0 24px;
+    display:flex;
+    justify-content:space-between;
+}
 
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+
+/* =========================
+NAV
+========================= */
+
+nav{
+    background:white;
+
+    height:82px;
+
+    display:flex;
+    align-items:center;
+
+    box-shadow:0 2px 15px rgba(0,0,0,.05);
+
+    position:relative;
+    z-index:10;
+}
+
+.nav-inner{
+    width:100%;
+    max-width:1250px;
+
+    margin:auto;
+
+    padding:0 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
 }
 
 .logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
+    width:54px;
+    height:54px;
 
-  font-size:15px;
-  font-weight:800;
+    border-radius:50%;
+
+    background:var(--green);
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:13px;
+    font-weight:900;
+
+    border:4px solid var(--gold);
 }
 
-.logo-mark{
-  width:40px;
-  height:40px;
+.brand-text strong{
+    display:block;
 
-  border-radius:11px;
+    color:var(--green);
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:var(--primary);
-  color:white;
-
-  font-size:12px;
-  font-weight:800;
+    font-size:16px;
 }
 
-.nav-links{
-  display:flex;
-  gap:30px;
+.brand-text span{
+    color:var(--muted);
 
-  color:var(--muted);
-
-  font-size:14px;
+    font-size:11px;
 }
 
-.nav-links a:hover{
-  color:var(--primary);
+.menu{
+    display:flex;
+    gap:28px;
+
+    font-size:14px;
+    font-weight:600;
 }
 
-.nav-button{
-  background:var(--primary);
-  color:white;
-
-  border:none;
-  border-radius:10px;
-
-  padding:11px 18px;
-
-  font-weight:700;
+.menu a:hover{
+    color:var(--green);
 }
 
-.nav-button:hover{
-  background:var(--primary-dark);
+.nav-cta{
+    background:var(--gold);
+
+    border:0;
+
+    color:var(--green-dark);
+
+    padding:12px 18px;
+
+    border-radius:8px;
+
+    font-weight:800;
 }
 
 
 /* =========================
-   HERO
+HERO
 ========================= */
 
 .hero{
-  max-width:1200px;
+    min-height:610px;
 
-  margin:auto;
+    position:relative;
 
-  padding:100px 24px 80px;
+    display:flex;
+    align-items:center;
 
-  display:grid;
-  grid-template-columns:1fr 1fr;
+    background:
+    linear-gradient(
+        90deg,
+        rgba(2,43,32,.95) 0%,
+        rgba(3,66,49,.82) 45%,
+        rgba(3,66,49,.25) 100%
+    ),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=85");
 
-  gap:70px;
-
-  align-items:center;
+    background-size:cover;
+    background-position:center;
 }
 
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
+.hero-content{
+    width:100%;
+    max-width:1250px;
 
-  background:white;
+    margin:auto;
 
-  border:1px solid var(--border);
+    padding:80px 20px;
 
-  padding:7px 12px;
-
-  border-radius:999px;
-
-  font-size:12px;
-  color:var(--muted);
-
-  margin-bottom:25px;
+    color:white;
 }
 
-.badge-dot{
-  width:7px;
-  height:7px;
+.hero-tag{
+    display:inline-block;
 
-  border-radius:50%;
+    background:rgba(227,173,59,.18);
 
-  background:var(--success);
+    border:1px solid rgba(227,173,59,.5);
+
+    color:#ffd66d;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+    font-weight:800;
+
+    margin-bottom:20px;
 }
 
 .hero h1{
-  font-size:clamp(44px,6vw,72px);
+    max-width:700px;
 
-  line-height:.98;
+    font-size:clamp(45px,6vw,76px);
 
-  letter-spacing:-4px;
+    line-height:1.02;
 
-  font-weight:850;
+    letter-spacing:-3px;
 }
 
 .hero h1 span{
-  color:#737b76;
+    color:#ffd45e;
 }
 
 .hero p{
-  max-width:560px;
+    max-width:570px;
 
-  margin:25px 0 32px;
+    margin:22px 0 30px;
 
-  color:var(--muted);
+    color:#e5efea;
 
-  font-size:18px;
+    font-size:18px;
 }
 
 .hero-buttons{
-  display:flex;
-  gap:10px;
+    display:flex;
+    gap:12px;
 }
 
-.btn-primary{
-  border:none;
+.hero-primary{
+    background:var(--gold);
 
-  background:var(--primary);
-  color:white;
+    color:var(--green-dark);
 
-  padding:13px 20px;
+    border:0;
 
-  border-radius:10px;
+    padding:15px 22px;
 
-  font-weight:700;
+    border-radius:9px;
+
+    font-weight:900;
 }
 
-.btn-primary:hover{
-  background:var(--primary-dark);
-}
+.hero-secondary{
+    background:white;
 
-.btn-secondary{
-  background:white;
+    color:var(--green-dark);
 
-  border:1px solid var(--border);
+    border:0;
 
-  padding:13px 20px;
+    padding:15px 22px;
 
-  border-radius:10px;
+    border-radius:9px;
 
-  font-weight:700;
+    font-weight:800;
 }
 
 
 /* =========================
-   HERO CARD
+QUICK SERVICES
 ========================= */
 
-.hero-card{
-  background:var(--primary);
+.quick{
+    max-width:1150px;
 
-  color:white;
+    margin:-55px auto 0;
 
-  min-height:420px;
+    position:relative;
+    z-index:5;
 
-  border-radius:25px;
+    display:grid;
 
-  padding:30px;
+    grid-template-columns:
+    repeat(4,1fr);
 
-  position:relative;
+    gap:14px;
 
-  overflow:hidden;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+    padding:0 20px;
 }
 
-.hero-card::before{
-  content:"";
+.quick-card{
+    background:white;
 
-  position:absolute;
+    border-radius:14px;
 
-  width:300px;
-  height:300px;
+    padding:24px;
 
-  border-radius:50%;
+    box-shadow:var(--shadow);
 
-  background:rgba(255,255,255,.05);
+    display:flex;
 
-  right:-100px;
-  top:-100px;
+    align-items:center;
+
+    gap:16px;
+
+    transition:.25s;
 }
 
-.hero-card-title{
-  position:relative;
-  z-index:2;
+.quick-card:hover{
+    transform:translateY(-6px);
 }
 
-.hero-card-title small{
-  color:#b9c8c0;
+.quick-icon{
+    width:50px;
+    height:50px;
 
-  font-size:12px;
+    border-radius:13px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:23px;
 }
 
-.hero-card-title h2{
-  margin-top:7px;
-
-  font-size:30px;
-
-  letter-spacing:-1px;
+.icon-green{
+    background:#e5f4ed;
 }
 
-.quick-actions{
-  position:relative;
-  z-index:2;
-
-  display:grid;
-  grid-template-columns:1fr 1fr;
-
-  gap:10px;
+.icon-gold{
+    background:#fff3d6;
 }
 
-.quick-action{
-  background:rgba(255,255,255,.09);
-
-  border:1px solid rgba(255,255,255,.1);
-
-  border-radius:14px;
-
-  padding:18px;
-
-  color:white;
-
-  text-align:left;
-
-  transition:.2s;
+.icon-blue{
+    background:#e7f0fb;
 }
 
-.quick-action:hover{
-  background:rgba(255,255,255,.15);
-
-  transform:translateY(-3px);
+.icon-orange{
+    background:#fff0df;
 }
 
-.quick-action strong{
-  display:block;
+.quick-card strong{
+    display:block;
 
-  font-size:14px;
+    font-size:14px;
 }
 
-.quick-action span{
-  display:block;
+.quick-card span{
+    display:block;
 
-  margin-top:4px;
+    color:var(--muted);
 
-  color:#b9c8c0;
+    font-size:11px;
 
-  font-size:11px;
+    margin-top:3px;
 }
 
 
 /* =========================
-   SECTION
+SECTION
 ========================= */
 
-.section{
-  max-width:1200px;
+.container{
+    max-width:1250px;
 
-  margin:auto;
+    margin:auto;
 
-  padding:90px 24px;
+    padding:90px 20px;
 }
 
-.section-label{
-  text-transform:uppercase;
+.section-heading{
+    display:flex;
 
-  letter-spacing:1.7px;
+    justify-content:space-between;
 
-  color:var(--muted);
+    align-items:end;
 
-  font-size:11px;
-
-  font-weight:800;
+    margin-bottom:35px;
 }
 
-.section-title{
-  margin-top:8px;
+.heading-small{
+    color:var(--green);
 
-  font-size:38px;
+    font-size:12px;
 
-  letter-spacing:-1.8px;
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.5px;
 }
 
-.section-description{
-  max-width:600px;
+.heading h2{
+    margin-top:7px;
 
-  margin-top:10px;
+    font-size:39px;
 
-  color:var(--muted);
+    letter-spacing:-1.5px;
 }
 
+.heading p{
+    max-width:600px;
 
-/* =========================
-   SERVICES
-========================= */
+    color:var(--muted);
 
-.services{
-  margin-top:38px;
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(4,1fr);
-
-  gap:14px;
-}
-
-.service{
-  background:white;
-
-  border:1px solid var(--border);
-
-  border-radius:18px;
-
-  padding:25px;
-
-  transition:.25s;
-}
-
-.service:hover{
-  transform:translateY(-5px);
-
-  box-shadow:
-  0 18px 40px rgba(0,0,0,.06);
-}
-
-.service-icon{
-  width:44px;
-  height:44px;
-
-  background:#eef4f0;
-
-  border-radius:12px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  margin-bottom:18px;
-
-  font-size:20px;
-}
-
-.service h3{
-  font-size:17px;
-
-  margin-bottom:7px;
-}
-
-.service p{
-  color:var(--muted);
-
-  font-size:13px;
+    margin-top:8px;
 }
 
 
 /* =========================
-   TRACKING
-========================= */
-
-.tracking-section{
-  background:white;
-
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-}
-
-.tracking-box{
-  max-width:650px;
-
-  margin:35px auto 0;
-
-  display:flex;
-
-  padding:6px;
-
-  border:1px solid var(--border);
-
-  background:var(--bg);
-
-  border-radius:13px;
-}
-
-.tracking-box input{
-  flex:1;
-
-  border:none;
-  outline:none;
-
-  background:transparent;
-
-  padding:13px;
-}
-
-.tracking-box button{
-  border:none;
-
-  background:var(--primary);
-  color:white;
-
-  border-radius:9px;
-
-  padding:12px 20px;
-
-  font-weight:700;
-}
-
-
-/* =========================
-   ACTIVIDADES
+ACTIVIDADES
 ========================= */
 
 .activities{
-  margin-top:38px;
+    display:grid;
 
-  display:grid;
+    grid-template-columns:
+    1.4fr 1fr 1fr;
 
-  grid-template-columns:
-  repeat(3,1fr);
-
-  gap:15px;
+    gap:18px;
 }
 
 .activity{
-  background:white;
+    background:white;
 
-  border:1px solid var(--border);
+    border-radius:18px;
 
-  border-radius:18px;
+    overflow:hidden;
 
-  overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+
+    transition:.25s;
+}
+
+.activity:hover{
+    transform:translateY(-5px);
+
+    box-shadow:var(--shadow);
 }
 
 .activity-image{
-  height:180px;
+    height:210px;
 
-  background:
-  linear-gradient(
-    135deg,
-    #dfe8e2,
-    #b7c9bc
-  );
+    background-size:cover;
+    background-position:center;
 
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  font-size:55px;
+    position:relative;
 }
 
-.activity-content{
-  padding:22px;
+.activity:nth-child(1) .activity-image{
+    background-image:
+    linear-gradient(
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.1)
+    ),
+    url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80");
+}
+
+.activity:nth-child(2) .activity-image{
+    background-image:
+    url("https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=900&q=80");
+}
+
+.activity:nth-child(3) .activity-image{
+    background-image:
+    url("https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80");
 }
 
 .activity-date{
-  color:var(--primary);
+    position:absolute;
 
-  font-size:11px;
+    top:15px;
+    left:15px;
 
-  font-weight:800;
+    background:white;
 
-  text-transform:uppercase;
+    color:var(--green);
+
+    padding:7px 10px;
+
+    border-radius:7px;
+
+    font-size:11px;
+
+    font-weight:900;
 }
 
-.activity h3{
-  margin-top:6px;
-
-  font-size:18px;
+.activity-body{
+    padding:22px;
 }
 
-.activity p{
-  margin-top:6px;
+.activity-body h3{
+    font-size:18px;
+}
 
-  color:var(--muted);
+.activity-body p{
+    color:var(--muted);
 
-  font-size:13px;
+    font-size:13px;
+
+    margin-top:7px;
+}
+
+.activity-link{
+    display:inline-block;
+
+    margin-top:15px;
+
+    color:var(--green);
+
+    font-size:12px;
+
+    font-weight:900;
 }
 
 
 /* =========================
-   CITAS
+PORTAL
 ========================= */
 
-.appointment{
-  background:var(--primary);
+.portal{
+    background:var(--green);
 
-  color:white;
+    border-radius:25px;
 
-  border-radius:24px;
+    padding:50px;
 
-  padding:50px;
+    color:white;
 
-  display:grid;
+    display:grid;
 
-  grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1.3fr;
 
-  gap:50px;
+    gap:50px;
+
+    overflow:hidden;
+
+    position:relative;
 }
 
-.appointment h2{
-  font-size:38px;
+.portal::after{
+    content:"";
 
-  letter-spacing:-1.5px;
+    position:absolute;
 
-  line-height:1.05;
+    width:400px;
+    height:400px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.04);
+
+    right:-180px;
+    bottom:-200px;
 }
 
-.appointment p{
-  margin-top:14px;
+.portal h2{
+    font-size:43px;
 
-  color:#b9c8c0;
+    line-height:1.05;
+
+    letter-spacing:-2px;
 }
 
-.form{
-  background:white;
+.portal p{
+    color:#c9d9d2;
 
-  color:var(--text);
+    margin-top:15px;
 
-  border-radius:16px;
-
-  padding:25px;
+    max-width:450px;
 }
 
-.form-group{
-  margin-bottom:15px;
+.portal-list{
+    margin-top:25px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
 }
 
-.form-group label{
-  display:block;
+.portal-item{
+    display:flex;
 
-  margin-bottom:6px;
+    gap:12px;
 
-  font-size:12px;
+    align-items:center;
 
-  font-weight:700;
+    font-size:13px;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea{
-  width:100%;
+.portal-check{
+    width:27px;
+    height:27px;
 
-  padding:12px;
+    background:rgba(255,255,255,.1);
 
-  border:1px solid var(--border);
+    border-radius:50%;
 
-  border-radius:9px;
-
-  outline:none;
-
-  background:#fafafa;
-}
-
-.form-group textarea{
-  resize:vertical;
-
-  min-height:80px;
-}
-
-.form button{
-  width:100%;
-
-  margin-top:5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 
 /* =========================
-   SOLICITUDES
+FORM
 ========================= */
 
-.request-area{
-  display:grid;
+.form-card{
+    background:white;
 
-  grid-template-columns:
-  1fr 1fr;
+    border-radius:17px;
 
-  gap:15px;
+    padding:28px;
 
-  margin-top:35px;
+    color:var(--text);
+
+    position:relative;
+    z-index:2;
 }
 
-.request-card{
-  background:white;
+.form-card h3{
+    font-size:20px;
 
-  border:1px solid var(--border);
-
-  border-radius:18px;
-
-  padding:28px;
+    margin-bottom:20px;
 }
 
-.request-card h3{
-  font-size:19px;
+.form-row{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
 }
 
-.request-card p{
-  color:var(--muted);
+.field{
+    margin-bottom:14px;
+}
 
-  font-size:13px;
+.field label{
+    display:block;
 
-  margin:7px 0 20px;
+    font-size:11px;
+
+    font-weight:800;
+
+    margin-bottom:6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+    width:100%;
+
+    border:1px solid #dfe4e1;
+
+    background:#fafafa;
+
+    padding:11px;
+
+    border-radius:8px;
+
+    outline:none;
+}
+
+.field textarea{
+    min-height:75px;
+
+    resize:vertical;
+}
+
+.submit{
+    width:100%;
+
+    border:0;
+
+    background:var(--green);
+
+    color:white;
+
+    padding:13px;
+
+    border-radius:8px;
+
+    font-weight:800;
 }
 
 
 /* =========================
-   TRANSPARENCIA
+TRACKING
 ========================= */
 
-.transparency{
-  margin-top:35px;
+.tracking{
+    display:grid;
 
-  display:grid;
+    grid-template-columns:
+    1fr 1fr;
 
-  grid-template-columns:
-  repeat(3,1fr);
+    gap:35px;
 
-  gap:15px;
+    align-items:center;
 }
 
-.transparency-card{
-  background:white;
+.tracking-visual{
+    min-height:330px;
 
-  border:1px solid var(--border);
+    border-radius:20px;
 
-  border-radius:16px;
+    background:
+    linear-gradient(
+        rgba(4,60,45,.2),
+        rgba(4,60,45,.2)
+    ),
+    url("https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?auto=format&fit=crop&w=1200&q=80");
 
-  padding:23px;
+    background-size:cover;
+    background-position:center;
+
+    position:relative;
 }
 
-.transparency-card strong{
-  display:block;
+.tracking-status{
+    position:absolute;
 
-  font-size:15px;
+    bottom:20px;
+    left:20px;
+    right:20px;
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    box-shadow:var(--shadow);
 }
 
-.transparency-card span{
-  display:block;
+.status-row{
+    display:flex;
 
-  color:var(--muted);
+    justify-content:space-between;
 
-  font-size:12px;
+    font-size:12px;
+}
 
-  margin-top:5px;
+.status-green{
+    color:var(--success);
+
+    font-weight:900;
+}
+
+.tracking h2{
+    font-size:40px;
+
+    letter-spacing:-1.5px;
+}
+
+.tracking p{
+    color:var(--muted);
+
+    margin:12px 0 20px;
+}
+
+.tracking-input{
+    display:flex;
+
+    gap:8px;
+}
+
+.tracking-input input{
+    flex:1;
+
+    padding:13px;
+
+    border:1px solid #dfe4e1;
+
+    border-radius:8px;
+
+    outline:none;
+}
+
+.tracking-input button{
+    background:var(--green);
+
+    color:white;
+
+    border:0;
+
+    padding:13px 18px;
+
+    border-radius:8px;
+
+    font-weight:800;
 }
 
 
 /* =========================
-   CTA
+INFORMATION CARDS
 ========================= */
 
-.cta{
-  max-width:1200px;
+.info-grid{
+    display:grid;
 
-  margin:0 auto 90px;
+    grid-template-columns:
+    repeat(3,1fr);
 
-  padding:70px 25px;
-
-  background:white;
-
-  border:1px solid var(--border);
-
-  border-radius:24px;
-
-  text-align:center;
+    gap:18px;
 }
 
-.cta h2{
-  font-size:40px;
+.info-card{
+    min-height:190px;
 
-  letter-spacing:-2px;
+    border-radius:18px;
+
+    padding:27px;
+
+    color:white;
+
+    position:relative;
+
+    overflow:hidden;
 }
 
-.cta p{
-  max-width:500px;
+.info-card:nth-child(1){
+    background:
+    linear-gradient(135deg,#075b43,#0d7656);
+}
 
-  margin:10px auto 25px;
+.info-card:nth-child(2){
+    background:
+    linear-gradient(135deg,#c48b21,#e2ae42);
+}
 
-  color:var(--muted);
+.info-card:nth-child(3){
+    background:
+    linear-gradient(135deg,#2865a4,#4189d3);
+}
+
+.info-card .big-icon{
+    font-size:36px;
+
+    margin-bottom:20px;
+}
+
+.info-card h3{
+    font-size:20px;
+}
+
+.info-card p{
+    font-size:12px;
+
+    margin-top:5px;
+
+    opacity:.85;
 }
 
 
 /* =========================
-   FOOTER
+FOOTER
 ========================= */
 
 footer{
-  border-top:1px solid var(--border);
+    background:var(--green-dark);
 
-  padding:35px 24px;
+    color:white;
 
-  color:var(--muted);
-
-  font-size:12px;
+    padding:50px 20px;
 }
 
-.footer-container{
-  max-width:1200px;
+.footer{
+    max-width:1250px;
 
-  margin:auto;
+    margin:auto;
 
-  display:flex;
+    display:grid;
 
-  justify-content:space-between;
+    grid-template-columns:
+    2fr 1fr 1fr 1fr;
+
+    gap:40px;
+}
+
+.footer h3{
+    font-size:15px;
+
+    margin-bottom:13px;
+}
+
+.footer p,
+.footer a{
+    color:#aebfb7;
+
+    font-size:12px;
+
+    display:block;
+
+    margin-top:7px;
+}
+
+.footer-bottom{
+    max-width:1250px;
+
+    margin:35px auto 0;
+
+    padding-top:20px;
+
+    border-top:1px solid rgba(255,255,255,.1);
+
+    color:#8fa49b;
+
+    font-size:11px;
+
+    display:flex;
+
+    justify-content:space-between;
 }
 
 
 /* =========================
-   MOBILE
+MOBILE
 ========================= */
 
-@media(max-width:850px){
+@media(max-width:900px){
 
-  .nav-links{
-    display:none;
-  }
+    .menu{
+        display:none;
+    }
 
-  .hero{
-    grid-template-columns:1fr;
+    .hero{
+        min-height:550px;
+    }
 
-    padding-top:65px;
+    .quick{
+        grid-template-columns:1fr 1fr;
+    }
 
-    gap:40px;
-  }
+    .activities{
+        grid-template-columns:1fr 1fr;
+    }
 
-  .hero h1{
-    letter-spacing:-2.5px;
-  }
+    .activity:first-child{
+        grid-column:span 2;
+    }
 
-  .services{
-    grid-template-columns:
-    1fr 1fr;
-  }
+    .portal{
+        grid-template-columns:1fr;
+    }
 
-  .activities{
-    grid-template-columns:1fr;
-  }
+    .tracking{
+        grid-template-columns:1fr;
+    }
 
-  .appointment{
-    grid-template-columns:1fr;
+    .info-grid{
+        grid-template-columns:1fr 1fr;
+    }
 
-    padding:30px;
-
-    gap:30px;
-  }
-
-  .request-area{
-    grid-template-columns:1fr;
-  }
-
-  .transparency{
-    grid-template-columns:1fr;
-  }
+    .footer{
+        grid-template-columns:1fr 1fr;
+    }
 
 }
 
 
-@media(max-width:550px){
+@media(max-width:600px){
 
-  .nav-button{
-    display:none;
-  }
+    .topbar{
+        display:none;
+    }
 
-  .hero-buttons{
-    flex-direction:column;
-  }
+    nav{
+        height:70px;
+    }
 
-  .hero-buttons button{
-    width:100%;
-  }
+    .brand-text span{
+        display:none;
+    }
 
-  .services{
-    grid-template-columns:1fr;
-  }
+    .nav-cta{
+        display:none;
+    }
 
-  .quick-actions{
-    grid-template-columns:1fr;
-  }
+    .hero{
+        min-height:600px;
 
-  .tracking-box{
-    flex-direction:column;
+        background-position:center;
+    }
 
-    background:transparent;
+    .hero h1{
+        font-size:46px;
 
-    border:none;
+        letter-spacing:-2px;
+    }
 
-    padding:0;
+    .hero-buttons{
+        flex-direction:column;
+    }
 
-    gap:8px;
-  }
+    .hero-buttons button{
+        width:100%;
+    }
 
-  .tracking-box input{
-    background:white;
+    .quick{
+        grid-template-columns:1fr;
 
-    border:1px solid var(--border);
+        margin-top:-30px;
+    }
 
-    border-radius:9px;
-  }
+    .container{
+        padding:65px 20px;
+    }
 
-  .tracking-box button{
-    width:100%;
-  }
+    .section-heading{
+        display:block;
+    }
 
-  .appointment h2{
-    font-size:31px;
-  }
+    .heading h2{
+        font-size:32px;
+    }
 
-  .section-title{
-    font-size:32px;
-  }
+    .activities{
+        grid-template-columns:1fr;
+    }
 
-  .cta h2{
-    font-size:32px;
-  }
+    .activity:first-child{
+        grid-column:auto;
+    }
 
-  .footer-container{
-    flex-direction:column;
+    .portal{
+        padding:30px 22px;
+    }
 
-    gap:8px;
-  }
+    .portal h2{
+        font-size:34px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .tracking-input{
+        flex-direction:column;
+    }
+
+    .tracking-input button{
+        width:100%;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer{
+        grid-template-columns:1fr;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+
+        gap:8px;
+    }
 
 }
 
@@ -937,816 +1099,903 @@ footer{
 <body>
 
 
-<!-- =========================
-     NAVBAR
-========================= -->
+<!-- TOPBAR -->
 
-<nav class="navbar">
+<div class="topbar">
 
-  <div class="nav-container">
+<div class="topbar-inner">
 
-    <a href="#" class="logo">
+<span>
+🇵🇦 República de Panamá
+</span>
 
-      <span class="logo-mark">
-        JC
-      </span>
+<span>
+Atención ciudadana · Chilibre
+</span>
 
-      Junta Comunal de Chilibre
+</div>
 
-    </a>
-
-
-    <div class="nav-links">
-
-      <a href="#servicios">
-        Servicios
-      </a>
-
-      <a href="#actividades">
-        Actividades
-      </a>
-
-      <a href="#citas">
-        Citas
-      </a>
-
-      <a href="#solicitudes">
-        Solicitudes
-      </a>
-
-    </div>
+</div>
 
 
-    <button
-      class="nav-button"
-      onclick="irACitas()"
-    >
-      Solicitar cita
-    </button>
+<!-- NAV -->
 
-  </div>
+<nav>
+
+<div class="nav-inner">
+
+<div class="brand">
+
+<div class="logo">
+JC
+</div>
+
+<div class="brand-text">
+
+<strong>
+Junta Comunal de Chilibre
+</strong>
+
+<span>
+Comprometidos con nuestra comunidad
+</span>
+
+</div>
+
+</div>
+
+
+<div class="menu">
+
+<a href="#">
+Inicio
+</a>
+
+<a href="#servicios">
+Servicios
+</a>
+
+<a href="#actividades">
+Actividades
+</a>
+
+<a href="#seguimiento">
+Solicitudes
+</a>
+
+<a href="#contacto">
+Contacto
+</a>
+
+</div>
+
+
+<button
+class="nav-cta"
+onclick="document.getElementById('citas').scrollIntoView()"
+>
+
+Solicitar cita
+
+</button>
+
+</div>
 
 </nav>
 
 
 
-<!-- =========================
-     HERO
-========================= -->
-
-<main>
+<!-- HERO -->
 
 <section class="hero">
 
+<div class="hero-content">
 
-  <div>
+<span class="hero-tag">
+SERVICIOS PARA LA COMUNIDAD
+</span>
 
-    <div class="badge">
+<h1>
 
-      <span class="badge-dot"></span>
+Una Junta más
+<span>cerca de ti.</span>
 
-      Atención ciudadana
+</h1>
 
-    </div>
+<p>
 
+Consulta nuestras actividades, realiza solicitudes,
+gestiona permisos y agenda una cita con nuestro
+personal de manera sencilla.
 
-    <h1>
+</p>
 
-      Servicios para
-      <span>nuestra comunidad.</span>
+<div class="hero-buttons">
 
-    </h1>
-
-
-    <p>
-
-      Gestiona tus solicitudes, permisos,
-      citas y actividades de la Junta Comunal
-      de Chilibre desde un solo lugar.
-
-    </p>
-
-
-    <div class="hero-buttons">
-
-      <button
-        class="btn-primary"
-        onclick="irACitas()"
-      >
-
-        📅 Solicitar una cita
-
-      </button>
-
-
-      <button
-        class="btn-secondary"
-        onclick="irASolicitudes()"
-      >
-
-        📄 Hacer una solicitud
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-
-  <!-- PANEL -->
-
-  <div class="hero-card">
-
-    <div class="hero-card-title">
-
-      <small>
-        PORTAL CIUDADANO
-      </small>
-
-      <h2>
-        ¿Qué necesitas realizar?
-      </h2>
-
-    </div>
-
-
-    <div class="quick-actions">
-
-
-      <button
-        class="quick-action"
-        onclick="irACitas()"
-      >
-
-        <strong>
-          📅 Solicitar cita
-        </strong>
-
-        <span>
-          Agenda atención con nuestro personal
-        </span>
-
-      </button>
-
-
-      <button
-        class="quick-action"
-        onclick="irASolicitudes()"
-      >
-
-        <strong>
-          📄 Solicitar permiso
-        </strong>
-
-        <span>
-          Inicia tu trámite en línea
-        </span>
-
-      </button>
-
-
-      <button
-        class="quick-action"
-        onclick="irATracking()"
-      >
-
-        <strong>
-          🔎 Consultar solicitud
-        </strong>
-
-        <span>
-          Revisa el estado de tu trámite
-        </span>
-
-      </button>
-
-
-      <button
-        class="quick-action"
-        onclick="irAActividades()"
-      >
-
-        <strong>
-          📅 Actividades
-        </strong>
-
-        <span>
-          Consulta próximos eventos
-        </span>
-
-      </button>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================
-     SERVICIOS
-========================= -->
-
-<section
-  class="section"
-  id="servicios"
+<button
+class="hero-primary"
+onclick="document.getElementById('citas').scrollIntoView()"
 >
 
-  <span class="section-label">
-    Servicios digitales
-  </span>
+📅 Solicitar una cita
 
+</button>
 
-  <h2 class="section-title">
-    Haz tus trámites sin filas.
-  </h2>
-
-
-  <p class="section-description">
-
-    Accede a los principales servicios de la
-    Junta Comunal de forma sencilla y rápida.
-
-  </p>
-
-
-  <div class="services">
-
-
-    <div class="service">
-
-      <div class="service-icon">
-        📅
-      </div>
-
-      <h3>
-        Citas
-      </h3>
-
-      <p>
-        Solicita una fecha y hora para ser
-        atendido por el personal correspondiente.
-      </p>
-
-    </div>
-
-
-    <div class="service">
-
-      <div class="service-icon">
-        📄
-      </div>
-
-      <h3>
-        Permisos
-      </h3>
-
-      <p>
-        Envía tus documentos y consulta el
-        avance de tu solicitud.
-      </p>
-
-    </div>
-
-
-    <div class="service">
-
-      <div class="service-icon">
-        ✍️
-      </div>
-
-      <h3>
-        Firma digital
-      </h3>
-
-      <p>
-        Gestiona la aprobación y firma de
-        documentos desde la plataforma.
-      </p>
-
-    </div>
-
-
-    <div class="service">
-
-      <div class="service-icon">
-        🔎
-      </div>
-
-      <h3>
-        Seguimiento
-      </h3>
-
-      <p>
-        Consulta el estado de tus solicitudes
-        utilizando tu número de trámite.
-      </p>
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================
-     TRACKING
-========================= -->
-
-<section class="tracking-section">
-
-  <div
-    class="section"
-    id="seguimiento"
-    style="text-align:center;"
-  >
-
-    <span class="section-label">
-      Seguimiento
-    </span>
-
-
-    <h2 class="section-title">
-      Consulta tu solicitud.
-    </h2>
-
-
-    <p class="section-description"
-       style="margin-left:auto;margin-right:auto;">
-
-      Ingresa el número de trámite que recibiste
-      al realizar tu solicitud.
-
-    </p>
-
-
-    <div class="tracking-box">
-
-      <input
-        id="numeroSolicitud"
-        type="text"
-        placeholder="Ej. CH-2026-00481"
-      >
-
-      <button onclick="consultarSolicitud()">
-        Consultar
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================
-     ACTIVIDADES
-========================= -->
-
-<section
-  class="section"
-  id="actividades"
+<button
+class="hero-secondary"
+onclick="document.getElementById('servicios').scrollIntoView()"
 >
 
-  <span class="section-label">
-    Comunidad
-  </span>
+Conoce nuestros servicios
 
+</button>
 
-  <h2 class="section-title">
-    Próximas actividades.
-  </h2>
+</div>
 
-
-  <p class="section-description">
-
-    Mantente informado sobre las actividades,
-    programas y eventos de nuestra comunidad.
-
-  </p>
-
-
-  <div class="activities">
-
-
-    <div class="activity">
-
-      <div class="activity-image">
-        🎉
-      </div>
-
-      <div class="activity-content">
-
-        <span class="activity-date">
-          24 Agosto · 10:00 AM
-        </span>
-
-        <h3>
-          Actividad comunitaria
-        </h3>
-
-        <p>
-          Información y participación
-          para residentes de Chilibre.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="activity">
-
-      <div class="activity-image">
-        ⚽
-      </div>
-
-      <div class="activity-content">
-
-        <span class="activity-date">
-          30 Agosto · 9:00 AM
-        </span>
-
-        <h3>
-          Jornada deportiva
-        </h3>
-
-        <p>
-          Actividad abierta para niños,
-          jóvenes y familias.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="activity">
-
-      <div class="activity-image">
-        🎭
-      </div>
-
-      <div class="activity-content">
-
-        <span class="activity-date">
-          Próximamente
-        </span>
-
-        <h3>
-          Actividad cultural
-        </h3>
-
-        <p>
-          Espacios para promover nuestra
-          cultura y tradiciones.
-        </p>
-
-      </div>
-
-    </div>
-
-
-  </div>
+</div>
 
 </section>
 
 
 
-<!-- =========================
-     CITAS
-========================= -->
+<!-- QUICK ACCESS -->
+
+<section class="quick">
+
+
+<div class="quick-card">
+
+<div class="quick-icon icon-green">
+📅
+</div>
+
+<div>
+
+<strong>
+Solicitar cita
+</strong>
+
+<span>
+Agenda atención
+</span>
+
+</div>
+
+</div>
+
+
+<div class="quick-card">
+
+<div class="quick-icon icon-gold">
+📄
+</div>
+
+<div>
+
+<strong>
+Solicitar permiso
+</strong>
+
+<span>
+Realiza tu trámite
+</span>
+
+</div>
+
+</div>
+
+
+<div class="quick-card">
+
+<div class="quick-icon icon-blue">
+🔎
+</div>
+
+<div>
+
+<strong>
+Consultar solicitud
+</strong>
+
+<span>
+Revisa tu trámite
+</span>
+
+</div>
+
+</div>
+
+
+<div class="quick-card">
+
+<div class="quick-icon icon-orange">
+🎉
+</div>
+
+<div>
+
+<strong>
+Actividades
+</strong>
+
+<span>
+Eventos comunitarios
+</span>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+<!-- ACTIVIDADES -->
 
 <section
-  class="section"
-  id="citas"
+class="container"
+id="actividades"
 >
 
-  <div class="appointment">
+<div class="section-heading">
+
+<div class="heading">
+
+<span class="heading-small">
+Nuestra comunidad
+</span>
+
+<h2>
+Actividades y eventos
+</h2>
+
+<p>
+Participa en las iniciativas que estamos
+desarrollando para nuestra comunidad.
+</p>
+
+</div>
+
+</div>
 
 
-    <div>
-
-      <span class="section-label">
-        Atención ciudadana
-      </span>
+<div class="activities">
 
 
-      <h2>
-        Agenda tu cita
-        en pocos pasos.
-      </h2>
+<div class="activity">
+
+<div class="activity-image">
+
+<span class="activity-date">
+24 AGO · 10:00 AM
+</span>
+
+</div>
+
+<div class="activity-body">
+
+<h3>
+Actividad comunitaria
+</h3>
+
+<p>
+Encuentro comunitario para compartir
+y fortalecer nuestros espacios.
+</p>
+
+<a class="activity-link">
+VER ACTIVIDAD →
+</a>
+
+</div>
+
+</div>
 
 
-      <p>
+<div class="activity">
 
-        Selecciona el área con la que necesitas
-        hablar, elige una fecha disponible y
-        cuéntanos brevemente el motivo.
+<div class="activity-image">
 
-      </p>
+<span class="activity-date">
+30 AGO · 9:00 AM
+</span>
 
-    </div>
+</div>
 
+<div class="activity-body">
 
-    <div class="form">
+<h3>
+Jornada deportiva
+</h3>
 
+<p>
+Actividades deportivas para niños
+y jóvenes de Chilibre.
+</p>
 
-      <div class="form-group">
+<a class="activity-link">
+VER ACTIVIDAD →
+</a>
 
-        <label>
-          Nombre completo
-        </label>
+</div>
 
-        <input
-          type="text"
-          placeholder="Tu nombre"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Área de atención
-        </label>
-
-        <select>
-
-          <option>
-            Atención ciudadana
-          </option>
-
-          <option>
-            Trabajo social
-          </option>
-
-          <option>
-            Permisos
-          </option>
-
-          <option>
-            Junta Comunal
-          </option>
-
-        </select>
-
-      </div>
+</div>
 
 
-      <div class="form-group">
+<div class="activity">
 
-        <label>
-          Fecha
-        </label>
+<div class="activity-image">
 
-        <input
-          type="date"
-        >
+<span class="activity-date">
+PRÓXIMAMENTE
+</span>
 
-      </div>
+</div>
 
+<div class="activity-body">
 
-      <div class="form-group">
+<h3>
+Actividad cultural
+</h3>
 
-        <label>
-          Motivo
-        </label>
+<p>
+Promoviendo nuestras tradiciones
+y expresiones culturales.
+</p>
 
-        <textarea
-          placeholder="¿En qué podemos ayudarte?"
-        ></textarea>
+<a class="activity-link">
+VER ACTIVIDAD →
+</a>
 
-      </div>
+</div>
 
-
-      <button
-        class="btn-primary"
-        onclick="solicitarCita()"
-      >
-
-        Solicitar cita
-
-      </button>
+</div>
 
 
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 
 
-<!-- =========================
-     SOLICITUDES
-========================= -->
+<!-- PORTAL -->
+
+<section class="container">
+
+<div class="portal">
+
+<div>
+
+<span class="heading-small" style="color:#ffd66d;">
+Portal ciudadano
+</span>
+
+<h2>
+Todo lo que necesitas,
+en un solo lugar.
+</h2>
+
+<p>
+
+Evita desplazamientos innecesarios y
+realiza tus principales gestiones desde
+tu celular o computadora.
+
+</p>
+
+
+<div class="portal-list">
+
+<div class="portal-item">
+
+<span class="portal-check">✓</span>
+
+Solicita permisos y trámites
+
+</div>
+
+<div class="portal-item">
+
+<span class="portal-check">✓</span>
+
+Agenda citas con funcionarios
+
+</div>
+
+<div class="portal-item">
+
+<span class="portal-check">✓</span>
+
+Adjunta documentos
+
+</div>
+
+<div class="portal-item">
+
+<span class="portal-check">✓</span>
+
+Consulta el estado de tus solicitudes
+
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="form-card"
+id="citas"
+>
+
+<h3>
+📅 Solicita tu cita
+</h3>
+
+
+<div class="form-row">
+
+<div class="field">
+
+<label>
+Nombre completo
+</label>
+
+<input
+type="text"
+placeholder="Nombre y apellido"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Teléfono
+</label>
+
+<input
+type="tel"
+placeholder="6000-0000"
+>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Área de atención
+</label>
+
+<select>
+
+<option>
+Selecciona un área
+</option>
+
+<option>
+Atención ciudadana
+</option>
+
+<option>
+Trabajo social
+</option>
+
+<option>
+Permisos
+</option>
+
+<option>
+Administración
+</option>
+
+<option>
+Junta Comunal
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-row">
+
+<div class="field">
+
+<label>
+Fecha
+</label>
+
+<input type="date">
+
+</div>
+
+
+<div class="field">
+
+<label>
+Hora
+</label>
+
+<select>
+
+<option>
+Seleccionar hora
+</option>
+
+<option>8:00 AM</option>
+<option>9:00 AM</option>
+<option>10:00 AM</option>
+<option>11:00 AM</option>
+<option>1:00 PM</option>
+<option>2:00 PM</option>
+<option>3:00 PM</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Motivo de la cita
+</label>
+
+<textarea
+placeholder="Cuéntanos brevemente cómo podemos ayudarte"
+></textarea>
+
+</div>
+
+
+<button
+class="submit"
+onclick="solicitarCita()"
+>
+
+CONFIRMAR SOLICITUD
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- TRACKING -->
 
 <section
-  class="section"
-  id="solicitudes"
+class="container"
+id="seguimiento"
 >
 
-  <span class="section-label">
-    Trámites
-  </span>
+<div class="tracking">
 
 
-  <h2 class="section-title">
-    Gestiona tus solicitudes.
-  </h2>
+<div class="tracking-visual">
+
+<div class="tracking-status">
+
+<div class="status-row">
+
+<strong>
+Solicitud #CH-2026-00481
+</strong>
+
+<span class="status-green">
+● En revisión
+</span>
+
+</div>
+
+</div>
+
+</div>
 
 
-  <div class="request-area">
+<div>
+
+<span class="heading-small">
+Seguimiento
+</span>
+
+<h2>
+¿Ya realizaste una solicitud?
+</h2>
+
+<p>
+
+Consulta en cualquier momento el estado
+de tu permiso o trámite utilizando el número
+de seguimiento.
+
+</p>
 
 
-    <div class="request-card">
+<div class="tracking-input">
 
-      <h3>
-        📄 Solicitar un permiso
-      </h3>
+<input
+id="trackingNumber"
+placeholder="Ej. CH-2026-00481"
+>
 
-      <p>
+<button onclick="consultar()">
+Consultar
+</button>
 
-        Inicia tu solicitud, adjunta los documentos
-        necesarios y recibe un número de seguimiento.
+</div>
 
-      </p>
-
-      <button
-        class="btn-primary"
-        onclick="solicitarPermiso()"
-      >
-
-        Iniciar solicitud →
-
-      </button>
-
-    </div>
+</div>
 
 
-    <div class="request-card">
-
-      <h3>
-        ✍️ Documentos pendientes de firma
-      </h3>
-
-      <p>
-
-        Revisa documentos que requieren aprobación
-        o firma dentro de la plataforma.
-
-      </p>
-
-      <button
-        class="btn-secondary"
-        onclick="verFirmas()"
-      >
-
-        Ver documentos
-
-      </button>
-
-    </div>
-
-
-  </div>
+</div>
 
 </section>
 
 
 
-<!-- =========================
-     TRANSPARENCIA
-========================= -->
+<!-- SERVICES -->
 
-<section class="section">
+<section
+class="container"
+id="servicios"
+>
 
-  <span class="section-label">
-    Información pública
-  </span>
+<div class="section-heading">
 
+<div class="heading">
 
-  <h2 class="section-title">
-    Transparencia.
-  </h2>
+<span class="heading-small">
+Servicios
+</span>
 
+<h2>
+Estamos para ayudarte
+</h2>
 
-  <p class="section-description">
+<p>
+Conoce algunos de los servicios y gestiones
+que podrás realizar a través del portal.
+</p>
 
-    Consulta información pública y documentos
-    de la Junta Comunal.
+</div>
 
-  </p>
-
-
-  <div class="transparency">
-
-
-    <div class="transparency-card">
-
-      <strong>
-        📑 Transparencia
-      </strong>
-
-      <span>
-        Información institucional
-      </span>
-
-    </div>
+</div>
 
 
-    <div class="transparency-card">
-
-      <strong>
-        💰 Presupuesto
-      </strong>
-
-      <span>
-        Información presupuestaria
-      </span>
-
-    </div>
+<div class="info-grid">
 
 
-    <div class="transparency-card">
+<div class="info-card">
 
-      <strong>
-        📋 Documentos
-      </strong>
+<div class="big-icon">
+📄
+</div>
 
-      <span>
-        Resoluciones y documentos públicos
-      </span>
+<h3>
+Permisos
+</h3>
 
-    </div>
+<p>
+Solicita y consulta permisos
+sin necesidad de trasladarte.
+</p>
+
+</div>
 
 
-  </div>
+<div class="info-card">
+
+<div class="big-icon">
+✍️
+</div>
+
+<h3>
+Firma de documentos
+</h3>
+
+<p>
+Gestiona la aprobación y firma
+de documentos de manera digital.
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<div class="big-icon">
+🏛️
+</div>
+
+<h3>
+Atención ciudadana
+</h3>
+
+<p>
+Encuentra el área adecuada para
+resolver tus necesidades.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- CTA -->
+
+<section class="container">
+
+<div
+style="
+background:
+linear-gradient(135deg,#e4b13d,#f1c75e);
+padding:60px 30px;
+border-radius:25px;
+text-align:center;
+"
+>
+
+<h2
+style="
+font-size:42px;
+color:#063d2d;
+letter-spacing:-2px;
+"
+>
+
+Chilibre somos todos.
+
+</h2>
+
+<p
+style="
+margin:10px auto 25px;
+max-width:550px;
+color:#315044;
+"
+>
+
+Trabajamos para construir una comunidad
+más conectada, participativa y cercana.
+
+</p>
+
+<button
+class="hero-secondary"
+onclick="document.getElementById('citas').scrollIntoView()"
+>
+
+📅 Agenda una cita
+
+</button>
+
+</div>
 
 </section>
 
 
 
-<!-- =========================
-     CTA
-========================= -->
+<!-- FOOTER -->
 
-<section class="cta">
+<footer id="contacto">
 
-  <h2>
-    Estamos para servirte.
-  </h2>
+<div class="footer">
 
 
-  <p>
+<div>
 
-    Accede a los servicios de la Junta Comunal
-    de Chilibre desde cualquier dispositivo.
+<h3>
+Junta Comunal de Chilibre
+</h3>
 
-  </p>
+<p>
+Comprometidos con nuestra comunidad.
+</p>
 
+<p>
+República de Panamá
+</p>
 
-  <button
-    class="btn-primary"
-    onclick="irACitas()"
-  >
-
-    Solicitar una cita →
-
-  </button>
-
-</section>
+</div>
 
 
-</main>
+<div>
+
+<h3>
+Servicios
+</h3>
+
+<a>
+Citas
+</a>
+
+<a>
+Permisos
+</a>
+
+<a>
+Solicitudes
+</a>
+
+<a>
+Seguimiento
+</a>
+
+</div>
 
 
+<div>
 
-<!-- =========================
-     FOOTER
-========================= -->
+<h3>
+Comunidad
+</h3>
 
-<footer>
+<a>
+Actividades
+</a>
 
-  <div class="footer-container">
+<a>
+Eventos
+</a>
 
-    <span>
-      © 2026 Junta Comunal de Chilibre
-    </span>
+<a>
+Programas
+</a>
 
-    <span>
-      República de Panamá
-    </span>
+</div>
 
-  </div>
+
+<div>
+
+<h3>
+Información
+</h3>
+
+<a>
+Transparencia
+</a>
+
+<a>
+Contacto
+</a>
+
+<a>
+Ubicación
+</a>
+
+</div>
+
+
+</div>
+
+
+<div class="footer-bottom">
+
+<span>
+© 2026 Junta Comunal de Chilibre
+</span>
+
+<span>
+Panamá
+</span>
+
+</div>
 
 </footer>
 
@@ -1754,121 +2003,34 @@ footer{
 
 <script>
 
-
-/* =========================
-   NAVEGACIÓN
-========================= */
-
-function irACitas(){
-
-  document
-    .getElementById("citas")
-    .scrollIntoView();
-
-}
-
-
-function irASolicitudes(){
-
-  document
-    .getElementById("solicitudes")
-    .scrollIntoView();
-
-}
-
-
-function irATracking(){
-
-  document
-    .getElementById("seguimiento")
-    .scrollIntoView();
-
-}
-
-
-function irAActividades(){
-
-  document
-    .getElementById("actividades")
-    .scrollIntoView();
-
-}
-
-
-/* =========================
-   CONSULTAR SOLICITUD
-========================= */
-
-function consultarSolicitud(){
-
-  const numero =
-    document
-      .getElementById("numeroSolicitud")
-      .value
-      .trim();
-
-  if(!numero){
-
-    alert(
-      "Ingresa tu número de solicitud."
-    );
-
-    return;
-
-  }
-
-  /*
-    Posteriormente:
-
-    window.location.href =
-      "solicitud.html?id=" + numero;
-
-    Aquí conectaremos el frontend
-    con el backend.
-  */
-
-  alert(
-    "Consultando solicitud: " + numero
-  );
-
-}
-
-
-/* =========================
-   CITA
-========================= */
-
 function solicitarCita(){
 
-  alert(
-    "La solicitud de cita será enviada al sistema."
-  );
+    alert(
+        "La solicitud de cita será registrada. Aquí conectaremos el formulario con el sistema."
+    );
 
 }
 
+function consultar(){
 
-/* =========================
-   PERMISO
-========================= */
+    const numero =
+        document
+        .getElementById("trackingNumber")
+        .value
+        .trim();
 
-function solicitarPermiso(){
+    if(!numero){
 
-  alert(
-    "Aquí se abrirá el formulario de permisos."
-  );
+        alert(
+            "Ingresa tu número de solicitud."
+        );
 
-}
+        return;
+    }
 
-
-/* =========================
-   FIRMAS
-========================= */
-
-function verFirmas(){
-
-  alert(
-    "Aquí se mostrarán los documentos pendientes de firma."
-  );
+    alert(
+        "Consultando solicitud: " + numero
+    );
 
 }
 
