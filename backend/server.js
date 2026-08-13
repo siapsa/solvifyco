@@ -24,65 +24,7 @@ const resend = new Resend(
 );
 
 
-// =========================================================
-// DATOS INICIALES DE TÉCNICOS
-// Solo se utilizan si la tabla está vacía.
-// =========================================================
 
-const tecnicosIniciales = [
-  {
-    id: 1,
-    nombre: "Roberto Jiménez",
-    servicio: "electricista",
-    descripcion: "Electricista certificado",
-    precio: 100,
-    zona: "panama",
-    ciudad: "Ciudad de Panamá",
-    telefono: "+507 62804587",
-    correo: "roberto.jimenez@gmail.com",
-    imagen: "",
-    premium: true
-  },
-  {
-    id: 2,
-    nombre: "Raimundo Atencio",
-    servicio: "mantenimiento",
-    descripcion: "Mantenimiento Certificado",
-    precio: 250,
-    zona: "panama",
-    ciudad: "Ciudad de Panamá",
-    telefono: "+507 62804587",
-    correo: "raimundo.atencio@gmail.com",
-    imagen: "",
-    premium: true
-  },
-  {
-    id: 3,
-    nombre: "Rigoberto Rodríguez",
-    servicio: "ebanista",
-    descripcion: "Ebanista Certificado",
-    precio: 500,
-    zona: "cocle",
-    ciudad: "Coclé",
-    telefono: "+507 6600000",
-    correo: "rigoberto.rodriguez@gmail.com",
-    imagen: "",
-    premium: false
-  },
-  {
-    id: 4,
-    nombre: "Rigoberto Rodríguez",
-    servicio: "albanil",
-    descripcion: "Albañil Certificado",
-    precio: 400,
-    zona: "colon",
-    ciudad: "Colón",
-    telefono: "+507 6700000",
-    correo: "rigoberto.rodriguez@gmail.com",
-    imagen: "",
-    premium: false
-  }
-];
 
 // =========================================================
 // INICIALIZAR BASE DE DATOS
@@ -110,6 +52,9 @@ async function inicializarBaseDatos() {
         telefono TEXT,
         correo TEXT,
         imagen TEXT,
+        imagen1 TEXT,
+        imagen2 TEXT,
+        imagen3 TEXT,
         premium BOOLEAN DEFAULT FALSE
       )
     `);
@@ -131,6 +76,23 @@ async function inicializarBaseDatos() {
           ON DELETE CASCADE
       )
     `);
+// =====================================================
+    // imagenes nuevas
+    // =====================================================
+await pool.query(`
+  ALTER TABLE tecnicos
+  ADD COLUMN IF NOT EXISTS imagen1 TEXT
+`);
+
+await pool.query(`
+  ALTER TABLE tecnicos
+  ADD COLUMN IF NOT EXISTS imagen2 TEXT
+`);
+
+await pool.query(`
+  ALTER TABLE tecnicos
+  ADD COLUMN IF NOT EXISTS imagen3 TEXT
+`);
 
     // =====================================================
     // TABLA RATINGS
@@ -730,6 +692,9 @@ app.post("/tecnicos", async (req, res) => {
       telefono,
       correo,
       imagen,
+      imagen1,
+      imagen2,
+      imagen3,
       premium
     } = req.body;
 
@@ -782,11 +747,14 @@ app.post("/tecnicos", async (req, res) => {
           telefono,
           correo,
           imagen,
+          imagen1,
+          imagen2,
+          imagen3,
           premium
         )
         VALUES
         (
-          $1,$2,$3,$4,$5,$6,$7,$8,$9,$10
+          $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13
         )
         RETURNING
           id,
@@ -811,6 +779,9 @@ app.post("/tecnicos", async (req, res) => {
           telefono,
           correo,
           imagen || "",
+          imagen1 || "",
+          imagen2 || "",
+          imagen3 || "",
           false
         ]
       );
