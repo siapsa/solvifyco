@@ -943,6 +943,44 @@ async function subirACloudinary(
 
 }  
 
+ const radiosPlan =
+  document.querySelectorAll(
+    'input[name="plan"]'
+  );
+
+const galeriaPremiumInputs =
+  document.getElementById(
+    "galeriaPremiumInputs"
+  );
+
+radiosPlan.forEach(radio => {
+
+  radio.addEventListener(
+    "change",
+    () => {
+
+      const plan =
+        document.querySelector(
+          'input[name="plan"]:checked'
+        ).value;
+
+      if (plan === "premium") {
+
+        galeriaPremiumInputs.style.display =
+          "block";
+
+      } else {
+
+        galeriaPremiumInputs.style.display =
+          "none";
+
+      }
+
+    }
+  );
+
+}); 
+
 
 // =========================================================
 // CERRAR MODAL CON CANCELAR
