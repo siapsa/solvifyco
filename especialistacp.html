@@ -420,8 +420,17 @@ background: #fff;
 
     <section class="card">
       <div class="card-illustration">
-        Ilustración del técnico / servicio
-      </div>
+
+  <img
+    id="imagenPerfil"
+    style="
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:14px;
+    ">
+
+</div>
 
       <div class="card-content">
         <h1 id="nombreTecnico">Cargando...</h1>
@@ -488,6 +497,35 @@ background: #fff;
   Las reseñas y las calificaciones son exclusivas para especialistas Premium.
   El contacto con el especialista será gestionado mediante un intermediario de Solvify.
 </div>
+
+    <section
+  id="galeriaPremium"
+  style="
+    display:none;
+    margin-top:20px;
+  ">
+
+  <div class="card-content">
+
+    <h1>
+      Trabajos realizados
+    </h1>
+
+    <div
+      id="galeriaFotos"
+      style="
+        display:grid;
+        grid-template-columns:
+        repeat(auto-fit,minmax(200px,1fr));
+        gap:15px;
+      ">
+
+    </div>
+
+  </div>
+
+</section>
+    
   <section
   class="comentario"
   id="comentariosSection">
@@ -701,6 +739,12 @@ async function cargarTecnico() {
 
     const tecnico = await res.json();
 
+    document.getElementById(
+  "imagenPerfil"
+).src =
+  tecnico.imagen ||
+  "imagenes/default.jpg";
+
     // Guardar técnico seleccionado para utilizarlo en la cotización
       tecnicoActual = tecnico;
 
@@ -785,6 +829,32 @@ if (tecnico.premium === true) {
   
 document.getElementById("datosContactoTecnico").style.display = "grid";
 
+document.getElementById(
+  "galeriaPremium"
+).style.display =
+  "block";
+
+const galeria =
+  document.getElementById(
+    "galeriaFotos"
+  );
+
+galeria.innerHTML = "";
+
+[
+  tecnico.imagen1,
+  tecnico.imagen2,
+  tecnico.imagen3
+].forEach(imagen => {
+
+  if (!imagen) return;
+
+  galeria.innerHTML += `
+    ${imagen}
+  `;
+
+});  
+
 } else {
 
   /* ===========================
@@ -816,6 +886,11 @@ document.getElementById("datosContactoTecnico").style.display = "grid";
   document.getElementById(
     "btnCotizar"
   ).style.display = "inline-flex";
+
+  document.getElementById(
+  "galeriaPremium"
+).style.display =
+  "none";
   
 document.getElementById("datosContactoTecnico").style.display = "none";
 }
