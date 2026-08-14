@@ -9,6 +9,9 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+const upload = multer({
+  storage: multer.memoryStorage()
+});
 
 // =========================================================
 // CONEXIÓN POSTGRESQL
@@ -1103,6 +1106,277 @@ app.get("/tecnicos", async (req, res) => {
   }
 
 });
+
+// =========================================================
+// IMPORTACIÓN MASIVA DE TÉCNICOS DESDE CSV
+// =========================================================
+//
+// TODOS los técnicos importados masivamente
+// se registran como BÁSICOS.
+// premium = FALSE
+//
+// =========================================================
+
+app.post(
+  "/tecnicos/importar-csv",
+  upload.single("archivo"),
+  async (req, res) => {
+
+    try {
+
+      // ---------------------------------------------------
+      // Verificar archivo
+      // ---------------------------------------------------
+
+      if (!req.file) {
+
+        return res.status(400).json({
+          error: "No se recibió ningún archivo CSV"
+        });
+
+      }
+
+      // ---------------------------------------------------
+      // Leer archivo
+      // ---------------------------------------------------
+
+      const contenido =
+        req.file.buffer.toString("utf8");
+
+      // ---------------------------------------------------
+      // Convertir CSV a objetos
+      // ---------------------------------------------------
+
+      const registros = parse(
+        contenido,
+        {
+          columns: true,
+          skip_empty_lines: true,
+          trim: true
+        }
+      );
+
+      // ---------------------------------------------------
+      // Verificar que existan registros
+      // ---------------------------------------------------
+
+      if (!registros.length) {
+
+        return res.status(400).json({
+          error: "El archivo CSV está vacío"
+        });
+
+      }
+
+      let insertados = 0;
+      let errores = [];
+
+      // ---------------------------------------------------
+      // Insertar técnicos
+      // ---------------------------------------------------
+
+      for (
+        let i = 0;
+        i < registros.length;
+        i++
+      ) {
+
+        const tecnico = registros[i];
+
+        try {
+
+          // -----------------------------------------------
+          // Validar campos obligatorios
+          // -----------------------------------------------
+
+          if (
+            !tecnico.nombre ||
+            !tecnico.servicio ||
+            !tecnico.descripcion ||
+            !tecnico.precio ||
+            !tecnico.zona ||
+            !tecnico.ciudad ||
+            !tecnico.telefono ||
+            !tecnico.correo
+          ) {
+
+            throw new Error(
+              "Faltan campos obligatorios"
+            );
+
+          }
+
+          // -----------------------------------------------
+          // INSERTAR
+          // -----------------------------------------------
+
+          await pool.query(
+            `
+            INSERT INTO tecnicos
+            (
+              nombre,
+              servicio,
+              descripcion,
+              precio,
+              zona,
+              ciudad,
+              telefono,
+              correo,
+              imagen,
+              imagen1,
+              imagen2,
+              imagen3,
+              premium
+            )
+            VALUES
+            (
+              $1,
+              $2,
+              $3,
+              $4,
+              $5,
+              $6,
+              $7,
+              $8,
+              $9,
+              $10,
+              $11,
+              $12,
+              $13
+            )
+            `,
+            [
+
+              tecnico.nombre,
+
+              tecnico.servicio,
+
+              tecnico.descripcion,
+
+              tecnico.precio,
+
+              tecnico.zona,
+
+              tecnico.ciudad,
+
+              tecnico.telefono,
+
+              tecnico.correo,
+
+              tecnico.imagen || "",
+
+              tecnico.imagen1 || "",
+
+              tecnico.imagen2 || "",
+
+              tecnico.imagen3 || "",
+
+              // -----------------------------------------
+              // IMPORTANTE
+              // TODOS LOS MASIVOS SON BÁSICOS
+              // -----------------------------------------
+
+              false
+
+            ]
+          );
+
+          insertados++;
+
+        } catch (errorTecnico) {
+
+          console.error(
+            `Error en fila ${i + 2}:`,
+            errorTecnico
+          );
+
+          errores.push({
+
+            fila: i + 2,
+
+            nombre:
+              tecnico.nombre || "",
+
+            error:
+              errorTecnico.message
+
+          });
+
+        }
+
+      }
+
+      // ---------------------------------------------------
+      // RESPUESTA
+      // ---------------------------------------------------
+
+      console.log(
+        "======================================"
+      );
+
+      console.log(
+        "IMPORTACIÓN MASIVA COMPLETADA"
+      );
+
+      console.log(
+        "Total:",
+        registros.length
+      );
+
+      console.log(
+        "Insertados:",
+        insertados
+      );
+
+      console.log(
+        "Errores:",
+        errores.length
+      );
+
+      console.log(
+        "======================================"
+      );
+
+      res.status(200).json({
+
+        mensaje:
+          "Importación completada",
+
+        total:
+          registros.length,
+
+        insertados:
+          insertados,
+
+        errores:
+          errores.length,
+
+        detalleErrores:
+          errores
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "ERROR IMPORTANDO CSV:",
+        error
+      );
+
+      res.status(500).json({
+
+        error:
+          "Error al procesar el archivo CSV",
+
+        detalle:
+          error.message
+
+      });
+
+    }
+
+  }
+);
 
 // Obtener técnico por ID
 
