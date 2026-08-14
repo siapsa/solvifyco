@@ -1303,6 +1303,60 @@ Panel de gestión
 
 </div>
 
+<!-- =====================================================
+     IMPORTACIÓN MASIVA DE TÉCNICOS
+===================================================== -->
+
+<div class="admin-card" id="importacionMasiva">
+
+    <h2>📥 Importación masiva de técnicos</h2>
+
+    <p>
+        Carga un archivo CSV para registrar varios técnicos
+        al mismo tiempo.
+    </p>
+
+    <p style="font-size:14px;color:#777;">
+        Todos los técnicos importados serán registrados
+        automáticamente como <strong>Básico</strong>.
+    </p>
+
+    <div style="margin:20px 0;">
+
+        <input
+            type="file"
+            id="archivoCSV"
+            accept=".csv"
+        >
+
+    </div>
+
+    <button
+        type="button"
+        onclick="importarCSV()"
+        style="
+            padding:12px 20px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:bold;
+        "
+    >
+        📥 Importar técnicos
+    </button>
+
+    <div
+        id="resultadoImportacion"
+        style="
+            margin-top:20px;
+            padding:15px;
+            display:none;
+            border-radius:8px;
+        "
+    ></div>
+
+</div>
+
 
 <!-- BUSCADOR -->
 
@@ -3251,6 +3305,172 @@ function cerrarSesion(){
     "login.html";
 
 }  
+
+async function importarCSV() {
+
+    const archivoInput =
+        document.getElementById("archivoCSV");
+
+    const resultado =
+        document.getElementById("resultadoImportacion");
+
+    // =====================================================
+    // VALIDAR ARCHIVO
+    // =====================================================
+
+    if (!archivoInput.files.length) {
+
+        resultado.style.display = "block";
+
+        resultado.innerHTML =
+            "⚠️ Selecciona un archivo CSV primero.";
+
+        return;
+    }
+
+    const archivo =
+        archivoInput.files[0];
+
+    // =====================================================
+    // VALIDAR EXTENSIÓN
+    // =====================================================
+
+    if (!archivo.name.toLowerCase().endsWith(".csv")) {
+
+        resultado.style.display = "block";
+
+        resultado.innerHTML =
+            "❌ El archivo debe tener formato CSV.";
+
+        return;
+    }
+
+    // =====================================================
+    // MOSTRAR PROCESANDO
+    // =====================================================
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML =
+        "⏳ Importando técnicos...";
+
+    try {
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            "archivo",
+            archivo
+        );
+
+        // =================================================
+        // ENVIAR AL BACKEND
+        // =================================================
+
+        const respuesta =
+            await fetch(
+                "https://solvifyco-backend.onrender.com/tecnicos/importar-csv",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        const datos =
+            await respuesta.json();
+
+        // =================================================
+        // ERROR DEL SERVIDOR
+        // =================================================
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                datos.error ||
+                "Error durante la importación"
+            );
+
+        }
+
+        // =================================================
+        // RESULTADO
+        // =================================================
+
+        resultado.innerHTML = `
+
+            <div style="color:green;">
+
+                <strong>
+                    ✅ Importación completada
+                </strong>
+
+                <br><br>
+
+                Técnicos procesados:
+                <strong>
+                    ${datos.total || 0}
+                </strong>
+
+                <br>
+
+                Técnicos registrados:
+                <strong>
+                    ${datos.insertados || 0}
+                </strong>
+
+                <br>
+
+                Todos fueron registrados como:
+                <strong>BÁSICO</strong>
+
+            </div>
+
+        `;
+
+        // Limpiar archivo
+
+        archivoInput.value = "";
+
+        // =================================================
+        // RECARGAR LISTA DE TÉCNICOS
+        // =================================================
+
+        if (
+            typeof cargarTecnicos === "function"
+        ) {
+
+            cargarTecnicos();
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Error importando CSV:",
+            error
+        );
+
+        resultado.style.display =
+            "block";
+
+        resultado.innerHTML = `
+
+            <div style="color:#b00020;">
+
+                ❌ <strong>Error:</strong>
+
+                <br><br>
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+    }
+
+}
 
 
 </script>
