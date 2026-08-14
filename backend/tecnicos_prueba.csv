@@ -1,4 +1,4 @@
 nombre,servicio,descripcion,precio,zona,ciudad,telefono,correo,imagen,imagen1,imagen2,imagen3
-Juan Pérez,Electricista,Electricista residencial,50,Panamá,Panamá,60000001,juan@email.com,,,,
-Carlos Gómez,Plomero,Servicios de plomería,45,San Miguelito,Panamá,60000002,carlos@email.com,,,,
-María López,Aire acondicionado,Mantenimiento y reparación de aires,60,Tocumen,Panamá,60000003,maria@email.com,,,,
+Juan Pérez,Electricista,Electricista residencial,500,Colon,Panamá,60000001,juan@email.com,,,,
+Carlos Gómez,Electricista,Servicios de plomería,450,colon,Panamá,60000002,carlos@email.com,,,,
+María López,Electricista,Mantenimiento y reparación de aires,100,colon,Panamá,60000003,maria@email.com,,,,
