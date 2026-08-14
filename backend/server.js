@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
 const { Resend } = require("resend");
+const multer = require("multer");
+const { parse } = require("csv-parse/sync");
 const app = express();
 
 app.use(express.json());
@@ -23,6 +25,16 @@ const resend = new Resend(
   process.env.RESEND_API_KEY
 );
 
+// =========================================================
+// IMPORTACIÓN MASIVA DE TÉCNICOS
+// =========================================================
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  }
+});
 
 
 
@@ -301,6 +313,476 @@ app.post("/login", (req, res) => {
   });
 
 });
+
+// =========================================================
+// IMPORTAR TÉCNICOS MASIVAMENTE DESDE CSV
+// =========================================================
+//
+// IMPORTANTE:
+// Todos los técnicos importados masivamente
+// serán SIEMPRE BÁSICOS.
+// premium = FALSE
+//
+// El ID NO se importa.
+// PostgreSQL genera automáticamente el ID.
+// =========================================================
+
+app.post(
+  "/tecnicos/importar",
+  upload.single("archivo"),
+  async (req, res) => {
+
+    const client = await pool.connect();
+
+    try {
+
+      // =====================================================
+      // VERIFICAR ARCHIVO
+      // =====================================================
+
+      if (!req.file) {
+
+        return res.status(400).json({
+          ok: false,
+          error: "No se recibió ningún archivo CSV"
+        });
+
+      }
+
+      // =====================================================
+      // VERIFICAR EXTENSIÓN
+      // =====================================================
+
+      if (
+        !req.file.originalname
+          .toLowerCase()
+          .endsWith(".csv")
+      ) {
+
+        return res.status(400).json({
+          ok: false,
+          error: "El archivo debe ser CSV"
+        });
+
+      }
+
+      // =====================================================
+      // LEER CSV
+      // =====================================================
+
+      const contenido =
+        req.file.buffer.toString("utf8");
+
+      let registros;
+
+      try {
+
+        registros = parse(
+          contenido,
+          {
+            columns: true,
+            skip_empty_lines: true,
+            bom: true,
+            trim: true,
+            relax_column_count: false
+          }
+        );
+
+      } catch (csvError) {
+
+        console.error(
+          "Error leyendo CSV:",
+          csvError
+        );
+
+        return res.status(400).json({
+          ok: false,
+          error: "El archivo CSV tiene un formato incorrecto",
+          detalle: csvError.message
+        });
+
+      }
+
+      // =====================================================
+      // VERIFICAR QUE HAYA REGISTROS
+      // =====================================================
+
+      if (!registros.length) {
+
+        return res.status(400).json({
+          ok: false,
+          error: "El archivo CSV está vacío"
+        });
+
+      }
+
+      // =====================================================
+      // COLUMNAS PERMITIDAS
+      // =====================================================
+
+      const columnasEsperadas = [
+        "nombre",
+        "servicio",
+        "descripcion",
+        "precio",
+        "zona",
+        "ciudad",
+        "telefono",
+        "correo",
+        "imagen",
+        "imagen1",
+        "imagen2",
+        "imagen3"
+      ];
+
+      const columnasArchivo =
+        Object.keys(registros[0]);
+
+      const columnasFaltantes =
+        columnasEsperadas.filter(
+          columna =>
+            !columnasArchivo.includes(columna)
+        );
+
+      if (columnasFaltantes.length > 0) {
+
+        return res.status(400).json({
+
+          ok: false,
+
+          error:
+            "Faltan columnas obligatorias en el CSV",
+
+          columnasFaltantes
+
+        });
+
+      }
+
+      // =====================================================
+      // VALIDAR REGISTROS ANTES DE INSERTAR
+      // =====================================================
+
+      const errores = [];
+      const tecnicosValidos = [];
+
+      registros.forEach((tecnico, index) => {
+
+        const fila = index + 2;
+
+        const nombre =
+          (tecnico.nombre || "").trim();
+
+        const servicio =
+          (tecnico.servicio || "").trim();
+
+        const descripcion =
+          (tecnico.descripcion || "").trim();
+
+        const precioTexto =
+          (tecnico.precio || "").trim();
+
+        const zona =
+          (tecnico.zona || "").trim();
+
+        const ciudad =
+          (tecnico.ciudad || "").trim();
+
+        const telefono =
+          (tecnico.telefono || "").trim();
+
+        const correo =
+          (tecnico.correo || "").trim();
+
+        // ===================================================
+        // CAMPOS OBLIGATORIOS
+        // ===================================================
+
+        const faltantes = [];
+
+        if (!nombre)
+          faltantes.push("nombre");
+
+        if (!servicio)
+          faltantes.push("servicio");
+
+        if (!descripcion)
+          faltantes.push("descripcion");
+
+        if (!precioTexto)
+          faltantes.push("precio");
+
+        if (!zona)
+          faltantes.push("zona");
+
+        if (!ciudad)
+          faltantes.push("ciudad");
+
+        if (!telefono)
+          faltantes.push("telefono");
+
+        if (!correo)
+          faltantes.push("correo");
+
+        if (faltantes.length > 0) {
+
+          errores.push({
+
+            fila,
+
+            error:
+              `Faltan campos: ${faltantes.join(", ")}`
+
+          });
+
+          return;
+
+        }
+
+        // ===================================================
+        // VALIDAR PRECIO
+        // ===================================================
+
+        const precio =
+          Number(
+            precioTexto
+              .replace(",", ".")
+          );
+
+        if (
+          Number.isNaN(precio) ||
+          precio < 0
+        ) {
+
+          errores.push({
+
+            fila,
+
+            error:
+              "El precio no es válido"
+
+          });
+
+          return;
+
+        }
+
+        // ===================================================
+        // GUARDAR TÉCNICO VALIDADO
+        // ===================================================
+
+        tecnicosValidos.push({
+
+          nombre,
+
+          servicio,
+
+          descripcion,
+
+          precio,
+
+          zona,
+
+          ciudad,
+
+          telefono,
+
+          correo,
+
+          imagen:
+            (tecnico.imagen || "").trim(),
+
+          imagen1:
+            (tecnico.imagen1 || "").trim(),
+
+          imagen2:
+            (tecnico.imagen2 || "").trim(),
+
+          imagen3:
+            (tecnico.imagen3 || "").trim()
+
+        });
+
+      });
+
+      // =====================================================
+      // SI HAY ERRORES
+      // =====================================================
+
+      if (errores.length > 0) {
+
+        return res.status(400).json({
+
+          ok: false,
+
+          error:
+            "El archivo contiene registros con errores",
+
+          total:
+            registros.length,
+
+          validos:
+            tecnicosValidos.length,
+
+          errores
+
+        });
+
+      }
+
+      // =====================================================
+      // INICIAR TRANSACCIÓN
+      // =====================================================
+
+      await client.query("BEGIN");
+
+      const importados = [];
+
+      // =====================================================
+      // INSERTAR TÉCNICOS
+      // =====================================================
+
+      for (
+        const tecnico of tecnicosValidos
+      ) {
+
+        const resultado =
+          await client.query(
+            `
+            INSERT INTO tecnicos
+            (
+              nombre,
+              servicio,
+              descripcion,
+              precio,
+              zona,
+              ciudad,
+              telefono,
+              correo,
+              imagen,
+              imagen1,
+              imagen2,
+              imagen3,
+              premium
+            )
+            VALUES
+            (
+              $1,$2,$3,$4,$5,$6,
+              $7,$8,$9,$10,$11,$12,
+              FALSE
+            )
+            RETURNING
+              id,
+              nombre,
+              servicio,
+              descripcion,
+              precio,
+              zona,
+              ciudad,
+              telefono,
+              correo,
+              imagen,
+              imagen1,
+              imagen2,
+              imagen3,
+              premium
+            `,
+            [
+              tecnico.nombre,
+              tecnico.servicio,
+              tecnico.descripcion,
+              tecnico.precio,
+              tecnico.zona,
+              tecnico.ciudad,
+              tecnico.telefono,
+              tecnico.correo,
+              tecnico.imagen,
+              tecnico.imagen1,
+              tecnico.imagen2,
+              tecnico.imagen3
+            ]
+          );
+
+        importados.push(
+          resultado.rows[0]
+        );
+
+      }
+
+      // =====================================================
+      // CONFIRMAR TRANSACCIÓN
+      // =====================================================
+
+      await client.query("COMMIT");
+
+      console.log(
+        `Importación masiva completada: ${importados.length} técnicos`
+      );
+
+      // =====================================================
+      // RESPUESTA
+      // =====================================================
+
+      res.status(201).json({
+
+        ok: true,
+
+        mensaje:
+          "Importación masiva completada correctamente",
+
+        total:
+          registros.length,
+
+        importados:
+          importados.length,
+
+        errores: 0,
+
+        tecnicos:
+          importados
+
+      });
+
+    } catch (error) {
+
+      // =====================================================
+      // CANCELAR TRANSACCIÓN
+      // =====================================================
+
+      try {
+        await client.query("ROLLBACK");
+      } catch (rollbackError) {
+        console.error(
+          "Error haciendo rollback:",
+          rollbackError
+        );
+      }
+
+      console.error(
+        "ERROR EN IMPORTACIÓN MASIVA:",
+        error
+      );
+
+      res.status(500).json({
+
+        ok: false,
+
+        error:
+          "Error durante la importación masiva",
+
+        detalle:
+          error.message
+
+      });
+
+    } finally {
+
+      client.release();
+
+    }
+
+  }
+);
 
 
 // =========================================================
@@ -600,6 +1082,9 @@ app.get("/tecnicos", async (req, res) => {
           telefono,
           correo,
           imagen,
+          imagen1,
+          imagen2,
+          imagen3,
           premium
         FROM tecnicos
         ORDER BY id ASC
