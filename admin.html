@@ -3377,8 +3377,25 @@ async function importarCSV() {
                 }
             );
 
-        const datos =
-            await respuesta.json();
+        const texto =
+    await respuesta.text();
+
+console.log("RESPUESTA DEL SERVIDOR:", texto);
+
+let datos;
+
+try {
+
+    datos = JSON.parse(texto);
+
+} catch (error) {
+
+    throw new Error(
+        "El servidor no devolvió JSON. Respuesta: " +
+        texto.substring(0, 300)
+    );
+
+}
 
         // =================================================
         // ERROR DEL SERVIDOR
