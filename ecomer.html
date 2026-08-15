@@ -1088,15 +1088,19 @@ function obtenerNombreZona(zona) {
 
 
       container.innerHTML += `
-  <article
-  class="card"
-  data-price="${tecnico.precio}"
-  data-zone="${tecnico.zona}"
-  data-service="${tecnico.servicio}"
-  data-nombre="${tecnico.nombre}"
-  data-descripcion="${tecnico.descripcion}"
-  data-ciudad="${tecnico.ciudad}">
-
+ <article
+class="card"
+data-price="${tecnico.precio}"
+data-zone="${tecnico.zona}"
+data-service="${
+  (tecnico.servicio || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+}"
+data-nombre="${tecnico.nombre}"
+data-descripcion="${tecnico.descripcion}"
+data-ciudad="${tecnico.ciudad}">
 
           <div
 
@@ -1250,7 +1254,14 @@ function filtrar() {
       card.getAttribute("data-zone");
 
     const servicio =
-      card.getAttribute("data-service");
+  (
+    card.getAttribute(
+      "data-service"
+    ) || ""
+  )
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
     const nombre =
       card.getAttribute("data-nombre") || "";
@@ -1269,17 +1280,28 @@ function filtrar() {
       zona === zonaSeleccionada;
 
     const cumpleServicio =
-      servicioSeleccionado === "all" ||
-      servicio === servicioSeleccionado;
+  servicioSeleccionado === "all" ||
 
-    const textoCompleto =
-      `${nombre} ${descripcion} ${servicio} ${ciudad}`
-        .toLowerCase();
+  servicio ===
+
+  servicioSeleccionado
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+   const textoCompleto =
+  `${nombre} ${descripcion} ${servicio} ${ciudad}`
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
     const cumpleBusqueda =
       textoBusqueda === "" ||
       textoCompleto.includes(
-        textoBusqueda.toLowerCase()
+        textoBusqueda
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
       );
 
     if (
