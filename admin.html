@@ -1505,6 +1505,30 @@ Panel de gestión
       <label>Correo</label>
       <input id="editCorreo">
 
+      <label>Foto de perfil</label>
+<input
+  type="file"
+  id="editFotoPerfil"
+  accept="image/*">
+
+<label>Trabajo 1</label>
+<input
+  type="file"
+  id="editFotoTrabajo1"
+  accept="image/*">
+
+<label>Trabajo 2</label>
+<input
+  type="file"
+  id="editFotoTrabajo2"
+  accept="image/*">
+
+<label>Trabajo 3</label>
+<input
+  type="file"
+  id="editFotoTrabajo3"
+  accept="image/*">
+
       <div class="modal-actions">
 
         <button
@@ -2419,6 +2443,45 @@ function mostrarTecnicos(lista) {
 
 }
 
+async function subirACloudinary(
+  inputId
+) {
+
+  const archivo =
+    document.getElementById(
+      inputId
+    ).files[0];
+
+  if (!archivo) return null;
+
+  const formData =
+    new FormData();
+
+  formData.append(
+    "file",
+    archivo
+  );
+
+  formData.append(
+    "upload_preset",
+    "solvify_upload"
+  );
+
+  const res =
+    await fetch(
+      "https://api.cloudinary.com/v1_1/hgpgcupj/image/upload",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+  const data =
+    await res.json();
+
+  return data.secure_url;
+
+}  
 
 // =========================================================
 // APROBAR SOLICITUD PREMIUM
@@ -3209,6 +3272,31 @@ document
             "editId"
           ).value;
 
+        const tecnicoActual =
+  tecnicos.find(
+    t => t.id == id
+  );
+
+const imagen =
+  await subirACloudinary(
+    "editFotoPerfil"
+  ) || tecnicoActual.imagen;
+
+const imagen1 =
+  await subirACloudinary(
+    "editFotoTrabajo1"
+  ) || tecnicoActual.imagen1;
+
+const imagen2 =
+  await subirACloudinary(
+    "editFotoTrabajo2"
+  ) || tecnicoActual.imagen2;
+
+const imagen3 =
+  await subirACloudinary(
+    "editFotoTrabajo3"
+  ) || tecnicoActual.imagen3;
+
         const res =
           await fetch(
             `${API}/tecnicos/${id}`,
@@ -3250,8 +3338,15 @@ document
                 correo:
                   document.getElementById(
                     "editCorreo"
-                  ).value
+                  ).value,
+    
+imagen: imagen,
 
+imagen1: imagen1,
+
+imagen2: imagen2,
+
+imagen3: imagen3,
               })
 
             }
