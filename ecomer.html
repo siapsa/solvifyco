@@ -648,7 +648,34 @@ background: #fff;
   </div>
 </section>
 
+<br>
 
+<section class="premium-filter">
+
+  <h3>Tipo de perfil</h3>
+
+  <div class="categories" id="premiumFilters">
+
+    <button
+      class="chip active"
+      data-premium="all">
+
+      Todos
+
+    </button>
+
+    <button
+      class="chip"
+      data-premium="true">
+
+      ⭐ Premium
+
+    </button>
+
+  </div>
+
+</section>
+      
 </aside>
 
     <!-- MAIN -->
@@ -1019,6 +1046,8 @@ let servicioSeleccionado = "all";
   
 let textoBusqueda = "";
 
+let premiumSeleccionado = "all";  
+
 // =========================================================
 // CARGAR TÉCNICOS
 // =========================================================
@@ -1100,7 +1129,8 @@ data-service="${
 }"
 data-nombre="${tecnico.nombre}"
 data-descripcion="${tecnico.descripcion}"
-data-ciudad="${tecnico.ciudad}">
+data-ciudad="${tecnico.ciudad}"
+data-premium="${tecnico.premium}">
 
           <div
 
@@ -1217,6 +1247,10 @@ const services =
   document.querySelectorAll(
     "#serviceFilters .chip"
   );
+  const premiumFilters =
+  document.querySelectorAll(
+    "#premiumFilters .chip"
+  );
 
   const searchInput =
   document.getElementById("searchInput");
@@ -1279,6 +1313,11 @@ function filtrar() {
       zonaSeleccionada === "all" ||
       zona === zonaSeleccionada;
 
+    const premium =
+  card.getAttribute(
+    "data-premium"
+  );
+
     const cumpleServicio =
   servicioSeleccionado === "all" ||
 
@@ -1288,6 +1327,12 @@ function filtrar() {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
+
+    const cumplePremium =
+
+  premiumSeleccionado === "all" ||
+
+  premium === premiumSeleccionado;
 
    const textoCompleto =
   `${nombre} ${descripcion} ${servicio} ${ciudad}`
@@ -1304,12 +1349,13 @@ function filtrar() {
   .replace(/[\u0300-\u036f]/g, "")
       );
 
-    if (
-      cumplePrecio &&
-      cumpleZona &&
-      cumpleServicio &&
-      cumpleBusqueda
-    ) {
+   if (
+  cumplePrecio &&
+  cumpleZona &&
+  cumpleServicio &&
+  cumplePremium &&
+  cumpleBusqueda
+) {
 
       card.style.display = "flex";
 
@@ -1404,6 +1450,7 @@ services.forEach(service => {
           "data-service"
         );
 
+   
 
       filtrar();
 
@@ -1411,6 +1458,34 @@ services.forEach(service => {
   );
 
 });
+
+premiumFilters.forEach(filtro => {
+
+  filtro.addEventListener(
+    "click",
+    () => {
+
+      premiumFilters.forEach(btn =>
+        btn.classList.remove(
+          "active"
+        )
+      );
+
+      filtro.classList.add(
+        "active"
+      );
+
+      premiumSeleccionado =
+        filtro.getAttribute(
+          "data-premium"
+        );
+
+      filtrar();
+
+    }
+  );
+
+});  
 
 
 // =========================================================
