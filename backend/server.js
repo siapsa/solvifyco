@@ -1640,7 +1640,11 @@ app.put("/tecnicos/:id/premium", async (req, res) => {
           id,
           nombre,
           servicio,
-          premium
+          premium,
+          imagen,
+          imagen1,
+          imagen2,
+          imagen3
         `,
         [
           premium,
@@ -1888,7 +1892,6 @@ app.delete("/cotizaciones/:id", async (req, res) => {
   }
 
 });
-
 app.put("/tecnicos/:id", async (req, res) => {
 
   try {
@@ -1902,7 +1905,11 @@ app.put("/tecnicos/:id", async (req, res) => {
       precio,
       ciudad,
       telefono,
-      correo
+      correo,
+      imagen,
+      imagen1,
+      imagen2,
+      imagen3
     } = req.body;
 
     const resultado =
@@ -1916,9 +1923,13 @@ app.put("/tecnicos/:id", async (req, res) => {
           precio = $3,
           ciudad = $4,
           telefono = $5,
-          correo = $6
+          correo = $6,
+          imagen = $7,
+          imagen1 = $8,
+          imagen2 = $9,
+          imagen3 = $10
 
-        WHERE id = $7
+        WHERE id = $11
 
         RETURNING *
         `,
@@ -1929,9 +1940,21 @@ app.put("/tecnicos/:id", async (req, res) => {
           ciudad,
           telefono,
           correo,
+          imagen,
+          imagen1,
+          imagen2,
+          imagen3,
           id
         ]
       );
+
+    if (resultado.rows.length === 0) {
+
+      return res.status(404).json({
+        error: "Técnico no encontrado"
+      });
+
+    }
 
     res.json(
       resultado.rows[0]
@@ -1948,8 +1971,6 @@ app.put("/tecnicos/:id", async (req, res) => {
   }
 
 });
-
-
 // =========================================================
 // INICIAR SERVIDOR
 // =========================================================
