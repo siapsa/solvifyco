@@ -1,1 +1,1928 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solvify</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #7b3cff;
+      --primary-soft: #f3ecff;
+      --accent: #ff4f9a;
+      --bg: #f7f7fb;
+      --text: #222;
+      --muted: #777;
+      --card: #fff;
+      --border: #e2e2ee;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+.footer {
+width: 100%;
+text-align: center;
+padding: 1.5rem 1rem;
+margin-top: 2rem;
+border-top: 1px solid var(--border);
+color: var(--muted);
+font-size: 0.8rem;
+background: #fff;
+} 
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+    }
+.registro-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.45);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.registro-modal-content {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.registro-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.registro-modal-header h2 {
+  margin-bottom: 0.3rem;
+}
+
+.registro-modal-header p {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.registro-modal-content h3 {
+  font-size: 0.95rem;
+  margin: 1.2rem 0 0.7rem;
+}
+
+.registro-modal-content label {
+  display: block;
+  font-size: 0.85rem;
+  margin: 0.7rem 0 0.3rem;
+}
+
+.registro-modal-content input,
+.registro-modal-content textarea,
+.registro-modal-content select {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.registro-modal-content textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.planes-registro {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.planes-registro label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.planes-registro input {
+  width: auto;
+}
+
+.registro-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
+
+.loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.9);
+  z-index: 99999;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  font-size: 1rem;
+  color: #333;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+
+  border: 4px solid #ddd;
+  border-top: 4px solid #7b3cff;
+
+  border-radius: 50%;
+
+  animation: giro 1s linear infinite;
+
+  margin-bottom: 15px;
+}
+
+@keyframes giro {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}    
+    /* NAVBAR */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .nav-search {
+  width: 360px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  margin-left: 2rem;
+  margin-right: auto;
+}
+
+.nav-search span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nav-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.nav-search input::placeholder {
+  color: #999;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-search {
+    width: 200px;
+    margin-left: 0.5rem;
+  }
+}
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .icon-btn {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 1px 5px;
+      border-radius: 999px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.45rem 1.1rem;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .user-select {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      font-size: 0.85rem;
+      background: #fff;
+    }
+
+    /* LAYOUT */
+    .page {
+      max-width: 1200px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+    }
+
+    .sidebar h3 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .price-range {
+      margin-bottom: 1.5rem;
+    }
+
+    .price-values {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .categories {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.8rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .chip.active {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .filters-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #fff;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.8rem;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 0.9rem;
+    }
+
+    .select-inline {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.8rem;
+      font-size: 0.85rem;
+      background: #fff;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .view-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .view-btn.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+   /* =========================
+   TARJETAS SOLVIFY
+========================= */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.10);
+}
+
+/* IMAGEN */
+.card-img {
+  height: 190px;
+  width: 100%;
+  background: linear-gradient(135deg, #f3ecff, #f8f7ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Si no existe imagen */
+.card-img-placeholder {
+  font-size: 3rem;
+  opacity: 0.35;
+}
+
+/* BADGE PREMIUM */
+.premium-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #7b3cff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(123,60,255,0.25);
+}
+
+/* CONTENIDO */
+.card-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 650;
+  color: #1f2937;
+}
+
+.card-service {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.card-rating {
+  font-size: 0.85rem;
+  color: #f59e0b;
+}
+
+.card-rating span {
+  color: #6b7280;
+  margin-left: 4px;
+}
+
+.card-location {
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+.card-price {
+  margin-top: 0.3rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #7b3cff;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.btn-outline {
+  border-radius: 999px;
+  border: 1px solid #7b3cff;
+  color: #7b3cff;
+  background: transparent;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: #7b3cff;
+  color: white;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card-img {
+    height: 210px;
+  }
+
+}
+   /* =========================================
+   FILTROS COLAPSABLES EN CELULAR
+========================================= */
+
+.toggle-filters {
+  display: none;
+}
+
+@media (max-width: 700px) {
+
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .toggle-filters {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    padding: 0.7rem 1rem;
+
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+
+  .sidebar.filters-open {
+    display: block;
+  }
+
+  #filterArrow {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+  }
+
+} 
+
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+  <div class="nav-left">
+
+  <nav class="nav-links">
+    <a href="#" class="active" onclick="window.location.href='index.html'">
+      Inicio
+    </a>
+  </nav>
+
+  <div class="nav-search">
+    <span>🔍</span>
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="¿Qué servicio estás buscando?"
+      autocomplete="off"
+    >
+
+  </div>
+
+</div>
+
+<div class="nav-right">
+
+  <button id="btnContactenos" class="btn-primary">Registra tu servicio</button>
+
+</div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="page">
+    <button id="toggleFilters" class="toggle-filters">
+  ⚙️ Filtros <span id="filterArrow">⌄</span>
+    </button>
+     <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <section class="price-range">
+        <h3>Rango de precio</h3>
+
+        <input type="range" min="0" max="500" step="25" value="500" id="priceRange" style="width:100%;">
+
+        <div class="price-values">
+          <span>0,00 B/.</span>
+          <span id="priceValue">250,00 B/.</span>
+          <span>500,00 B/.</span>
+        </div>
+      </section>
+
+      
+<section class="zones">
+  <h3>Zonas</h3>
+
+  <div class="categories" id="zoneFilters">
+    <button class="chip active" data-zone="all">Todas</button>
+    <button class="chip" data-zone="panama">Ciudad de Panamá</button>
+    <button class="chip" data-zone="oeste">Panamá Oeste</button>
+    <button class="chip" data-zone="colon">Colón</button>
+    <button class="chip" data-zone="chiriqui">Chiriquí</button>
+    <button class="chip" data-zone="veraguas">Veraguas</button>
+    <button class="chip" data-zone="cocle">Coclé</button>
+  </div>
+</section>
+<br></br>
+
+<section class="services">
+  <h3>Servicios</h3>
+
+  <div class="categories" id="serviceFilters">
+    <button class="chip active" data-service="all">Todos</button>
+    <button class="chip" data-service="electricista">Electricista</button>
+    <button class="chip" data-service="ebanista">Ebanista</button>
+    <button class="chip" data-service="albanil">Albañil</button>
+    <button class="chip" data-service="abogado">Abogado</button>
+    <button class="chip" data-service="mantenimiento">Mantenimiento</button>
+  </div>
+</section>
+
+<br>
+
+<section class="premium-filter">
+
+  <h3>Tipo de perfil</h3>
+
+  <div class="categories" id="premiumFilters">
+
+    <button
+      class="chip active"
+      data-premium="all">
+
+      Todos
+
+    </button>
+
+    <button
+      class="chip"
+      data-premium="true">
+
+      ⭐ Premium
+
+    </button>
+
+  </div>
+
+</section>
+      
+</aside>
+
+    <!-- MAIN -->
+    <section class="main">
+
+      <div class="cards" id="cardsContainer"></div>
+
+    </section>
+  </main>
+<!-- =========================================================
+     MODAL - REGISTRO DE ESPECIALISTA
+========================================================= -->
+
+<div id="registroModal" class="registro-modal">
+
+  <div class="registro-modal-content">
+
+
+<div class="registro-modal-header">
+  <div>
+    <h2>Regístrate como especialista</h2>
+    <p>Ofrece tus servicios a través de Solvify.</p>
+  </div>
+
+  <button
+    type="button"
+    id="cerrarRegistroModal"
+    class="icon-btn">
+    ×
+  </button>
+</div>
+
+
+<form id="registroTecnicoForm">
+
+  <h3>Datos personales</h3>
+
+  <label for="registroNombre">Nombre completo</label>
+  <input
+    type="text"
+    id="registroNombre"
+    name="nombre"
+    placeholder="Ej. Roberto Jiménez"
+    required>
+
+
+  <label for="registroTelefono">Teléfono</label>
+  <input
+    type="tel"
+    id="registroTelefono"
+    name="telefono"
+    placeholder="+507 6000-0000"
+    required>
+
+
+  <label for="registroCorreo">Correo electrónico</label>
+  <input
+    type="email"
+    id="registroCorreo"
+    name="correo"
+    placeholder="correo@ejemplo.com"
+    required>
+
+
+  <h3>Información del servicio</h3>
+
+  <label for="registroServicio">Servicio</label>
+
+  <select
+    id="registroServicio"
+    name="servicio"
+    class="select-inline"
+    required>
+
+    <option value="">Selecciona un servicio</option>
+    <option value="electricista">Electricista</option>
+    <option value="ebanista">Ebanista</option>
+    <option value="albanil">Albañil</option>
+    <option value="abogado">Abogado</option>
+    <option value="mantenimiento">Mantenimiento</option>
+
+  </select>
+
+
+  <label for="registroDescripcion">Descripción</label>
+
+  <textarea
+    id="registroDescripcion"
+    name="descripcion"
+    placeholder="Describe brevemente tus servicios"
+    required></textarea>
+
+
+  <label for="registroPrecio">Precio del servicio</label>
+
+  <select
+    id="registroPrecio"
+    name="precio"
+    class="select-inline"
+    required>
+
+    <option value="">Selecciona un precio</option>
+    <option value="25">25,00 B/.</option>
+    <option value="50">50,00 B/.</option>
+    <option value="75">75,00 B/.</option>
+    <option value="100">100,00 B/.</option>
+    <option value="125">125,00 B/.</option>
+    <option value="150">150,00 B/.</option>
+    <option value="175">175,00 B/.</option>
+    <option value="200">200,00 B/.</option>
+    <option value="225">225,00 B/.</option>
+    <option value="250">250,00 B/.</option>
+    <option value="275">275,00 B/.</option>
+    <option value="300">300,00 B/.</option>
+    <option value="325">325,00 B/.</option>
+    <option value="350">350,00 B/.</option>
+    <option value="375">375,00 B/.</option>
+    <option value="400">400,00 B/.</option>
+    <option value="425">425,00 B/.</option>
+    <option value="450">450,00 B/.</option>
+    <option value="475">475,00 B/.</option>
+    <option value="500">500,00 B/.</option>
+
+  </select>
+
+
+  <label for="registroZona">Zona</label>
+
+  <select
+    id="registroZona"
+    name="zona"
+    class="select-inline"
+    required>
+
+    <option value="">Selecciona una zona</option>
+
+    <option value="panama">
+      Ciudad de Panamá
+    </option>
+
+    <option value="oeste">
+      Panamá Oeste
+    </option>
+
+    <option value="colon">
+      Colón
+    </option>
+
+    <option value="chiriqui">
+      Chiriquí
+    </option>
+
+    <option value="veraguas">
+      Veraguas
+    </option>
+
+    <option value="cocle">
+      Coclé
+    </option>
+
+  </select>
+
+
+  <label for="registroCiudad">Ciudad</label>
+
+  <input
+    type="text"
+    id="registroCiudad"
+    name="ciudad"
+    placeholder="Ej. Ciudad de Panamá"
+    required>
+  
+<h3>Fotografías</h3>
+
+<label>Foto de perfil</label>
+
+<input
+  type="file"
+  id="fotoPerfil"
+  accept="image/*">
+
+<label>Trabajo 1</label>
+<input type="file" id="fotoTrabajo1">
+
+<label>Trabajo 2</label>
+<input type="file" id="fotoTrabajo2">
+
+<label>Trabajo 3</label>
+<input type="file" id="fotoTrabajo3">
+
+
+  <h3>Plan</h3>
+
+  <div class="planes-registro">
+
+    <label>
+   <input
+  type="radio"
+  id="planBasico"
+  name="plan"
+  value="basico"
+  checked>
+
+      Básico — Gratis
+    </label>
+
+
+    <label>
+      <input
+   type="radio"
+  id="planPremium"
+  name="plan"
+  value="premium">
+
+      Premium — 5,00 B/. mensual
+    </label>
+
+  </div>
+
+
+  <div class="registro-modal-buttons">
+
+    <button
+      type="button"
+      id="cancelarRegistro"
+      class="btn-outline">
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      class="btn-primary">
+      Registrarme
+    </button>
+
+  </div>
+
+</form>
+
+
+  </div>
+
+</div>
+
+<!-- ✅ SCRIPT COMPLETO -->
+
+<script>
+
+// =========================================================
+// MODAL REGISTRO DE ESPECIALISTA
+// =========================================================
+
+const btnContactenos =
+  document.getElementById("btnContactenos");
+
+const registroModal =
+  document.getElementById("registroModal");
+
+const cerrarRegistroModal =
+  document.getElementById("cerrarRegistroModal");
+
+const cancelarRegistro =
+  document.getElementById("cancelarRegistro");
+
+
+// =========================================================
+// ABRIR MODAL
+// =========================================================
+
+btnContactenos.addEventListener("click", () => {
+
+  registroModal.style.display = "flex";
+
+});
+
+
+// =========================================================
+// CERRAR MODAL CON X
+// =========================================================
+
+cerrarRegistroModal.addEventListener("click", () => {
+
+  registroModal.style.display = "none";
+
+});
+
+// =========================================================
+// subir fotos a cloud
+// =========================================================
+  
+
+async function subirACloudinary(
+  inputId
+) {
+
+  const archivo =
+    document.getElementById(
+      inputId
+    ).files[0];
+
+  if (!archivo) return "";
+
+  const formData =
+    new FormData();
+
+  formData.append(
+    "file",
+    archivo
+  );
+
+  formData.append(
+    "upload_preset",
+    "solvify_upload"
+  );
+
+  const res =
+    await fetch(
+      "https://api.cloudinary.com/v1_1/hgpgcupj/image/upload",
+      {
+        method:"POST",
+        body:formData
+      }
+    );
+
+  const data =
+    await res.json();
+
+  return data.secure_url;
+
+}  
+
+
+
+
+// =========================================================
+// CERRAR MODAL CON CANCELAR
+// =========================================================
+
+cancelarRegistro.addEventListener("click", () => {
+
+  registroModal.style.display = "none";
+
+});
+
+
+// =========================================================
+// CERRAR AL HACER CLICK FUERA
+// =========================================================
+
+registroModal.addEventListener("click", (event) => {
+
+  if (event.target === registroModal) {
+
+    registroModal.style.display = "none";
+
+  }
+
+});
+
+
+// =========================================================
+// VARIABLES
+// =========================================================
+
+let cards = [];
+
+let zonaSeleccionada = "all";
+
+let servicioSeleccionado = "all";
+  
+let textoBusqueda = "";
+
+let premiumSeleccionado = "all";  
+
+// =========================================================
+// CARGAR TÉCNICOS
+// =========================================================
+
+async function cargarTecnicos() {
+
+try {
+  
+const container =
+document.getElementById("cardsContainer");
+
+// Mostrar carga
+container.innerHTML = `
+<div>
+
+⏳ Cargando especialistas...
+
+</div>
+`;
+
+const res = await fetch("https://solvifyco-backend.onrender.com/tecnicos");
+
+if (!res.ok) {
+
+throw new Error("No se pudieron cargar los técnicos.");
+}
+const tecnicos = await res.json();
+  
+// Borrar mensaje de carga
+container.innerHTML = "";
+
+  
+// =====================================================
+  // CARGA DE TARJETAS TECNICAS
+  // =====================================================
+  
+tecnicos.forEach(tecnico => {
+
+  // =====================================================
+  // OBTENER NOMBRE DE LA ZONA
+  // =====================================================
+
+  function obtenerNombreZona(zona) {
+
+    const zonas = {
+      panama: "Ciudad de Panamá",
+      oeste: "Panamá Oeste",
+      colon: "Colón",
+      chiriqui: "Chiriquí",
+      veraguas: "Veraguas",
+      cocle: "Coclé"
+    };
+
+    return zonas[zona] || zona;
+  }
+
+
+  // =====================================================
+  // IMAGEN DE PERFIL
+  // =====================================================
+
+  const imagenPerfil =
+    tecnico.imagen ||
+    "imagenes/default.jpg";
+
+
+  // =====================================================
+  // SERVICIO
+  // =====================================================
+
+  const servicioNombre =
+    tecnico.servicio
+      ? tecnico.servicio.charAt(0).toUpperCase() +
+        tecnico.servicio.slice(1)
+      : "Servicio profesional";
+
+
+  // =====================================================
+  // PREMIUM
+  // =====================================================
+
+  const premiumBadge = tecnico.premium
+    ? `<span class="premium-badge">⭐ Premium</span>`
+    : "";
+
+
+  // =====================================================
+  // CREAR TARJETA
+  // =====================================================
+
+  container.innerHTML += `
+
+    <article
+      class="card"
+      data-price="${tecnico.precio || 0}"
+      data-zone="${tecnico.zona || ""}"
+      data-service="${
+        (tecnico.servicio || "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+      }"
+      data-nombre="${tecnico.nombre || ""}"
+      data-descripcion="${tecnico.descripcion || ""}"
+      data-ciudad="${tecnico.ciudad || ""}"
+      data-premium="${tecnico.premium}">
+
+      <!-- =========================================
+           IMAGEN
+      ========================================== -->
+
+      <div class="card-img">
+
+        <img
+          src="${imagenPerfil}"
+          alt="${tecnico.nombre || "Especialista Solvify"}"
+          loading="lazy"
+          onerror="this.src='imagenes/default.jpg';"
+        >
+
+        ${premiumBadge}
+
+      </div>
+
+
+      <!-- =========================================
+           CONTENIDO
+      ========================================== -->
+
+      <div class="card-content">
+
+        <div class="card-title">
+          ${tecnico.nombre || "Especialista"}
+        </div>
+
+
+        <div class="card-service">
+          ${servicioNombre}
+        </div>
+
+
+        <div class="card-location">
+          📍 ${obtenerNombreZona(tecnico.zona)}
+          ${tecnico.ciudad ? ` · ${tecnico.ciudad}` : ""}
+        </div>
+
+
+        <div class="card-price">
+          ${tecnico.precio || 0} B/.
+        </div>
+
+
+        <div class="card-footer">
+
+          <span class="card-service">
+            Servicio profesional
+          </span>
+
+          <a
+            class="btn-primary"
+            href="especialistacp.html?id=${tecnico.id}">
+            Ver detalles
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+});
+
+
+    // =====================================================
+    // ACTUALIZAR CARDS
+    // =====================================================
+
+    cards =
+      document.querySelectorAll(
+        ".card"
+      );
+
+
+    filtrar();
+
+
+  } catch (error) {
+
+    console.error(
+      "Error cargando técnicos:",
+      error
+    );
+
+  }
+
+}
+
+
+// =========================================================
+// ELEMENTOS DE FILTROS
+// =========================================================
+
+const range =
+  document.getElementById(
+    "priceRange"
+  );
+
+const priceValue =
+  document.getElementById(
+    "priceValue"
+  );
+
+const zones =
+  document.querySelectorAll(
+    "#zoneFilters .chip"
+  );
+
+const services =
+  document.querySelectorAll(
+    "#serviceFilters .chip"
+  );
+  const premiumFilters =
+  document.querySelectorAll(
+    "#premiumFilters .chip"
+  );
+
+  const searchInput =
+  document.getElementById("searchInput");
+
+searchInput.addEventListener(
+  "input",
+  () => {
+
+    textoBusqueda =
+      searchInput.value.trim();
+
+    filtrar();
+
+  }
+);
+
+
+// =========================================================
+// FILTRAR
+// =========================================================
+
+function filtrar() {
+
+  const maxPrecio =
+    parseInt(range.value);
+
+  cards.forEach(card => {
+
+    const precio =
+      parseInt(
+        card.getAttribute("data-price")
+      );
+
+    const zona =
+      card.getAttribute("data-zone");
+
+    const servicio =
+  (
+    card.getAttribute(
+      "data-service"
+    ) || ""
+  )
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+    const nombre =
+      card.getAttribute("data-nombre") || "";
+
+    const descripcion =
+      card.getAttribute("data-descripcion") || "";
+
+    const ciudad =
+      card.getAttribute("data-ciudad") || "";
+
+    const cumplePrecio =
+      precio <= maxPrecio;
+
+    const cumpleZona =
+      zonaSeleccionada === "all" ||
+      zona === zonaSeleccionada;
+
+    const premium =
+  card.getAttribute(
+    "data-premium"
+  );
+
+    const cumpleServicio =
+  servicioSeleccionado === "all" ||
+
+  servicio ===
+
+  servicioSeleccionado
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+    const cumplePremium =
+
+  premiumSeleccionado === "all" ||
+
+  premium === premiumSeleccionado;
+
+   const textoCompleto =
+  `${nombre} ${descripcion} ${servicio} ${ciudad}`
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+    const cumpleBusqueda =
+      textoBusqueda === "" ||
+      textoCompleto.includes(
+        textoBusqueda
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+      );
+
+   if (
+  cumplePrecio &&
+  cumpleZona &&
+  cumpleServicio &&
+  cumplePremium &&
+  cumpleBusqueda
+) {
+
+      card.style.display = "flex";
+
+    } else {
+
+      card.style.display = "none";
+
+    }
+
+  });
+
+}
+// =========================================================
+// SLIDER PRECIO
+// =========================================================
+
+range.addEventListener(
+  "input",
+  () => {
+
+    priceValue.textContent =
+      range.value + ",00 B/.";
+
+    filtrar();
+
+  }
+);
+
+
+// =========================================================
+// FILTRO ZONAS
+// =========================================================
+
+zones.forEach(zone => {
+
+  zone.addEventListener(
+    "click",
+    () => {
+
+
+      zones.forEach(z =>
+        z.classList.remove(
+          "active"
+        )
+      );
+
+
+      zone.classList.add(
+        "active"
+      );
+
+
+      zonaSeleccionada =
+        zone.getAttribute(
+          "data-zone"
+        );
+
+
+      filtrar();
+
+    }
+  );
+
+});
+
+
+// =========================================================
+// FILTRO SERVICIOS
+// =========================================================
+
+services.forEach(service => {
+
+  service.addEventListener(
+    "click",
+    () => {
+
+
+      services.forEach(s =>
+        s.classList.remove(
+          "active"
+        )
+      );
+
+
+      service.classList.add(
+        "active"
+      );
+
+
+      servicioSeleccionado =
+        service.getAttribute(
+          "data-service"
+        );
+
+   
+
+      filtrar();
+
+    }
+  );
+
+});
+
+premiumFilters.forEach(filtro => {
+
+  filtro.addEventListener(
+    "click",
+    () => {
+
+      premiumFilters.forEach(btn =>
+        btn.classList.remove(
+          "active"
+        )
+      );
+
+      filtro.classList.add(
+        "active"
+      );
+
+      premiumSeleccionado =
+        filtro.getAttribute(
+          "data-premium"
+        );
+
+      filtrar();
+
+    }
+  );
+
+});  
+
+
+// =========================================================
+// REGISTRAR NUEVO ESPECIALISTA
+// =========================================================
+
+const registroForm =
+  document.getElementById(
+    "registroTecnicoForm"
+  );
+
+
+registroForm.addEventListener(
+  "submit",
+  async function (e) {
+
+
+    e.preventDefault();
+
+    document.getElementById("loadingOverlay").style.display ="flex";
+
+const btnSubmit =
+  document.querySelector(
+    '#registroTecnicoForm button[type="submit"]'
+  );
+
+btnSubmit.disabled = true;
+
+btnSubmit.textContent =
+  "Procesando...";
+
+
+    // =====================================================
+    // OBTENER PLAN
+    // =====================================================
+
+    const planSeleccionado =
+      document.querySelector(
+        'input[name="plan"]:checked'
+      ).value;
+
+
+    // =====================================================
+    // DETERMINAR SOLICITUD PREMIUM
+    // =====================================================
+
+    const solicitaPremium =
+      planSeleccionado === "premium";
+
+  const fotoPerfil =
+  await subirACloudinary(
+    "fotoPerfil"
+  );
+
+const fotoTrabajo1 =
+  await subirACloudinary(
+    "fotoTrabajo1"
+  );
+
+const fotoTrabajo2 =
+  await subirACloudinary(
+    "fotoTrabajo2"
+  );
+
+const fotoTrabajo3 =
+  await subirACloudinary(
+    "fotoTrabajo3"
+  );
+    
+    // =====================================================
+    // DATOS DEL TÉCNICO
+    // =====================================================
+
+    const datos = {
+
+
+      nombre:
+        document
+          .getElementById(
+            "registroNombre"
+          )
+          .value
+          .trim(),
+
+
+      telefono:
+        document
+          .getElementById(
+            "registroTelefono"
+          )
+          .value
+          .trim(),
+
+
+      correo:
+        document
+          .getElementById(
+            "registroCorreo"
+          )
+          .value
+          .trim(),
+
+
+      servicio:
+        document
+          .getElementById(
+            "registroServicio"
+          )
+          .value,
+
+
+      descripcion:
+        document
+          .getElementById(
+            "registroDescripcion"
+          )
+          .value
+          .trim(),
+
+
+      precio:
+        document
+          .getElementById(
+            "registroPrecio"
+          )
+          .value,
+
+
+      zona:
+        document
+          .getElementById(
+            "registroZona"
+          )
+          .value,
+
+
+      ciudad:
+        document
+          .getElementById(
+            "registroCiudad"
+          )
+          .value
+          .trim(),
+
+
+// ---------------------------------------------------
+// PLAN PREMIUM
+// ---------------------------------------------------
+
+// Si seleccionó Premium, se envía true.
+// El servidor NO lo activa inmediatamente.
+// El servidor creará una solicitud pendiente.
+premium:
+  solicitaPremium,
+
+// usar fotos de trabajos
+      
+imagen: fotoPerfil,
+
+imagen1: fotoTrabajo1,
+
+imagen2: fotoTrabajo2,
+
+imagen3: fotoTrabajo3
+      
+    };
+
+
+    // =====================================================
+    // ENVIAR AL BACKEND
+    // =====================================================
+
+    try {
+
+
+      const res =
+        await fetch(
+          "https://solvifyco-backend.onrender.com/tecnicos",
+          {
+
+            method: "POST",
+
+            headers: {
+
+              "Content-Type":
+                "application/json"
+
+            },
+
+            body:
+              JSON.stringify(
+                datos
+              )
+
+          }
+        );
+
+
+      const resultado =
+        await res.json();
+
+
+      // ===================================================
+      // ERROR
+      // ===================================================
+
+      if (!res.ok) {
+
+        throw new Error(
+          resultado.error ||
+          "No se pudo registrar el especialista."
+        );
+
+      }
+
+
+      // ===================================================
+      // REGISTRO CORRECTO
+      // ===================================================
+
+      console.log(
+        "Especialista registrado:",
+        resultado.tecnico
+      );
+
+      document.getElementById(
+  "loadingOverlay"
+).style.display =
+  "none";
+
+btnSubmit.disabled = false;
+
+btnSubmit.textContent =
+  "Registrarme";
+
+
+      // ===================================================
+      // MENSAJE
+      // ===================================================
+
+      if (solicitaPremium) {
+
+
+        alert( "¡Registro completado correctamente!\n\n" + "Hemos recibido tu solicitud para el plan Premium de 5,00 B/. mensuales.\n\n" + "El equipo de Solvify revisará tu solicitud y se pondrá en contacto contigo para completar la activación." 
+        );
+
+
+      } else {
+
+
+        alert("¡Registro completado correctamente!\n\n" + "Tu perfil ya fue registrado en Solvify.");
+
+      }
+
+
+      // ===================================================
+      // CERRAR MODAL
+      // ===================================================
+
+      registroModal.style.display =
+        "none";
+
+
+      // ===================================================
+      // LIMPIAR FORMULARIO
+      // ===================================================
+
+      registroForm.reset();
+
+
+      // ===================================================
+      // RECARGAR TARJETAS
+      // ===================================================
+
+      cargarTecnicos();
+    } 
+    
+    catch (error) {
+      document.getElementById("loadingOverlay").style.display ="none";
+      btnSubmit.disabled = false;
+      btnSubmit.textContent ="Registrarme";
+
+      console.error(
+        "Error registrando especialista:",
+        error
+      );
+
+
+      alert(
+
+        "No se pudo registrar el especialista.\\n\\n" +
+
+        "Intenta nuevamente."
+
+      );
+
+    }
+
+  }
+);
+
+// =========================================================
+// INICIAL
+// =========================================================
+
+cargarTecnicos();
+const toggleFilters =
+  document.getElementById("toggleFilters");
+
+const sidebar =
+  document.querySelector(".sidebar");
+
+const filterArrow =
+  document.getElementById("filterArrow");
+
+toggleFilters.addEventListener("click", () => {
+
+  sidebar.classList.toggle("filters-open");
+
+  if (sidebar.classList.contains("filters-open")) {
+
+    filterArrow.textContent = "⌃";
+
+  } else {
+
+    filterArrow.textContent = "⌄";
+
+  }
+
+});
+  
+
+</script>
+
+<div
+  id="loadingOverlay"
+  class="loading-overlay">
+
+  <div class="loading-spinner"></div>
+
+  <div>
+    Registrando especialista...
+  </div>
+
+  <small>
+    Subiendo fotografías y procesando información.
+  </small>
+
+</div>  
+
+<footer class="footer">
+  © 2026 SIAP S.A. Todos los derechos reservados.
+</footer>
+
+
+</body>
+</html>
