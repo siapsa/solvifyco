@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,37 +5,54 @@
   <title>Solvify</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-  :root {
+
+:root {
   --primary: #7b3cff;
+  --primary-dark: #6530d9;
   --primary-soft: #f3ecff;
   --accent: #ff4f9a;
+
   --bg: #f7f7fb;
-  --text: #222;
-  --muted: #777;
-  --card: #fff;
+  --card: #ffffff;
+  --text: #222222;
+  --muted: #777777;
   --border: #e2e2ee;
-  --radius: 10px;
+
+  --radius: 12px;
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* =========================================
+
+/* =========================================================
    RESET
-========================================= */
+========================================================= */
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+  min-height: 100vh;
 }
 
-/* =========================================
+
+/* =========================================================
    FOOTER
-========================================= */
+========================================================= */
 
 .footer {
   width: 100%;
@@ -49,26 +65,32 @@ body {
   background: #fff;
 }
 
-/* =========================================
+
+/* =========================================================
    NAVBAR
-========================================= */
+========================================================= */
 
 .navbar {
+  width: 100%;
   background: #fff;
   border-bottom: 1px solid var(--border);
+
   padding: 0.75rem 2rem;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
 }
 
 .nav-left {
   display: flex;
   align-items: center;
   gap: 1rem;
+  min-width: 0;
 }
 
 .nav-links {
@@ -80,8 +102,12 @@ body {
 .nav-links a {
   text-decoration: none;
   color: var(--muted);
+
   padding-bottom: 2px;
+
   border-bottom: 2px solid transparent;
+
+  white-space: nowrap;
 }
 
 .nav-links a.active {
@@ -90,33 +116,40 @@ body {
   font-weight: 600;
 }
 
-/* =========================================
-   BUSCADOR NAVBAR
-========================================= */
+
+/* =========================================================
+   NAVBAR SEARCH
+========================================================= */
 
 .nav-search {
   width: 360px;
+
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 999px;
+
   padding: 0.45rem 0.9rem;
+
   margin-left: 2rem;
   margin-right: auto;
 }
 
 .nav-search span {
   font-size: 0.9rem;
-  color: var(--muted);
+  flex-shrink: 0;
 }
 
 .nav-search input {
   width: 100%;
+
   border: none;
   outline: none;
   background: transparent;
+
   font-size: 0.9rem;
   color: var(--text);
 }
@@ -125,36 +158,52 @@ body {
   color: #999;
 }
 
-/* =========================================
-   NAV RIGHT
-========================================= */
+
+/* =========================================================
+   NAVBAR RIGHT
+========================================================= */
 
 .nav-right {
   display: flex;
   align-items: center;
   gap: 1rem;
+
   font-size: 0.9rem;
+  flex-shrink: 0;
 }
 
-/* =========================================
+
+/* =========================================================
    BOTONES
-========================================= */
+========================================================= */
 
 .btn-primary {
   background: var(--primary);
   color: #fff;
+
   border-radius: 999px;
-  padding: 0.45rem 1.1rem;
   border: none;
+
+  padding: 0.5rem 1.1rem;
+
   cursor: pointer;
+
   font-size: 0.9rem;
   font-weight: 500;
+
   text-decoration: none;
-  transition: 0.2s ease;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
 }
 
 .btn-primary:hover {
-  background: #6930df;
+  background: var(--primary-dark);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
 }
 
 .btn-primary:disabled {
@@ -162,90 +211,131 @@ body {
   cursor: not-allowed;
 }
 
+
 .btn-outline {
   border-radius: 999px;
+
   border: 1px solid var(--primary);
+
   color: var(--primary);
   background: transparent;
-  padding: 0.4rem 0.9rem;
+
+  padding: 0.4rem 0.8rem;
+
   font-size: 0.8rem;
+
   cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s ease;
+
+  transition: 0.15s ease;
 }
 
 .btn-outline:hover {
-  background: var(--primary);
-  color: white;
+  background: var(--primary-soft);
 }
 
-/* =========================================
-   BOTÓN ICONO
-========================================= */
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
 
 .icon-btn {
   position: relative;
-  width: 32px;
-  height: 32px;
+
+  width: 34px;
+  height: 34px;
+
   border-radius: 50%;
+
   border: 1px solid var(--border);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   background: #fff;
+
   cursor: pointer;
+
   font-size: 1.1rem;
 }
 
-/* =========================================
+
+/* =========================================================
    BADGE
-========================================= */
+========================================================= */
 
 .badge {
   position: absolute;
+
   top: -4px;
   right: -4px;
+
   background: var(--accent);
+
   color: #fff;
+
   font-size: 0.7rem;
+
   padding: 1px 5px;
+
   border-radius: 999px;
 }
 
-/* =========================================
-   SELECT USUARIO
-========================================= */
+
+/* =========================================================
+   USER SELECT
+========================================================= */
 
 .user-select {
   border-radius: 999px;
+
   border: 1px solid var(--border);
+
   padding: 0.3rem 0.8rem;
+
   font-size: 0.85rem;
+
   background: #fff;
 }
 
-/* =========================================
+
+/* =========================================================
    LAYOUT PRINCIPAL
-========================================= */
+========================================================= */
 
 .page {
+  width: 100%;
   max-width: 1200px;
+
   margin: 1.5rem auto;
+
   padding: 0 1rem;
+
   display: grid;
-  grid-template-columns: 260px 1fr;
+
+  grid-template-columns: 260px minmax(0, 1fr);
+
   gap: 1.5rem;
 }
 
-/* =========================================
+
+/* =========================================================
    SIDEBAR
-========================================= */
+========================================================= */
 
 .sidebar {
   background: #fff;
+
   border-radius: var(--radius);
+
   padding: 1.2rem;
+
   border: 1px solid var(--border);
+
+  height: fit-content;
+
+  position: sticky;
+  top: 85px;
 }
 
 .sidebar h3 {
@@ -253,9 +343,10 @@ body {
   margin-bottom: 0.8rem;
 }
 
-/* =========================================
-   RANGO DE PRECIO
-========================================= */
+
+/* =========================================================
+   PRICE RANGE
+========================================================= */
 
 .price-range {
   margin-bottom: 1.5rem;
@@ -263,37 +354,55 @@ body {
 
 .price-range input[type="range"] {
   width: 100%;
+  accent-color: var(--primary);
 }
 
 .price-values {
   display: flex;
   justify-content: space-between;
+
   font-size: 0.85rem;
+
   color: var(--muted);
+
   margin-top: 0.3rem;
 }
 
-/* =========================================
-   CATEGORÍAS / CHIPS
-========================================= */
+
+/* =========================================================
+   CATEGORÍAS
+========================================================= */
 
 .categories {
   display: flex;
   flex-direction: column;
+
   gap: 0.5rem;
 }
 
 .chip {
+  width: 100%;
+
   border-radius: 999px;
+
   border: 1px solid var(--border);
-  padding: 0.35rem 0.8rem;
+
+  padding: 0.4rem 0.8rem;
+
   font-size: 0.85rem;
+
   cursor: pointer;
+
   background: #fff;
+
   display: inline-flex;
   align-items: center;
+
   gap: 0.4rem;
-  transition: 0.2s ease;
+
+  text-align: left;
+
+  transition: 0.15s ease;
 }
 
 .chip:hover {
@@ -302,63 +411,107 @@ body {
 
 .chip.active {
   background: var(--primary-soft);
+
   border-color: var(--primary);
+
   color: var(--primary);
+
   font-weight: 500;
 }
 
-/* =========================================
+
+/* =========================================================
    MAIN
-========================================= */
+========================================================= */
 
 .main {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
+
   gap: 1rem;
 }
 
-/* =========================================
-   FILTROS SUPERIORES
-========================================= */
+
+/* =========================================================
+   FILTROS TOP
+========================================================= */
 
 .filters-top {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 0.75rem;
+
   align-items: center;
+
   justify-content: space-between;
 }
 
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
 .search-box {
   flex: 1;
+
   min-width: 220px;
+
   display: flex;
   align-items: center;
+
   gap: 0.5rem;
+
   background: #fff;
+
   border-radius: 999px;
+
   border: 1px solid var(--border);
+
   padding: 0.35rem 0.8rem;
 }
 
 .search-box input {
   border: none;
   outline: none;
+
   flex: 1;
+
   font-size: 0.9rem;
 }
 
+
+/* =========================================================
+   SELECT
+========================================================= */
+
 .select-inline {
   border-radius: 999px;
+
   border: 1px solid var(--border);
-  padding: 0.35rem 0.8rem;
+
+  padding: 0.4rem 0.8rem;
+
   font-size: 0.85rem;
+
   background: #fff;
+
+  width: 100%;
+
+  outline: none;
 }
 
-/* =========================================
-   CAMBIO DE VISTA
-========================================= */
+.select-inline:focus {
+  border-color: var(--primary);
+}
+
+
+/* =========================================================
+   VIEW TOGGLE
+========================================================= */
 
 .view-toggle {
   display: flex;
@@ -368,84 +521,127 @@ body {
 .view-btn {
   width: 32px;
   height: 32px;
+
   border-radius: 8px;
+
   border: 1px solid var(--border);
+
   background: #fff;
+
   cursor: pointer;
+
   font-size: 0.8rem;
 }
 
 .view-btn.active {
   border-color: var(--primary);
+
   color: var(--primary);
+
   background: var(--primary-soft);
 }
 
-/* =========================================
+
+/* =========================================================
    TARJETAS
-========================================= */
+========================================================= */
 
 .cards {
+  width: 100%;
+
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.2rem;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(230px, 1fr));
+
+  gap: 1rem;
 }
 
-/* =========================================
+
+/* =========================================================
    CARD
-========================================= */
+========================================================= */
 
 .card {
-  background: #fff;
-  border-radius: 16px;
+  min-width: 0;
+
+  background: var(--card);
+
+  border-radius: var(--radius);
+
   border: 1px solid var(--border);
-  overflow: hidden;
+
+  padding: 0.9rem;
+
   display: flex;
   flex-direction: column;
+
+  gap: 0.6rem;
+
   cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
+
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+  transform: translateY(-2px);
 }
 
-/* =========================================
+
+/* =========================================================
    IMAGEN CARD
-========================================= */
+========================================================= */
 
 .card-img {
-  height: 190px;
   width: 100%;
-  background: linear-gradient(135deg, #f3ecff, #f8f7ff);
+
+  background: #f0f2ff;
+
+  border-radius: 8px;
+
+  height: 180px;
+
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-start;
+
+  font-size: 0.8rem;
+
+  color: #fff;
+
   position: relative;
+
   overflow: hidden;
+
+  background-size: cover;
+
+  background-position: center;
 }
 
-.card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.card-img::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.05)
+    );
 }
-
-.card-img-placeholder {
-  font-size: 3rem;
-  opacity: 0.35;
-}
-
-/* =========================================
-   PREMIUM
-========================================= */
-
+/* Badge Premium */
 .premium-badge {
   position: absolute;
   top: 12px;
   right: 12px;
+  z-index: 5;
   background: var(--primary);
   color: white;
   padding: 5px 10px;
@@ -453,121 +649,181 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   box-shadow: 0 4px 10px rgba(123, 60, 255, 0.25);
-}
 
-/* =========================================
-   CONTENIDO CARD
-========================================= */
-
-.card-content {
-  padding: 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
+  align-items: center;
+  gap: 3px;
+
+  white-space: nowrap;
 }
+.card-img span {
+  position: relative;
+
+  z-index: 2;
+
+  padding: 12px;
+
+  font-size: 0.85rem;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
 
 .card-title {
-  font-size: 1rem;
-  font-weight: 650;
-  color: #1f2937;
-}
+  font-size: 0.95rem;
 
-.card-service {
-  font-size: 0.85rem;
-  color: #6b7280;
-}
+  font-weight: 600;
 
-.card-rating {
-  font-size: 0.85rem;
-  color: #f59e0b;
-}
-
-.card-rating span {
-  color: #6b7280;
-  margin-left: 4px;
-}
-
-.card-location {
-  font-size: 0.82rem;
-  color: #6b7280;
+  line-height: 1.25;
 }
 
 .card-price {
-  margin-top: 0.3rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--primary);
-}
+  font-size: 0.95rem;
 
-/* =========================================
-   FOOTER CARD
-========================================= */
+  color: var(--primary);
+
+  font-weight: 600;
+}
 
 .card-footer {
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
-  margin-top: 0.4rem;
+
+  gap: 0.5rem;
+
+  font-size: 0.8rem;
+
+  color: var(--muted);
 }
 
-/* =========================================
-   FILTROS COLAPSABLES
-========================================= */
+.card-footer .btn-primary {
+  white-space: nowrap;
+
+  font-size: 0.75rem;
+
+  padding: 0.4rem 0.7rem;
+}
+
+
+/* =========================================================
+   FILTROS MOBILE
+========================================================= */
 
 .toggle-filters {
   display: none;
+
+  width: 100%;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  background: #fff;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  padding: 0.75rem 1rem;
+
+  color: var(--text);
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
 }
 
-/* =========================================
+#filterArrow {
+  font-size: 1.1rem;
+
+  transition: transform 0.2s ease;
+}
+
+
+/* =========================================================
    MODAL REGISTRO
-========================================= */
+========================================================= */
 
 .registro-modal {
   display: none;
+
   position: fixed;
+
   inset: 0;
+
   z-index: 9999;
+
   background: rgba(0, 0, 0, 0.45);
+
   align-items: center;
+
   justify-content: center;
+
   padding: 20px;
 }
 
 .registro-modal-content {
   background: #fff;
+
   border: 1px solid var(--border);
+
   border-radius: var(--radius);
+
   width: 100%;
+
   max-width: 500px;
+
   max-height: 90vh;
+
   overflow-y: auto;
+
   padding: 1.5rem;
 }
 
 .registro-modal-header {
   display: flex;
+
   justify-content: space-between;
+
   align-items: flex-start;
+
+  gap: 1rem;
+
   margin-bottom: 1.5rem;
 }
 
 .registro-modal-header h2 {
   margin-bottom: 0.3rem;
+
+  font-size: 1.25rem;
 }
 
 .registro-modal-header p {
   color: var(--muted);
+
   font-size: 0.85rem;
 }
 
 .registro-modal-content h3 {
   font-size: 0.95rem;
+
   margin: 1.2rem 0 0.7rem;
 }
 
 .registro-modal-content label {
   display: block;
+
   font-size: 0.85rem;
+
   margin: 0.7rem 0 0.3rem;
 }
 
@@ -575,11 +831,17 @@ body {
 .registro-modal-content textarea,
 .registro-modal-content select {
   width: 100%;
-  padding: 0.55rem 0.8rem;
+
+  padding: 0.6rem 0.8rem;
+
   border: 1px solid var(--border);
+
   border-radius: var(--radius);
+
   outline: none;
+
   font-size: 0.9rem;
+
   background: #fff;
 }
 
@@ -591,19 +853,32 @@ body {
 
 .registro-modal-content textarea {
   min-height: 80px;
+
   resize: vertical;
 }
 
+
+/* =========================================================
+   PLANES
+========================================================= */
+
 .planes-registro {
   display: flex;
+
   gap: 1rem;
+
   margin-bottom: 1.2rem;
+
+  flex-wrap: wrap;
 }
 
 .planes-registro label {
   display: flex;
+
   align-items: center;
+
   gap: 0.4rem;
+
   cursor: pointer;
 }
 
@@ -611,39 +886,65 @@ body {
   width: auto;
 }
 
+
+/* =========================================================
+   BOTONES MODAL
+========================================================= */
+
 .registro-modal-buttons {
   display: flex;
+
   justify-content: flex-end;
+
   gap: 0.7rem;
+
   margin-top: 1.5rem;
 }
 
-/* =========================================
-   LOADING OVERLAY
-========================================= */
+
+/* =========================================================
+   LOADING
+========================================================= */
 
 .loading-overlay {
   display: none;
+
   position: fixed;
+
   inset: 0;
+
   background: rgba(255, 255, 255, 0.9);
+
   z-index: 99999;
+
   align-items: center;
+
   justify-content: center;
+
   flex-direction: column;
+
   font-size: 1rem;
+
   color: #333;
+
   text-align: center;
-  padding: 1rem;
+
+  padding: 20px;
 }
 
 .loading-spinner {
   width: 50px;
+
   height: 50px;
+
   border: 4px solid #ddd;
+
   border-top: 4px solid var(--primary);
+
   border-radius: 50%;
+
   animation: giro 1s linear infinite;
+
   margin-bottom: 15px;
 }
 
@@ -657,272 +958,431 @@ body {
   }
 }
 
-/* =========================================
-   RESPONSIVE - CELULAR
-========================================= */
 
-@media (max-width: 700px) {
+/* =========================================================
+   TABLET
+   901px → 1100px
+========================================================= */
 
-  /* =====================================
-     NAVBAR
-  ===================================== */
+@media (max-width: 1100px) {
 
   .navbar {
-    padding: 0.7rem 1rem;
-  }
-
-  .nav-left {
-    width: 100%;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   .nav-search {
-    width: auto;
+    width: 300px;
+    margin-left: 1rem;
+  }
+
+  .page {
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .cards {
+    grid-template-columns:
+      repeat(auto-fill, minmax(210px, 1fr));
+  }
+
+}
+
+
+/* =========================================================
+   TABLET PEQUEÑO / MOBILE GRANDE
+   701px → 900px
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .page {
+    grid-template-columns: 1fr;
+
+    margin-top: 1rem;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .nav-search {
+    width: 250px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   AQUÍ ESTÁ LA MEJORA IMPORTANTE:
+   2 TÉCNICOS POR FILA
+========================================================= */
+
+@media (max-width: 700px) {
+
+  /* -------------------------
+     NAVBAR
+  ------------------------- */
+
+  .navbar {
+    padding: 0.65rem 0.75rem;
+
+    gap: 0.6rem;
+  }
+
+  .nav-left {
     flex: 1;
-    margin-left: 0.8rem;
-    margin-right: 0;
-  }
 
-  .nav-right {
-    margin-left: 0.6rem;
-  }
+    min-width: 0;
 
-  .nav-right .btn-primary {
-    padding: 0.4rem 0.7rem;
-    font-size: 0.72rem;
-    white-space: nowrap;
+    gap: 0.5rem;
   }
 
   .nav-links {
-    font-size: 0.85rem;
+    flex-shrink: 0;
   }
 
-  /* =====================================
+  .nav-search {
+    flex: 1;
+
+    width: auto;
+
+    min-width: 0;
+
+    margin: 0;
+
+    padding:
+      0.4rem 0.65rem;
+  }
+
+  .nav-search span {
+    font-size: 0.8rem;
+  }
+
+  .nav-search input {
+    font-size: 0.8rem;
+
+    min-width: 0;
+  }
+
+  .nav-right {
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    font-size: 0.78rem;
+
+    padding:
+      0.45rem 0.7rem;
+
+    white-space: nowrap;
+  }
+
+
+  /* -------------------------
      PAGE
-  ===================================== */
+  ------------------------- */
 
   .page {
+    width: 100%;
+
+    margin:
+      0.8rem auto;
+
+    padding:
+      0 0.65rem;
+
     display: flex;
+
     flex-direction: column;
-    gap: 0.8rem;
-    margin-top: 1rem;
-    padding: 0 0.8rem;
+
+    gap: 0.7rem;
   }
 
-  /* =====================================
-     BOTÓN FILTROS
-  ===================================== */
+
+  /* -------------------------
+     FILTROS
+  ------------------------- */
 
   .toggle-filters {
     display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 0.7rem 1rem;
-    color: var(--text);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
   }
-
-  #filterArrow {
-    font-size: 1.1rem;
-    transition: transform 0.2s ease;
-  }
-
-  /* =====================================
-     SIDEBAR
-  ===================================== */
 
   .sidebar {
     display: none;
+
+    width: 100%;
+
+    padding: 1rem;
+
+    position: static;
   }
 
   .sidebar.filters-open {
     display: block;
   }
 
-  /* =====================================
-     2 TÉCNICOS POR FILA
-  ===================================== */
+
+  /* -------------------------
+     GRID 2 COLUMNAS
+  ------------------------- */
 
   .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.7rem;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 0.65rem;
   }
 
-  /* =====================================
+
+  /* -------------------------
      CARD MOBILE
-  ===================================== */
+  ------------------------- */
 
   .card {
-    border-radius: 12px;
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 0.55rem;
+
+    gap: 0.45rem;
+
+    border-radius: 10px;
   }
 
   .card:hover {
     transform: none;
-    box-shadow: none;
+
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
-  /* =====================================
+
+  /* -------------------------
      IMAGEN MOBILE
-  ===================================== */
+  ------------------------- */
 
   .card-img {
-    height: 115px;
+
+    width: 100%;
+
+    height: 125px;
+
+    border-radius: 8px;
   }
 
-  /* =====================================
-     CONTENIDO MOBILE
-  ===================================== */
+  .card-img span {
 
-  .card-content {
-    padding: 0.65rem;
-    gap: 0.3rem;
+    padding: 8px;
+
+    font-size: 0.7rem;
+
+    line-height: 1.2;
   }
+
+
+  /* -------------------------
+     CARD TITLE
+  ------------------------- */
 
   .card-title {
-    font-size: 0.82rem;
+
+    font-size: 0.78rem;
+
     line-height: 1.2;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
   }
 
-  .card-service {
-    font-size: 0.72rem;
-    line-height: 1.2;
-  }
 
-  .card-location {
-    font-size: 0.68rem;
-    line-height: 1.25;
-  }
+  /* -------------------------
+     CARD PRICE
+  ------------------------- */
 
   .card-price {
-    font-size: 0.88rem;
-    margin-top: 0.2rem;
+
+    font-size: 0.8rem;
   }
 
-  /* =====================================
-     BOTÓN DETALLES MOBILE
-  ===================================== */
+
+  /* -------------------------
+     CARD FOOTER
+  ------------------------- */
 
   .card-footer {
+
+    display: flex;
+
     flex-direction: column;
+
     align-items: stretch;
+
     gap: 0.35rem;
+
+    font-size: 0.68rem;
   }
 
   .card-footer .btn-primary {
-    text-align: center;
+
     width: 100%;
-    padding: 0.35rem 0.3rem;
-    font-size: 0.68rem;
+
+    text-align: center;
+
+    font-size: 0.7rem;
+
+    padding:
+      0.4rem 0.4rem;
   }
 
-  /* =====================================
-     PREMIUM MOBILE
-  ===================================== */
 
-  .premium-badge {
-    top: 6px;
-    right: 6px;
-    padding: 3px 6px;
-    font-size: 0.6rem;
-  }
-
-  /* =====================================
-     MODAL MOBILE
-  ===================================== */
+  /* -------------------------
+     MODAL
+  ------------------------- */
 
   .registro-modal {
+
     padding: 10px;
+
+    align-items: center;
   }
 
   .registro-modal-content {
+
     max-height: 94vh;
+
     padding: 1rem;
+
+    border-radius: 12px;
+  }
+
+  .registro-modal-header h2 {
+
+    font-size: 1.1rem;
   }
 
   .registro-modal-buttons {
+
     flex-direction: column-reverse;
+
+    width: 100%;
   }
 
   .registro-modal-buttons button {
+
     width: 100%;
-    text-align: center;
+
+    min-height: 42px;
   }
 
   .planes-registro {
+
     flex-direction: column;
+
     gap: 0.5rem;
+  }
+
+
+  /* -------------------------
+     FOOTER
+  ------------------------- */
+
+  .footer {
+
+    font-size: 0.72rem;
+
+    padding:
+      1.2rem 0.75rem;
   }
 
 }
 
-/* =========================================
-   CELULARES MUY PEQUEÑOS
-========================================= */
 
-@media (max-width: 360px) {
+/* =========================================================
+   MOBILE MUY PEQUEÑO
+   Solo para evitar desbordamientos.
+   Sigue manteniendo 2 tarjetas.
+========================================================= */
+
+@media (max-width: 380px) {
 
   .navbar {
-    padding: 0.6rem 0.7rem;
+    padding:
+      0.6rem 0.5rem;
   }
 
   .nav-links {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 
   .nav-search {
-    margin-left: 0.5rem;
+    padding:
+      0.35rem 0.5rem;
   }
 
-  .nav-right .btn-primary {
-    font-size: 0.65rem;
-    padding: 0.35rem 0.5rem;
+  .nav-search input {
+    font-size: 0.72rem;
+  }
+
+  .btn-primary {
+    font-size: 0.7rem;
+
+    padding:
+      0.4rem 0.55rem;
   }
 
   .page {
-    padding: 0 0.6rem;
+    padding:
+      0 0.5rem;
   }
 
   .cards {
     gap: 0.5rem;
   }
 
-  .card-img {
-    height: 105px;
+  .card {
+    padding: 0.45rem;
   }
 
-  .card-content {
-    padding: 0.55rem;
+  .card-img {
+    height: 110px;
   }
 
   .card-title {
-    font-size: 0.78rem;
-  }
-
-  .card-service {
-    font-size: 0.68rem;
-  }
-
-  .card-location {
-    font-size: 0.64rem;
+    font-size: 0.73rem;
   }
 
   .card-price {
-    font-size: 0.82rem;
+    font-size: 0.75rem;
+  }
+
+  .card-footer {
+    font-size: 0.62rem;
   }
 
   .card-footer .btn-primary {
-    font-size: 0.64rem;
+    font-size: 0.65rem;
   }
 
 }
 
-  </style>
+</style>
+  
 </head>
+  
 <body>
   <!-- NAVBAR -->
   <header class="navbar">
@@ -1435,149 +1895,123 @@ const tecnicos = await res.json();
   
 // Borrar mensaje de carga
 container.innerHTML = "";
-
-  
-// =====================================================
-  // CARGA DE TARJETAS TECNICAS
-  // =====================================================
-  
 tecnicos.forEach(tecnico => {
 
-  // =====================================================
-  // OBTENER NOMBRE DE LA ZONA
-  // =====================================================
+    // =====================================================
+    // OBTENER ZONA
+    // =====================================================
 
-  function obtenerNombreZona(zona) {
+function obtenerNombreZona(zona) {
 
-    const zonas = {
-      panama: "Ciudad de Panamá",
-      oeste: "Panamá Oeste",
-      colon: "Colón",
-      chiriqui: "Chiriquí",
-      veraguas: "Veraguas",
-      cocle: "Coclé"
-    };
+  const zonas = {
 
-    return zonas[zona] || zona;
+    panama: "Ciudad de Panamá",
+
+    oeste: "Panamá Oeste",
+
+    colon: "Colón",
+
+    chiriqui: "Chiriquí",
+
+    veraguas: "Veraguas",
+
+    cocle: "Coclé"
+
+  };
+
+  return zonas[zona] || zona;
+
+}
+
+
+    // =====================================================
+    // CREAR TARJETAS
+    // =====================================================
+
+     const imagenServicio =
+      tecnico.imagen ||
+      "imagenes/default.jpg";
+
+
+      container.innerHTML += `
+ <article
+class="card"
+data-price="${tecnico.precio}"
+data-zone="${tecnico.zona}"
+data-service="${
+  (tecnico.servicio || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+}"
+data-nombre="${tecnico.nombre}"
+data-descripcion="${tecnico.descripcion}"
+data-ciudad="${tecnico.ciudad}"
+data-premium="${tecnico.premium}">
+
+         <div
+  class="card-img"
+  style="
+    background-image:
+    url('${imagenServicio}')
+  ">
+
+  ${
+    tecnico.premium
+      ? `<div class="premium-badge">⭐ Premium</div>`
+      : ""
   }
 
+  <span>
+    ${tecnico.descripcion}
+  </span>
 
-  // =====================================================
-  // IMAGEN DE PERFIL
-  // =====================================================
-
-  const imagenPerfil =
-    tecnico.imagen ||
-    "imagenes/default.jpg";
+</div>
 
 
-  // =====================================================
-  // SERVICIO
-  // =====================================================
+<div class="card-title">
 
-  const servicioNombre =
-    tecnico.servicio
-      ? tecnico.servicio.charAt(0).toUpperCase() +
-        tecnico.servicio.slice(1)
-      : "Servicio profesional";
+  ${tecnico.nombre}
+
+</div>
 
 
-  // =====================================================
-  // PREMIUM
-  // =====================================================
+          <div class="card-price">
 
-  const premiumBadge = tecnico.premium
-    ? `<span class="premium-badge">⭐ Premium</span>`
-    : "";
+            ${tecnico.precio} B/.
+
+          </div>
 
 
-  // =====================================================
-  // CREAR TARJETA
-  // =====================================================
-
-  container.innerHTML += `
-
-    <article
-      class="card"
-      data-price="${tecnico.precio || 0}"
-      data-zone="${tecnico.zona || ""}"
-      data-service="${
-        (tecnico.servicio || "")
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-      }"
-      data-nombre="${tecnico.nombre || ""}"
-      data-descripcion="${tecnico.descripcion || ""}"
-      data-ciudad="${tecnico.ciudad || ""}"
-      data-premium="${tecnico.premium}">
-
-      <!-- =========================================
-           IMAGEN
-      ========================================== -->
-
-      <div class="card-img">
-
-        <img
-          src="${imagenPerfil}"
-          alt="${tecnico.nombre || "Especialista Solvify"}"
-          loading="lazy"
-          onerror="this.src='imagenes/default.jpg';"
-        >
-
-        ${premiumBadge}
-
-      </div>
+          <div class="card-footer">
 
 
-      <!-- =========================================
-           CONTENIDO
-      ========================================== -->
+            <span>
 
-      <div class="card-content">
+              📍 ${obtenerNombreZona(tecnico.zona)}
 
-        <div class="card-title">
-          ${tecnico.nombre || "Especialista"}
-        </div>
+            </span>
 
 
-        <div class="card-service">
-          ${servicioNombre}
-        </div>
+            <a
+
+              class="btn-primary"
+
+              href="especialistacp.html?id=${tecnico.id}">
+
+              Ver detalles
+
+            </a>
 
 
-        <div class="card-location">
-          📍 ${obtenerNombreZona(tecnico.zona)}
-          ${tecnico.ciudad ? ` · ${tecnico.ciudad}` : ""}
-        </div>
+          </div>
 
 
-        <div class="card-price">
-          ${tecnico.precio || 0} B/.
-        </div>
+        </article>
 
+      `;
 
-        <div class="card-footer">
-
-          <span class="card-service">
-            Servicio profesional
-          </span>
-
-          <a
-            class="btn-primary"
-            href="especialistacp.html?id=${tecnico.id}">
-            Ver detalles
-          </a>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
-
-});
+    });
 
 
     // =====================================================
