@@ -1892,6 +1892,12 @@ if (!res.ok) {
 throw new Error("No se pudieron cargar los técnicos.");
 }
 const tecnicos = await res.json();
+
+// Premium primero
+tecnicos.sort((a, b) => {
+  if (a.premium === b.premium) return 0;
+  return a.premium ? -1 : 1;
+});
   
 // Borrar mensaje de carga
 container.innerHTML = "";
