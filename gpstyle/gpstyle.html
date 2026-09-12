@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Guardarropa — Personal Stylist</title>
+
+<style>
+:root{
+    --bg:#f6f7fb;
+    --card:#ffffff;
+    --text:#17171c;
+    --muted:#777985;
+    --primary:#111827;
+    --border:#e8e8ee;
+    --soft:#f0f1f5;
+    --accent:#7c3aed;
+    --success:#16a34a;
+    --danger:#dc2626;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#111217;
+    color:white;
+    padding:28px 18px;
+    z-index:10;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:700;
+    letter-spacing:-.5px;
+    padding:0 12px 35px;
+}
+
+.logo span{
+    color:#a78bfa;
+}
+
+.menu-title{
+    font-size:11px;
+    color:#777985;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:0 12px;
+    margin-bottom:10px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.menu button{
+    border:0;
+    background:transparent;
+    color:#aeb0b8;
+    padding:12px;
+    border-radius:9px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    transition:.2s;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:#252631;
+    color:white;
+}
+
+.menu button span{
+    margin-right:10px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    padding:35px;
+    max-width:1600px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.topbar h1{
+    font-size:29px;
+    letter-spacing:-1px;
+}
+
+.topbar p{
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.profile{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#ddd6fe;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:700;
+    color:#5b21b6;
+}
+
+/* SECTIONS */
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+/* CARDS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+}
+
+.stat small{
+    color:var(--muted);
+}
+
+.stat strong{
+    display:block;
+    font-size:29px;
+    margin-top:8px;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:22px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h2{
+    font-size:18px;
+}
+
+.btn{
+    border:0;
+    border-radius:9px;
+    padding:10px 15px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-purple{
+    background:var(--accent);
+    color:white;
+}
+
+.btn-light{
+    background:var(--soft);
+    color:#333;
+}
+
+/* OUTFITS */
+
+.outfit-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.outfit-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+    transition:.2s;
+}
+
+.outfit-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(0,0,0,.07);
+}
+
+.outfit-image{
+    height:270px;
+    background:#eee;
+    overflow:hidden;
+}
+
+.outfit-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.outfit-info{
+    padding:17px;
+}
+
+.outfit-info h3{
+    font-size:16px;
+    margin-bottom:7px;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+}
+
+.tag{
+    font-size:11px;
+    background:#f1f1f4;
+    padding:5px 8px;
+    border-radius:20px;
+    color:#555;
+}
+
+.tag.purple{
+    background:#ede9fe;
+    color:#6d28d9;
+}
+
+.rating{
+    margin-top:12px;
+    color:#f59e0b;
+}
+
+/* CLOSET */
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.search{
+    flex:1;
+    min-width:200px;
+    padding:11px 14px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    outline:none;
+}
+
+select{
+    padding:11px 14px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:white;
+}
+
+.closet-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.item{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:13px;
+    overflow:hidden;
+}
+
+.item-image{
+    height:190px;
+    background:#f0f0f0;
+}
+
+.item-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.item-info{
+    padding:13px;
+}
+
+.item-info h3{
+    font-size:14px;
+}
+
+.item-info p{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:5px;
+}
+
+/* GENERATOR */
+
+.generator{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.generator-controls{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.control{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:17px;
+}
+
+.control label{
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:8px;
+}
+
+.control select{
+    width:100%;
+}
+
+.generated{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:22px;
+}
+
+.generated-items{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+.generated-item{
+    background:#f7f7f8;
+    border-radius:10px;
+    padding:10px;
+}
+
+.generated-item img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:7px;
+}
+
+.generated-item p{
+    font-size:12px;
+    margin-top:7px;
+}
+
+/* PURCHASES */
+
+.purchase-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.purchase{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.purchase h3{
+    font-size:15px;
+}
+
+.purchase p{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.priority{
+    font-size:11px;
+    padding:6px 10px;
+    border-radius:20px;
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.priority.medium{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+    .closet-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:800px){
+    .sidebar{
+        width:70px;
+        padding:20px 8px;
+    }
+
+    .logo{
+        font-size:0;
+        text-align:center;
+    }
+
+    .logo span{
+        font-size:22px;
+    }
+
+    .menu button{
+        text-align:center;
+        font-size:0;
+    }
+
+    .menu button span{
+        font-size:18px;
+        margin:0;
+    }
+
+    .main{
+        margin-left:70px;
+        padding:20px;
+    }
+
+    .dashboard-grid,
+    .generator{
+        grid-template-columns:1fr;
+    }
+
+    .outfit-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .closet-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        MY<span>WARDROBE</span>
+    </div>
+
+    <div class="menu-title">Principal</div>
+
+    <div class="menu">
+
+        <button class="active" onclick="showSection('dashboard',this)">
+            <span>⌂</span> Dashboard
+        </button>
+
+        <button onclick="showSection('closet',this)">
+            <span>👕</span> Mi guardarropa
+        </button>
+
+        <button onclick="showSection('outfits',this)">
+            <span>✦</span> Outfits
+        </button>
+
+        <button onclick="showSection('generator',this)">
+            <span>✧</span> Crear outfit
+        </button>
+
+        <button onclick="showSection('purchases',this)">
+            <span>＋</span> Comprar
+        </button>
+
+    </div>
+
+    <br>
+
+    <div class="menu-title">Cuenta</div>
+
+    <div class="menu">
+        <button onclick="alert('Perfil próximamente')">
+            <span>⚙</span> Configuración
+        </button>
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+    <div>
+        <h1 id="pageTitle">Mi guardarropa</h1>
+        <p>Tu estilo, organizado inteligentemente.</p>
+    </div>
+
+    <div class="profile">
+        A
+    </div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="section active">
+
+    <div class="stats">
+
+        <div class="stat">
+            <small>Prendas</small>
+            <strong>42</strong>
+        </div>
+
+        <div class="stat">
+            <small>Outfits creados</small>
+            <strong>18</strong>
+        </div>
+
+        <div class="stat">
+            <small>Combinaciones posibles</small>
+            <strong>126+</strong>
+        </div>
+
+        <div class="stat">
+            <small>Prendas sin usar</small>
+            <strong>7</strong>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Outfits recomendados</h2>
+
+                <button class="btn btn-light"
+                        onclick="showSection('outfits')">
+                    Ver todos
+                </button>
+            </div>
+
+            <div class="outfit-grid">
+
+                <div class="outfit-card">
+
+                    <div class="outfit-image">
+                        <img src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=800&q=80">
+                    </div>
+
+                    <div class="outfit-info">
+                        <h3>Smart Casual Navy</h3>
+
+                        <div class="tags">
+                            <span class="tag purple">Intelectual</span>
+                            <span class="tag">Cena</span>
+                        </div>
+
+                        <div class="rating">★★★★★</div>
+                    </div>
+
+                </div>
+
+
+                <div class="outfit-card">
+
+                    <div class="outfit-image">
+                        <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80">
+                    </div>
+
+                    <div class="outfit-info">
+                        <h3>Classic White</h3>
+
+                        <div class="tags">
+                            <span class="tag purple">Elegante</span>
+                            <span class="tag">Trabajo</span>
+                        </div>
+
+                        <div class="rating">★★★★★</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Tu estilo</h2>
+            </div>
+
+            <p style="color:#777;margin-bottom:18px;">
+                Basado en tus prendas y outfits.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag purple">Smart Casual</span>
+                <span class="tag purple">Intelectual</span>
+                <span class="tag">Elegante</span>
+                <span class="tag">Minimalista</span>
+                <span class="tag">Masculino</span>
+
+            </div>
+
+            <br>
+
+            <p style="font-size:13px;color:#555;line-height:1.6;">
+                Tu guardarropa tiene una fuerte base de colores
+                neutros. Las prendas navy, blancas, grises y beige
+                permiten crear muchas combinaciones.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CLOSET -->
+
+<section id="closet" class="section">
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="searchInput"
+            placeholder="Buscar prenda..."
+            oninput="filterCloset()"
+        >
+
+        <select id="categoryFilter" onchange="filterCloset()">
+
+            <option value="">Todas</option>
+            <option value="Polo">Polos</option>
+            <option value="Camisa">Camisas</option>
+            <option value="Jeans">Jeans</option>
+            <option value="Pantalón">Pantalones</option>
+            <option value="Zapatos">Zapatos</option>
+
+        </select>
+
+        <button class="btn btn-primary"
+                onclick="alert('Aquí conectaremos la carga de fotos de tu guardarropa')">
+            + Agregar prenda
+        </button>
+
+    </div>
+
+
+    <div class="closet-grid" id="closetGrid"></div>
+
+</section>
+
+
+<!-- OUTFITS -->
+
+<section id="outfits" class="section">
+
+    <div class="card-header">
+
+        <div>
+            <h2>Mis outfits</h2>
+            <p style="color:#777;margin-top:5px;">
+                Combinaciones guardadas y recomendaciones.
+            </p>
+        </div>
+
+        <button class="btn btn-purple"
+                onclick="showSection('generator')">
+            + Crear outfit
+        </button>
+
+    </div>
+
+
+    <div class="outfit-grid" id="outfitGrid"></div>
+
+</section>
+
+
+<!-- GENERATOR -->
+
+<section id="generator" class="section">
+
+    <div class="generator">
+
+        <div class="generator-controls">
+
+            <div class="control">
+
+                <label>OCASIÓN</label>
+
+                <select id="occasion">
+
+                    <option value="casual">Casual</option>
+                    <option value="trabajo">Trabajo</option>
+                    <option value="cena">Cena</option>
+                    <option value="date">Cita</option>
+                    <option value="evento">Evento</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="control">
+
+                <label>ESTILO</label>
+
+                <select id="style">
+
+                    <option value="intelectual">Intelectual</option>
+                    <option value="elegante">Elegante</option>
+                    <option value="smart">Smart Casual</option>
+                    <option value="casual">Casual</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="control">
+
+                <label>COLOR PRINCIPAL</label>
+
+                <select id="color">
+
+                    <option value="navy">Navy</option>
+                    <option value="white">Blanco</option>
+                    <option value="beige">Beige</option>
+                    <option value="gray">Gris</option>
+                    <option value="black">Negro</option>
+
+                </select>
+
+            </div>
+
+
+            <button class="btn btn-purple"
+                    style="padding:15px"
+                    onclick="generateOutfit()">
+
+                ✦ Generar outfit
+
+            </button>
+
+        </div>
+
+
+        <div class="generated">
+
+            <h2 id="generatedTitle">
+                Tu próximo outfit
+            </h2>
+
+            <p id="generatedDescription"
+               style="color:#777;margin-top:6px;line-height:1.5;">
+                Selecciona tus preferencias y genera una combinación.
+            </p>
+
+            <div
+                class="generated-items"
+                id="generatedItems">
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PURCHASES -->
+
+<section id="purchases" class="section">
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+                <h2>Recomendaciones de compra</h2>
+                <p style="color:#777;margin-top:5px;">
+                    Prendas que podrían ampliar tus combinaciones.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="purchase-list">
+
+            <div class="purchase">
+
+                <div>
+                    <h3>Pantalón chino beige</h3>
+
+                    <p>
+                        Compatible con 8 prendas de tu guardarropa.
+                        Potencial: +14 outfits.
+                    </p>
+                </div>
+
+                <span class="priority">
+                    Alta
+                </span>
+
+            </div>
+
+
+            <div class="purchase">
+
+                <div>
+                    <h3>Loafers marrón oscuro</h3>
+
+                    <p>
+                        Complementa tus polos navy, blancas y grises.
+                        Potencial: +9 outfits.
+                    </p>
+                </div>
+
+                <span class="priority">
+                    Alta
+                </span>
+
+            </div>
+
+
+            <div class="purchase">
+
+                <div>
+                    <h3>Blazer navy</h3>
+
+                    <p>
+                        Elevaría tus outfits smart casual para cenas
+                        y eventos.
+                    </p>
+                </div>
+
+                <span class="priority medium">
+                    Media
+                </span>
+
+            </div>
+
+
+            <div class="purchase">
+
+                <div>
+                    <h3>Camisa Oxford celeste</h3>
+
+                    <p>
+                        Buena combinación con jeans oscuros y chinos.
+                    </p>
+                </div>
+
+                <span class="priority medium">
+                    Media
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<script>
+
+/* =========================
+   DATASET DE PRENDAS
+========================= */
+
+const clothes = [
+
+{
+    id:"P001",
+    name:"Polo Navy",
+    category:"Polo",
+    color:"Navy",
+    image:"https://images.unsplash.com/photo-1625910513413-5fc45a5d7d8b?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"P002",
+    name:"Polo Blanca",
+    category:"Polo",
+    color:"Blanco",
+    image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"P003",
+    name:"Polo Gris",
+    category:"Polo",
+    color:"Gris",
+    image:"https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"P004",
+    name:"Polo Negra",
+    category:"Polo",
+    color:"Negro",
+    image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"P005",
+    name:"Polo Celeste",
+    category:"Polo",
+    color:"Celeste",
+    image:"https://images.unsplash.com/photo-1627225924765-552d49cf47ad?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"J001",
+    name:"Jeans Azul Oscuro",
+    category:"Jeans",
+    color:"Azul oscuro",
+    image:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"J002",
+    name:"Jeans Azul",
+    category:"Jeans",
+    color:"Azul",
+    image:"https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"T001",
+    name:"Chino Beige",
+    category:"Pantalón",
+    color:"Beige",
+    image:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"T002",
+    name:"Pantalón Gris",
+    category:"Pantalón",
+    color:"Gris",
+    image:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"T003",
+    name:"Chino Verde Oliva",
+    category:"Pantalón",
+    color:"Oliva",
+    image:"https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"S001",
+    name:"Loafers Marrón",
+    category:"Zapatos",
+    color:"Marrón",
+    image:"https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+    id:"S002",
+    name:"Sneakers Blancos",
+    category:"Zapatos",
+    color:"Blanco",
+    image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"
+}
+
+];
+
+
+/* =========================
+   OUTFITS
+========================= */
+
+const outfits = [
+
+{
+    name:"Smart Casual Navy",
+    tags:["Intelectual","Cena","Smart Casual"],
+    image:"https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=800&q=80"
+},
+
+{
+    name:"Classic White",
+    tags:["Elegante","Trabajo"],
+    image:"https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80"
+},
+
+{
+    name:"Dark Denim",
+    tags:["Smart Casual","Cena"],
+    image:"https://images.unsplash.com/photo-1610652492500-ded49ceeb378?auto=format&fit=crop&w=800&q=80"
+},
+
+{
+    name:"Minimal Black",
+    tags:["Minimalista","Noche"],
+    image:"https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80"
+},
+
+{
+    name:"Olive Weekend",
+    tags:["Casual","Fin de semana"],
+    image:"https://images.unsplash.com/photo-1610652492500-ded49ceeb378?auto=format&fit=crop&w=800&q=80"
+},
+
+{
+    name:"Executive Casual",
+    tags:["Intelectual","Trabajo"],
+    image:"https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=800&q=80"
+}
+
+];
+
+
+/* =========================
+   NAVEGACIÓN
+========================= */
+
+function showSection(id,button){
+
+    document.querySelectorAll(".section")
+        .forEach(section=>{
+            section.classList.remove("active");
+        });
+
+    document.getElementById(id)
+        .classList.add("active");
+
+    document.querySelectorAll(".menu button")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    const titles={
+        dashboard:"Mi guardarropa",
+        closet:"Mi guardarropa",
+        outfits:"Mis outfits",
+        generator:"Crear outfit",
+        purchases:"Recomendaciones"
+    };
+
+    document.getElementById("pageTitle").innerText=
+        titles[id];
+
+}
+
+
+/* =========================
+   RENDER CLOSET
+========================= */
+
+function renderCloset(list=clothes){
+
+    const grid=document.getElementById("closetGrid");
+
+    grid.innerHTML="";
+
+    list.forEach(item=>{
+
+        grid.innerHTML+=`
+
+        <div class="item">
+
+            <div class="item-image">
+
+                <img src="${item.image}"
+                     alt="${item.name}">
+
+            </div>
+
+            <div class="item-info">
+
+                <h3>${item.name}</h3>
+
+                <p>
+                    ${item.category} · ${item.color}
+                </p>
+
+                <small style="color:#aaa">
+                    ID: ${item.id}
+                </small>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+function filterCloset(){
+
+    const search=
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const category=
+        document.getElementById("categoryFilter")
+        .value;
+
+    const filtered=clothes.filter(item=>{
+
+        const matchesSearch=
+            item.name.toLowerCase()
+            .includes(search);
+
+        const matchesCategory=
+            !category ||
+            item.category===category;
+
+        return matchesSearch && matchesCategory;
+
+    });
+
+    renderCloset(filtered);
+
+}
+
+
+/* =========================
+   RENDER OUTFITS
+========================= */
+
+function renderOutfits(){
+
+    const grid=document.getElementById("outfitGrid");
+
+    grid.innerHTML="";
+
+    outfits.forEach(outfit=>{
+
+        grid.innerHTML+=`
+
+        <div class="outfit-card">
+
+            <div class="outfit-image">
+
+                <img src="${outfit.image}">
+
+            </div>
+
+            <div class="outfit-info">
+
+                <h3>${outfit.name}</h3>
+
+                <div class="tags">
+
+                    ${outfit.tags.map(tag=>`
+                        <span class="tag ${
+                            tag==="Intelectual" ||
+                            tag==="Elegante"
+                            ? "purple":""
+                        }">
+                        ${tag}
+                        </span>
+                    `).join("")}
+
+                </div>
+
+                <div class="rating">
+                    ★★★★★
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   GENERADOR
+========================= */
+
+function generateOutfit(){
+
+    const occasion=
+        document.getElementById("occasion").value;
+
+    const style=
+        document.getElementById("style").value;
+
+    const color=
+        document.getElementById("color").value;
+
+
+    let top;
+
+    if(color==="navy"){
+        top=clothes.find(x=>x.id==="P001");
+    }
+
+    else if(color==="white"){
+        top=clothes.find(x=>x.id==="P002");
+    }
+
+    else if(color==="gray"){
+        top=clothes.find(x=>x.id==="P003");
+    }
+
+    else if(color==="black"){
+        top=clothes.find(x=>x.id==="P004");
+    }
+
+    else{
+        top=clothes.find(x=>x.id==="P005");
+    }
+
+
+    let pants;
+
+    if(
+        style==="intelectual" ||
+        style==="elegante" ||
+        occasion==="cena"
+    ){
+        pants=clothes.find(x=>x.id==="T001");
+    }
+
+    else{
+        pants=clothes.find(x=>x.id==="J001");
+    }
+
+
+    let shoes;
+
+    if(
+        style==="elegante" ||
+        style==="intelectual" ||
+        occasion==="cena"
+    ){
+        shoes=clothes.find(x=>x.id==="S001");
+    }
+
+    else{
+        shoes=clothes.find(x=>x.id==="S002");
+    }
+
+
+    document.getElementById("generatedTitle")
+        .innerText=
+        `${top.name} + ${pants.name}`;
+
+    document.getElementById("generatedDescription")
+        .innerText=
+        `Una combinación ${style} para ${occasion}. `+
+        `La selección prioriza prendas neutras y fáciles de combinar.`;
+
+
+    const container=
+        document.getElementById("generatedItems");
+
+    container.innerHTML="";
+
+
+    [top,pants,shoes].forEach(item=>{
+
+        container.innerHTML+=`
+
+        <div class="generated-item">
+
+            <img src="${item.image}">
+
+            <p>
+                <strong>${item.name}</strong>
+            </p>
+
+            <small>
+                ${item.category} · ${item.color}
+            </small>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+renderCloset();
+renderOutfits();
+
+</script>
+
+</body>
+</html>
