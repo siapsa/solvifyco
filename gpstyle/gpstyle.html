@@ -502,6 +502,533 @@ select{
         grid-template-columns:repeat(2,1fr);
     }
 }
+```css
+/* =========================================================
+   MOBILE APP EXPERIENCE — iPHONE
+   ========================================================= */
+
+@media (max-width: 600px){
+
+    html{
+        -webkit-text-size-adjust:100%;
+        background:var(--bg);
+    }
+
+    body{
+        width:100%;
+        min-width:0;
+        overflow-x:hidden;
+        padding-bottom:88px;
+    }
+
+    /* -----------------------------------------
+       SIDEBAR → BOTTOM NAVIGATION
+       ----------------------------------------- */
+
+    .sidebar{
+        position:fixed;
+        left:0;
+        right:0;
+        bottom:0;
+        top:auto;
+
+        width:100%;
+        height:auto;
+
+        padding:
+            8px
+            8px
+            calc(8px + env(safe-area-inset-bottom));
+
+        background:rgba(17,18,23,.96);
+
+        backdrop-filter:blur(20px);
+        -webkit-backdrop-filter:blur(20px);
+
+        border-top:1px solid rgba(255,255,255,.08);
+
+        display:block;
+        z-index:1000;
+    }
+
+    .logo,
+    .menu-title{
+        display:none;
+    }
+
+    .menu{
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
+        gap:2px;
+        width:100%;
+    }
+
+    .menu button{
+        min-height:58px;
+
+        padding:7px 3px;
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+
+        text-align:center;
+
+        border-radius:12px;
+
+        color:#92939d;
+        font-size:10px;
+        font-weight:500;
+
+        white-space:nowrap;
+    }
+
+    .menu button span{
+        margin:0 0 5px 0;
+        font-size:20px;
+        line-height:20px;
+    }
+
+    .menu button:hover,
+    .menu button.active{
+        background:#252631;
+        color:white;
+    }
+
+    /* Configuración:
+       la sacamos del flujo de navegación principal */
+    .sidebar > br{
+        display:none;
+    }
+
+    .sidebar > .menu-title + .menu{
+        margin:0;
+    }
+
+    .sidebar > .menu:last-child{
+        display:none;
+    }
+
+
+    /* -----------------------------------------
+       MAIN
+       ----------------------------------------- */
+
+    .main{
+        margin-left:0;
+        width:100%;
+        max-width:none;
+
+        padding:
+            22px
+            16px
+            30px;
+    }
+
+
+    /* -----------------------------------------
+       TOPBAR
+       ----------------------------------------- */
+
+    .topbar{
+        margin-bottom:25px;
+        align-items:center;
+    }
+
+    .topbar h1{
+        font-size:25px;
+        line-height:1.15;
+        letter-spacing:-.7px;
+    }
+
+    .topbar p{
+        font-size:13px;
+        margin-top:6px;
+        line-height:1.4;
+    }
+
+    .profile{
+        width:40px;
+        height:40px;
+        min-width:40px;
+        font-size:14px;
+    }
+
+
+    /* -----------------------------------------
+       STATS
+       ----------------------------------------- */
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+        margin-bottom:18px;
+    }
+
+    .stat{
+        padding:16px;
+        min-height:105px;
+        border-radius:14px;
+    }
+
+    .stat small{
+        font-size:12px;
+        line-height:1.3;
+        display:block;
+    }
+
+    .stat strong{
+        font-size:25px;
+        margin-top:9px;
+    }
+
+
+    /* -----------------------------------------
+       GENERAL CARDS
+       ----------------------------------------- */
+
+    .card{
+        padding:17px;
+        border-radius:15px;
+    }
+
+    .card-header{
+        margin-bottom:16px;
+    }
+
+    .card-header h2{
+        font-size:17px;
+    }
+
+
+    /* -----------------------------------------
+       DASHBOARD
+       ----------------------------------------- */
+
+    .dashboard-grid{
+        display:flex;
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .dashboard-grid > .card:first-child{
+        padding:15px;
+    }
+
+    .dashboard-grid > .card:first-child .outfit-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-grid > .card:first-child .outfit-card{
+        display:grid;
+        grid-template-columns:125px 1fr;
+        min-height:125px;
+    }
+
+    .dashboard-grid > .card:first-child .outfit-image{
+        height:125px;
+    }
+
+    .dashboard-grid > .card:first-child .outfit-info{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        padding:15px;
+    }
+
+
+    /* -----------------------------------------
+       OUTFITS
+       ----------------------------------------- */
+
+    .outfit-grid{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .outfit-card{
+        border-radius:15px;
+    }
+
+    .outfit-image{
+        height:300px;
+    }
+
+    .outfit-info{
+        padding:16px;
+    }
+
+    .outfit-info h3{
+        font-size:16px;
+    }
+
+    .rating{
+        margin-top:10px;
+    }
+
+
+    /* -----------------------------------------
+       CLOSET
+       ----------------------------------------- */
+
+    .toolbar{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+        margin-bottom:16px;
+    }
+
+    .search{
+        grid-column:1 / -1;
+
+        width:100%;
+        min-width:0;
+
+        height:46px;
+        padding:0 14px;
+
+        font-size:14px;
+        border-radius:11px;
+    }
+
+    select{
+        width:100%;
+        height:46px;
+        font-size:13px;
+        border-radius:11px;
+    }
+
+    .toolbar .btn{
+        height:46px;
+        padding:0 10px;
+        font-size:12px;
+    }
+
+    .closet-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .item{
+        border-radius:13px;
+    }
+
+    .item-image{
+        height:185px;
+    }
+
+    .item-info{
+        padding:11px;
+    }
+
+    .item-info h3{
+        font-size:13px;
+        line-height:1.3;
+    }
+
+    .item-info p{
+        font-size:11px;
+        line-height:1.4;
+    }
+
+    .item-info small{
+        font-size:9px;
+    }
+
+
+    /* -----------------------------------------
+       GENERATOR
+       ----------------------------------------- */
+
+    .generator{
+        display:flex;
+        flex-direction:column;
+        gap:14px;
+    }
+
+    .generator-controls{
+        gap:10px;
+    }
+
+    .control{
+        padding:15px;
+        border-radius:13px;
+    }
+
+    .control label{
+        font-size:11px;
+        margin-bottom:7px;
+    }
+
+    .control select{
+        height:46px;
+        font-size:14px;
+    }
+
+    .generator-controls > .btn{
+        height:50px;
+        font-size:14px;
+        border-radius:11px;
+    }
+
+    .generated{
+        padding:17px;
+        border-radius:15px;
+    }
+
+    .generated h2{
+        font-size:18px;
+    }
+
+    .generated-items{
+        grid-template-columns:1fr;
+        gap:10px;
+    }
+
+    .generated-item{
+        display:grid;
+        grid-template-columns:100px 1fr;
+        gap:12px;
+        align-items:center;
+        padding:10px;
+    }
+
+    .generated-item img{
+        width:100px;
+        height:100px;
+    }
+
+    .generated-item p{
+        font-size:13px;
+        margin-top:0;
+    }
+
+
+    /* -----------------------------------------
+       PURCHASES
+       ----------------------------------------- */
+
+    .purchase-list{
+        gap:10px;
+    }
+
+    .purchase{
+        padding:15px;
+
+        align-items:flex-start;
+        gap:12px;
+
+        border-radius:13px;
+    }
+
+    .purchase h3{
+        font-size:14px;
+        line-height:1.3;
+    }
+
+    .purchase p{
+        font-size:12px;
+        line-height:1.5;
+    }
+
+    .priority{
+        flex-shrink:0;
+        font-size:10px;
+        padding:5px 8px;
+    }
+
+
+    /* -----------------------------------------
+       BUTTONS / TOUCH
+       ----------------------------------------- */
+
+    button,
+    select,
+    input{
+        -webkit-tap-highlight-color:transparent;
+    }
+
+    button{
+        min-height:44px;
+    }
+
+}
+
+/* =========================================================
+   SMALL iPHONES — 375px / 360px
+   ========================================================= */
+
+@media (max-width:390px){
+
+    .main{
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    .topbar h1{
+        font-size:23px;
+    }
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat{
+        padding:14px;
+        min-height:100px;
+    }
+
+    .stat strong{
+        font-size:23px;
+    }
+
+    .closet-grid{
+        gap:8px;
+    }
+
+    .item-image{
+        height:165px;
+    }
+
+    .outfit-image{
+        height:270px;
+    }
+
+    .dashboard-grid > .card:first-child .outfit-card{
+        grid-template-columns:110px 1fr;
+    }
+
+    .dashboard-grid > .card:first-child .outfit-image{
+        height:110px;
+    }
+
+}
+
+
+/* =========================================================
+   SAFE AREA iPHONE
+   ========================================================= */
+
+@supports (padding: env(safe-area-inset-bottom)){
+
+    @media(max-width:600px){
+
+        .sidebar{
+            padding-bottom:
+                calc(8px + env(safe-area-inset-bottom));
+        }
+
+        body{
+            padding-bottom:
+                calc(88px + env(safe-area-inset-bottom));
+        }
+
+    }
+
+}
+
+ 
 </style>
 </head>
 
